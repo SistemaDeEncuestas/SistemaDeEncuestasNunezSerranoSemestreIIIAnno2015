@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,10 +39,11 @@ public class Login extends JDialog implements ActionListener{
     private JButton jbIngresoEncuestado;
     private JButton jbRegistroEncuestado;
     private GridBagConstraints grid;
-
-    public Login() {
+    private JDesktopPane escritorio;
+    
+    public Login(JDesktopPane escritorio) {
         super();
-
+        this.escritorio = escritorio;
         this.setTitle(Strings.LOGINTITULO);
         this.setSize(new Dimension(400, 400));
         this.setResizable(false);
@@ -49,6 +51,8 @@ public class Login extends JDialog implements ActionListener{
 
         init();
     }
+
+    
 
     private void init() {
 
@@ -147,6 +151,11 @@ public class Login extends JDialog implements ActionListener{
             if (!this.jtfNickAdmin.getText().trim().isEmpty() && this.jpfContraseniaAdmin.getPassword().length != 0) {
                 
                 System.out.println("Verificar admin");
+                JIFAdministrador jifAdministrador = new JIFAdministrador();
+                this.escritorio.add(jifAdministrador);
+                dispose();
+                
+                
                 
             }else{
                 JOptionPane.showMessageDialog(null, Strings.ERRORCAMPOVACIO, Strings.ERROR, JOptionPane.ERROR_MESSAGE);
@@ -157,6 +166,10 @@ public class Login extends JDialog implements ActionListener{
             if (!this.jtfNickEncuestado.getText().trim().isEmpty() && this.jpfContraseniaEncuestado.getPassword().length != 0) {
                 
                 System.out.println("Verificar encuestado");
+                JIFEncuestado jifEncuestado = new JIFEncuestado();
+                this.escritorio.add(jifEncuestado);
+                dispose();
+                
                 
             }else{
                 JOptionPane.showMessageDialog(null, Strings.ERRORCAMPOVACIO, Strings.ERROR, JOptionPane.ERROR_MESSAGE);
@@ -165,7 +178,7 @@ public class Login extends JDialog implements ActionListener{
         
         if (e.getSource() == this.jbRegistroEncuestado) {
             
-            RegistroDeEncuestado registroDeEncuestado = new RegistroDeEncuestado(this);
+            RegistroDeEncuestado registroDeEncuestado = new RegistroDeEncuestado(this, escritorio);
             registroDeEncuestado.setLocationRelativeTo(null);
         }
     }

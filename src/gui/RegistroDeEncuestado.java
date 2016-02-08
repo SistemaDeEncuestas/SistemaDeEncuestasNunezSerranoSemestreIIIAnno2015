@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,10 +35,11 @@ public class RegistroDeEncuestado extends JDialog implements ActionListener{
     private JButton jbRegistro;
     private JDialog login;
     private GridBagConstraints grid;
+    private JDesktopPane escritorio;
     
-    public RegistroDeEncuestado(JDialog login) {
+    public RegistroDeEncuestado(JDialog login, JDesktopPane escritorio) {
         super();
-
+        this.escritorio = escritorio;
         this.setTitle(Strings.REGISTROTITULO);
         this.setSize(new Dimension(400, 600));
         this.setResizable(false);
@@ -133,7 +135,7 @@ public class RegistroDeEncuestado extends JDialog implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == this.jbRegistro) {
-            Login loginUsuario = new Login();
+            Login loginUsuario = new Login(escritorio);
             this.dispose();
             loginUsuario.setLocationRelativeTo(null);
             loginUsuario.setVisible(true);

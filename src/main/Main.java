@@ -21,7 +21,7 @@ public class Main {
 ////        JFrame.setDefaultLookAndFeelDecorated(true);
         try {
 
-            UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+            UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
