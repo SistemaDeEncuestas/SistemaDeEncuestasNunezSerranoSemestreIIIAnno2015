@@ -1,4 +1,4 @@
-package main;
+package domain;
 
 /**
  * @author adriansb3105
@@ -12,6 +12,16 @@ public class Correo {
     private String destinatario;
     private String asunto;
     private String mensaje;
+
+    public Correo() {
+        this.usuario = "";
+        this.contrasenia = "";
+        this.rutaArchivo = "";
+        this.nombreArchivo = "";
+        this.destinatario = "";
+        this.asunto = "";
+        this.mensaje = "";
+    }
 
     /**
      * @return the usuario
