@@ -15,14 +15,12 @@ import java.util.List;
 public class Administrador extends Usuario {
 
     private List<Encuesta> encuestasCreadas;
-    private List<Encuesta> encuestasCompartidas;
     private boolean primeraVez;
 
     public Administrador(String nombre, String nombreUsuario, String contrasenna,String correoElectronico) {
 
         super(nombre, nombreUsuario, contrasenna, correoElectronico);
         this.encuestasCreadas = new ArrayList<Encuesta>();
-        this.encuestasCompartidas = new ArrayList<Encuesta>();
         this.primeraVez = true;
     }
 
@@ -34,13 +32,7 @@ public class Administrador extends Usuario {
         this.encuestasCreadas = encuestasCreadas;
     }
 
-    public List<Encuesta> getEncuestasCompartidas() {
-        return encuestasCompartidas;
-    }
-
-    public void setEncuestasCompartidas(List<Encuesta> encuestasCompartidas) {
-        this.encuestasCompartidas = encuestasCompartidas;
-    }
+   
 
     public boolean isPrimeraVez() {
         return primeraVez;

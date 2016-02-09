@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import  util.Strings;
 
 /**
  *
@@ -67,42 +68,42 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         jbEncuestas = new JButton();
         jbEncuestas.setIcon(new ImageIcon(getClass().getResource("/images/encuestas.png")));
-        jbEncuestas.setToolTipText("Tus encuestas");
+        jbEncuestas.setToolTipText(Strings.ENCUESTAS);
         jbEncuestas.addActionListener(this);
         jToolBar.add(jbEncuestas);
         jbNuevo = new JButton();
         jbNuevo.setIcon(new ImageIcon(getClass().getResource("/images/nueva.png")));
-        jbNuevo.setToolTipText("Nueva encuesta");
+        jbNuevo.setToolTipText(Strings.NUEVA_ENCUESTA);
         jbNuevo.addActionListener(this);
         jToolBar.add(jbNuevo);
         jbEditar = new JButton();
         jbEditar.setIcon(new ImageIcon(getClass().getResource("/images/editar.png")));
-        jbEditar.setToolTipText("Editar encuesta");
+        jbEditar.setToolTipText(Strings.EDITAR_ENCUESTA);
         jbEditar.addActionListener(this);
         jToolBar.add(jbEditar);
         jbEliminar = new JButton();
         jbEliminar.setIcon(new ImageIcon(getClass().getResource("/images/eliminar.png")));
-        jbEliminar.setToolTipText("Eliminar encuesta");
+        jbEliminar.setToolTipText(Strings.ELIMINAR_ENCUESTA);
         jbEliminar.addActionListener(this);
         jToolBar.add(jbEliminar);
         jbEnviar = new JButton();
         jbEnviar.setIcon(new ImageIcon(getClass().getResource("/images/mail.png")));
-        jbEnviar.setToolTipText("Enviar a correo electrónico");
+        jbEnviar.setToolTipText(Strings.A_CORREO);
         jbEnviar.addActionListener(this);
         jToolBar.add(jbEnviar);
         jbNuevoAdmin = new JButton();
         jbNuevoAdmin.setIcon(new ImageIcon(getClass().getResource("/images/admins.png")));
-        jbNuevoAdmin.setToolTipText("Crear nueva cuenta de administrador");
+        jbNuevoAdmin.setToolTipText(Strings.NUEVO_ADMIN);
         jbNuevoAdmin.addActionListener(this);
         jToolBar.add(jbNuevoAdmin);
         jbEstadisticas = new JButton();
         jbEstadisticas.setIcon(new ImageIcon(getClass().getResource("/images/graficos.png")));
-        jbEstadisticas.setToolTipText("Mostrar estadísticas");
+        jbEstadisticas.setToolTipText(Strings.ESTADISTICAS);
         jbEstadisticas.addActionListener(this);
         jToolBar.add(jbEstadisticas);
         jbToPdf = new JButton();
         jbToPdf.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
-        jbToPdf.setToolTipText("Exportar a pdf");
+        jbToPdf.setToolTipText(Strings.A_PDF);
         jbToPdf.addActionListener(this);
         jToolBar.add(jbToPdf);
 
@@ -115,7 +116,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         this.add(jPanelIzquierda, BorderLayout.WEST);
 
         jpDatos = new JPanel();
-        bordeDatos = BorderFactory.createTitledBorder(null, "Datos de usuario", TitledBorder.CENTER, TitledBorder.CENTER);
+        bordeDatos = BorderFactory.createTitledBorder(null, Strings.BORDE_DATOS, TitledBorder.CENTER, TitledBorder.CENTER);
         jpDatos.setBorder(bordeDatos);
         jpDatos.setLayout(new BoxLayout(jpDatos, BoxLayout.Y_AXIS));
 
@@ -129,7 +130,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jpDatos.add(jlCorreo);
 
         jpEntrada = new JPanel();
-        bandejaDeEntrada = BorderFactory.createTitledBorder(null, "Bandeja de entrada", TitledBorder.CENTER, TitledBorder.CENTER);
+        bandejaDeEntrada = BorderFactory.createTitledBorder(null,Strings.BORDE_BANDEJA, TitledBorder.CENTER, TitledBorder.CENTER);
         jpEntrada.setBorder(bandejaDeEntrada);
         jpEntrada.setLayout(new BoxLayout(jpEntrada, BoxLayout.Y_AXIS));
 
@@ -139,7 +140,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jPanelIzquierda.add(jpEntrada, BorderLayout.CENTER);
 
         jpHistorial = new JPanel();
-        historial = BorderFactory.createTitledBorder(null, "Historial", TitledBorder.CENTER, TitledBorder.CENTER);
+        historial = BorderFactory.createTitledBorder(null, Strings.BORDE_HISTORIAL, TitledBorder.CENTER, TitledBorder.CENTER);
         jpHistorial.setBorder(historial);
         jpHistorial.setLayout(new BoxLayout(jpHistorial, BoxLayout.Y_AXIS));
 

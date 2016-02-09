@@ -1,11 +1,9 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -39,16 +37,16 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
         jMenuBar = new JMenuBar();
         this.setJMenuBar(jMenuBar);
 
-        this.jmArchivo = new JMenu("Archivo");
+        this.jmArchivo = new JMenu(Strings.JMENU_NOMBRE);
         this.jMenuBar.add(jmArchivo);
 
-        this.jmiRegistrar = new JMenuItem("Registra Usuario");
+        this.jmiRegistrar = new JMenuItem(Strings.ITEM_REGISTRARSE);
         this.jmiRegistrar.addActionListener(this);
         this.jmArchivo.add(jmiRegistrar);
-        this.jmiInciarSesion = new JMenuItem("Iniciar Sesión");
+        this.jmiInciarSesion = new JMenuItem(Strings.ITEM_INICIAR);
         this.jmiInciarSesion.addActionListener(this);
         this.jmArchivo.add(jmiInciarSesion);
-        this.jmiCerrarSesion = new JMenuItem("Cerrar Sesión");
+        this.jmiCerrarSesion = new JMenuItem(Strings.ITEM_CERRAR);
         this.jmiCerrarSesion.addActionListener(this);
         this.jmArchivo.add(jmiCerrarSesion);
 

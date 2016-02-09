@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import util.Strings;
 
 /**
  *
@@ -52,7 +53,7 @@ public class JIFEncuestado extends JInternalFrame {
     private void initComponents() {
 
         jpArriba = new JPanel();
-        tituloArriba = BorderFactory.createTitledBorder(null, "Datos de usuario", TitledBorder.CENTER, TitledBorder.CENTER);
+        tituloArriba = BorderFactory.createTitledBorder(null, Strings.BORDE_DATOS, TitledBorder.CENTER, TitledBorder.CENTER);
         jpArriba.setBorder(tituloArriba);
         jpArriba.setLayout(new BoxLayout(jpArriba, BoxLayout.Y_AXIS));
         this.add(jpArriba, BorderLayout.NORTH);
@@ -72,14 +73,14 @@ public class JIFEncuestado extends JInternalFrame {
         this.add(jpIzquierda, BorderLayout.WEST);
 
         jpEntrada = new JPanel();
-        bandejaDeEntrada = BorderFactory.createTitledBorder(null, "Bandeja de entrada", TitledBorder.CENTER, TitledBorder.CENTER);
+        bandejaDeEntrada = BorderFactory.createTitledBorder(null,Strings.BORDE_BANDEJA, TitledBorder.CENTER, TitledBorder.CENTER);
         jpEntrada.setBorder(bandejaDeEntrada);
         jlBandeja = new JLabel("  Lista de encuestas  ");
         jpEntrada.add(jlBandeja);
         jpIzquierda.add(jpEntrada);
         
         jpHistorial = new JPanel();
-        historial = BorderFactory.createTitledBorder(null, "Historial", TitledBorder.CENTER, TitledBorder.CENTER);
+        historial = BorderFactory.createTitledBorder(null, Strings.BORDE_HISTORIAL, TitledBorder.CENTER, TitledBorder.CENTER);
         jpHistorial.setBorder(historial);
         jpIzquierda.add(jpHistorial);
 
