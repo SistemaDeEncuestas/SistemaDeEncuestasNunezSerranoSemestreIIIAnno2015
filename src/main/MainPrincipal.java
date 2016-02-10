@@ -1,15 +1,11 @@
 package main;
 
-import data.AdministradorData;
-import domain.Administrador;
 import gui.PantallaPrincipal;
 import java.awt.Frame;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.jdom.JDOMException;
 
 /**
  *

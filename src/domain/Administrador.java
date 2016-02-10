@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
 
 import java.util.ArrayList;
@@ -18,12 +13,17 @@ public class Administrador extends Usuario {
     private boolean primeraVez;
 
     public Administrador(String nombre, String nombreUsuario, String contrasenna,String correoElectronico) {
-
         super(nombre, nombreUsuario, contrasenna, correoElectronico);
-        this.encuestasCreadas = new ArrayList<Encuesta>();
+        this.encuestasCreadas = new ArrayList<>();
         this.primeraVez = true;
     }
 
+    public Administrador() {
+        super("", "", "", "");
+        this.encuestasCreadas = new ArrayList<>();
+        this.primeraVez = true;
+    }
+    
     public List<Encuesta> getEncuestasCreadas() {
         return encuestasCreadas;
     }
@@ -42,7 +42,9 @@ public class Administrador extends Usuario {
         this.primeraVez = primeraVez;
     }
 
-    
-    
-    
+    @Override
+    public String toString() {
+        return "Administrador{" + "encuestasCreadas=" + encuestasCreadas + ", primeraVez=" + primeraVez + '}';
+    }
+
 }

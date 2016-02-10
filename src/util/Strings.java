@@ -47,4 +47,10 @@ public class Strings {
     public final static String BORDE_HISTORIAL = "Historial";
     public final static String BORDE_BANDEJA = "Bandeja de entrada" ;
     
+    
+    public final static String TIPO_MULTIPLE = "multiple";
+    public final static String TIPO_UNICA = "unica";
+    public final static String TIPO_ABIERTA = "abierta";
+    
+    public final static String RUTA_ARCHIVOS = "src/files/nombresDeArchivos.xml";
 }

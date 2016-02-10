@@ -1,35 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
+
+import java.util.List;
+import util.Strings;
 
 /**
  *
  * @author Daniel
  */
 public class PreguntaAbierta extends Pregunta{
-    
-    private String respuesta;
 
-    public PreguntaAbierta(String nombre, String texto) {
-        super(nombre, texto);
-        this.respuesta="";
+    public PreguntaAbierta(String enunciado) {
+        super(enunciado, Strings.TIPO_ABIERTA);
     }
 
-    public String getRespuesta() {
-        return respuesta;
+    public PreguntaAbierta() {
+        super("", Strings.TIPO_ABIERTA);
     }
 
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
+    @Override
+    public List<String> getListaRespuestas() {
+        return super.getListaRespuestas();
     }
-    
+
+    @Override
+    public void setListaRespuestas(List<String> listaRespuestas) {
+        super.setListaRespuestas(listaRespuestas);
+    }
+
     @Override
     public void cargaComponentes(){
         //TODO
     }
-    
-    
+
 }

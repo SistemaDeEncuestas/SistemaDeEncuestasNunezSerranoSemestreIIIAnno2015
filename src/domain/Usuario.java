@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
 
 /**
@@ -18,6 +13,10 @@ public class Usuario {
     private String correoElectronico;
 
     public Usuario() {
+        this.nombre = "";
+        this.nombreUsuario = "";
+        this.contrasenna = "";
+        this.correoElectronico = "";
     }
 
     
@@ -65,7 +64,5 @@ public class Usuario {
         return "Usuario{" + "nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + 
                 ", contrasenna=" + contrasenna + ", correoElectronico=" + correoElectronico + '}';
     }
-    
-    
     
 }

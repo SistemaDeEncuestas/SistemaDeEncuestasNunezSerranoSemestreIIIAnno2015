@@ -1,40 +1,59 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Daniel
  */
-public class Pregunta {
+public abstract class Pregunta {
 
-    private String nombre;
-    private String texto;
+    private String enunciado;
+    private String tipo;
+    private List<String> listaRespuestas;
 
-    public Pregunta(String nombre, String texto) {
-        this.nombre = nombre;
-        this.texto = texto;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public Pregunta(String enunciado, String tipo) {
+        this.enunciado = enunciado;
+        this.tipo = tipo;
+        this.listaRespuestas = new ArrayList<>();
     }
     
-    public void cargaComponentes(){}
-    
+    public Pregunta() {
+        this.enunciado = "";
+        this.tipo = "";
+        this.listaRespuestas = new ArrayList<>();
+    }
+
+    public String getEnunciado() {
+        return enunciado;
+    }
+
+    public void setEnunciado(String enunciado) {
+        this.enunciado = enunciado;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public abstract void cargaComponentes();
+
+    public List<String> getListaRespuestas() {
+        return listaRespuestas;
+    }
+
+    public void setListaRespuestas(List<String> listaRespuestas) {
+        this.listaRespuestas = listaRespuestas;
+    }
+
+    @Override
+    public String toString() {
+        return "Pregunta{" + "enunciado=" + enunciado + ", tipo=" + tipo + '}';
+    }
+
 }

@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
 
 import java.util.List;
+import util.Strings;
 
 /**
  *
@@ -13,22 +9,29 @@ import java.util.List;
  */
 public class PreguntaRespuestaUnica extends Pregunta {
 
-    private List listaRespuestas;
-    public PreguntaRespuestaUnica(String nombre, String texto, List listaRespuestas) {
-        super(nombre, texto);
-        this.listaRespuestas = listaRespuestas;
+    public PreguntaRespuestaUnica(String enunciado) {
+        super(enunciado, Strings.TIPO_UNICA);
+    }
+    
+
+    public PreguntaRespuestaUnica() {
+        super("", Strings.TIPO_UNICA);
     }
 
+    
+    @Override
     public List getListaRespuestas() {
-        return listaRespuestas;
+        return super.getListaRespuestas();
     }
 
+    @Override
     public void setListaRespuestas(List listaRespuestas) {
-        this.listaRespuestas = listaRespuestas;
+        super.setListaRespuestas(listaRespuestas);
     }
     
      @Override
     public void cargaComponentes(){
         //TODO
     }
+    
 }
