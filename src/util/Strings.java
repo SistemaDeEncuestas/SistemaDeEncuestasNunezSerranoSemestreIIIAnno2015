@@ -53,4 +53,16 @@ public class Strings {
     public final static String TIPO_ABIERTA = "abierta";
     
     public final static String RUTA_ARCHIVOS = "src/files/nombresDeArchivos.xml";
+    
+    
+    /* NuevaEncuesta*/
+    public final static String TITULO = "Ingrese el título de la encuesta:";
+    public final static String DESCRIPCION = "Ingrese una breve descripción";
+    public final static String PREGUNTA = "Ingrese una nueva pregunta";
+    public final static String RESPUESTA = "Ingrese una respuesta";
+    public final static String TIPO_1 = "Pregunta de respuesta única";
+    public final static String TIPO_2 = "Pregunta de respuesta múltiple";
+    public final static String TIPO_3 = "Pregunta de respuesta abierta";
+    public final static String OPTION_TITULO =  "Elija el tipo";
+    public final static String OPTION_PREGUNTA = "¿Qué tipo de pregunta desea ingresar?";
 }

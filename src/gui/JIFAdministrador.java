@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gui;
 
 import java.awt.BorderLayout;
@@ -17,10 +13,11 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import  util.Strings;
+import util.Strings;
 
 /**
  *
@@ -56,6 +53,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         this.setLayout(new BorderLayout());
         init();
         this.setVisible(true);
+        this.setBackground(Color.GRAY);
         this.setSize(800, 600);
 
     }
@@ -130,13 +128,13 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jpDatos.add(jlCorreo);
 
         jpEntrada = new JPanel();
-        bandejaDeEntrada = BorderFactory.createTitledBorder(null,Strings.BORDE_BANDEJA, TitledBorder.CENTER, TitledBorder.CENTER);
+        bandejaDeEntrada = BorderFactory.createTitledBorder(null, Strings.BORDE_BANDEJA, TitledBorder.CENTER, TitledBorder.CENTER);
         jpEntrada.setBorder(bandejaDeEntrada);
         jpEntrada.setLayout(new BoxLayout(jpEntrada, BoxLayout.Y_AXIS));
 
         jlListaEncuestas = new JLabel("  Lista de encuestas  ");
         jpEntrada.add(jlListaEncuestas);
-        
+
         jPanelIzquierda.add(jpEntrada, BorderLayout.CENTER);
 
         jpHistorial = new JPanel();
@@ -144,17 +142,24 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jpHistorial.setBorder(historial);
         jpHistorial.setLayout(new BoxLayout(jpHistorial, BoxLayout.Y_AXIS));
 
-        
         jPanelIzquierda.add(jpHistorial, BorderLayout.SOUTH);
 
-        jpContenido = new JPanel();
-        jpContenido.setBackground(Color.GRAY);
-        this.add(jpContenido);
+//        jpContenido = new JPanel();
+//        jpContenido.setBackground(Color.GRAY);
+//        jpContenido.setLayout(new BorderLayout());
+//        this.add(jpContenido);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == jbNuevo) {
+
+            NuevaEncuesta panelEncuesta = new NuevaEncuesta();
+            this.add(panelEncuesta, BorderLayout.CENTER);
+            repaint();
+
+        }
     }
 
 }
