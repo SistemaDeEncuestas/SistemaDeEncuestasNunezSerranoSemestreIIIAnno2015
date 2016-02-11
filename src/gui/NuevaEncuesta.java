@@ -1,10 +1,10 @@
-
 package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +28,7 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
     private JScrollPane scroll;
     private int posicionX;
     private int posicionY;
-
+    
 
     public NuevaEncuesta() {
 
@@ -45,6 +45,8 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
 
     private void initComponents() {
 
+        
+        
         jlTitulo = new JLabel(Strings.TITULO);
         jlTitulo.setBounds(this.posicionX, this.posicionY, 200, 20);
         this.add(jlTitulo);
@@ -61,6 +63,7 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
         this.posicionY += 40;
 
         jtDescripcion = new JTextArea();
+        jtDescripcion.setLineWrap(true);
         scroll = new JScrollPane(jtDescripcion);
         scroll.setBounds(this.posicionX, this.posicionY, 400, 100);
         this.add(scroll);
@@ -78,8 +81,9 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbPregunta) {
-           
-           
+            ButtonGroup grupoRadio = new ButtonGroup();
+            ButtonGroup grupoCheck = new ButtonGroup();
+
             String[] tiposPregunta = {Strings.TIPO_1, Strings.TIPO_2, Strings.TIPO_3};
 
             Object tipoSeleccionado = JOptionPane.showInputDialog(this, Strings.OPTION_PREGUNTA,
@@ -93,23 +97,32 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
                 this.add(jtPregunta);
                 JButton jbRespuesta = new JButton(Strings.RESPUESTA);
                 jbRespuesta.setBounds(this.posicionX + 420, this.posicionY, 200, 30);
-                 this.posicionY += 40;
-             
-               
+                this.posicionY += 40;
+
                 jbRespuesta.addActionListener(new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
                         if (tipo.equals(Strings.TIPO_1)) {
-                            ButtonGroup grupo = new ButtonGroup();
+
                             String respuesta = JOptionPane.showInputDialog("Ingrese una respuesta", null);
-                          JRadioButton boton = new JRadioButton(respuesta);
-//                            boton.setBounds(this.p, y, 300, 20);
-                           
-                            grupo.add(boton);
-                          
+                            JRadioButton boton = new JRadioButton(respuesta);
+                            boton.setBounds(posicionX + 30, posicionY, 300, 20);
+
+                            grupoRadio.add(boton);
+                            add(boton);
+                            posicionY += 40;
+
                         } else if (tipo.equals(Strings.TIPO_2)) {
+
+                            String respuesta = JOptionPane.showInputDialog("Ingrese una respuesta", null);
+                            JCheckBox boton = new JCheckBox(respuesta);
+                            boton.setBounds(posicionX + 30, posicionY, 300, 20);
+                            grupoCheck.add(boton);
+                            add(boton);
+                            posicionY += 40;
+                             
 
                         } else if (tipo.equals(Strings.TIPO_3)) {
 
@@ -118,7 +131,6 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
                     }
                 });
                 this.add(jbRespuesta);
-               
 
             } else {
                 System.out.println("Canceló");

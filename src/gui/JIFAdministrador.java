@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import jdk.nashorn.internal.scripts.JS;
 import util.Strings;
 
 /**
@@ -46,6 +47,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JLabel jlCorreo;
     private JLabel jlListaEncuestas;
     private JToolBar jToolBar;
+     private JScrollPane scroll ;
 
     public JIFAdministrador() {
         super("Bienvenido", true, true, true);
@@ -144,10 +146,11 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         jPanelIzquierda.add(jpHistorial, BorderLayout.SOUTH);
 
-//        jpContenido = new JPanel();
-//        jpContenido.setBackground(Color.GRAY);
-//        jpContenido.setLayout(new BorderLayout());
-//        this.add(jpContenido);
+        jpContenido = new JPanel();
+        jpContenido.setBackground(Color.red);
+        jpContenido.setLayout(new BorderLayout());
+//        jpContenido.setBounds(200, 100, 500, 500);
+        this.add(jpContenido, BorderLayout.CENTER);
 
     }
 
@@ -156,10 +159,12 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         if (e.getSource() == jbNuevo) {
 
             NuevaEncuesta panelEncuesta = new NuevaEncuesta();
-            this.add(panelEncuesta, BorderLayout.CENTER);
-            repaint();
+            scroll = new JScrollPane(panelEncuesta);
+//            scroll.setBounds(100, 100, 500, 500);
+            jpContenido.add(scroll, BorderLayout.CENTER);
+            this.updateUI();
 
-        }
+        } 
     }
 
 }
