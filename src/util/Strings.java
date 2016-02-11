@@ -65,4 +65,6 @@ public class Strings {
     public final static String TIPO_3 = "Pregunta de respuesta abierta";
     public final static String OPTION_TITULO =  "Elija el tipo";
     public final static String OPTION_PREGUNTA = "¿Qué tipo de pregunta desea ingresar?";
+    public final static String GUARDAR = "Guardar";
+    public final static String CANCELAR= "Cancelar";
 }

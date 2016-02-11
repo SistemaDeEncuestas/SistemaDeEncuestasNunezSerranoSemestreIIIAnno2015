@@ -3,6 +3,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,7 +57,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         init();
         this.setVisible(true);
         this.setBackground(Color.GRAY);
-        this.setSize(800, 600);
+        this.setSize(850, 600);
 
     }
 
@@ -146,11 +147,10 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         jPanelIzquierda.add(jpHistorial, BorderLayout.SOUTH);
 
-        jpContenido = new JPanel();
-        jpContenido.setBackground(Color.red);
-        jpContenido.setLayout(new BorderLayout());
-//        jpContenido.setBounds(200, 100, 500, 500);
-        this.add(jpContenido, BorderLayout.CENTER);
+//        jpContenido = new JPanel();
+//        jpContenido.setBackground(Color.GRAY);
+//        jpContenido.setLayout(new BorderLayout());
+//        this.add(jpContenido, BorderLayout.CENTER);
 
     }
 
@@ -160,9 +160,9 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
             NuevaEncuesta panelEncuesta = new NuevaEncuesta();
             scroll = new JScrollPane(panelEncuesta);
-//            scroll.setBounds(100, 100, 500, 500);
-            jpContenido.add(scroll, BorderLayout.CENTER);
-            this.updateUI();
+            scroll.setAutoscrolls(true);
+            this.add(scroll, BorderLayout.CENTER);
+            updateUI();
 
         } 
     }

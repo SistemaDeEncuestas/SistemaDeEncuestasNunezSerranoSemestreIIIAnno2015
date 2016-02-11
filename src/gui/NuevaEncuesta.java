@@ -1,7 +1,12 @@
 package gui;
 
+import domain.Encuesta;
+import domain.Pregunta;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,31 +30,46 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
     private JTextField jtTitulo;
     private JTextArea jtDescripcion;
     private JButton jbPregunta;
+    private JButton jbGuardar;
+    private JButton jbCancelar;
     private JScrollPane scroll;
     private int posicionX;
     private int posicionY;
-    
+    private Encuesta miEncuesta;
+    private List<Pregunta> preguntas;
 
     public NuevaEncuesta() {
 
         super();
         this.posicionX = 10;
         this.posicionY = 30;
-
+        
+       this.preguntas = new ArrayList<>();
+        
         initComponents();
-
+        this.setPreferredSize(new Dimension(850, 600));
         this.setLayout(null);
         this.setVisible(true);
+        this.setAutoscrolls(true);
 
     }
 
     private void initComponents() {
 
-        
-        
         jlTitulo = new JLabel(Strings.TITULO);
         jlTitulo.setBounds(this.posicionX, this.posicionY, 200, 20);
         this.add(jlTitulo);
+
+        jbGuardar = new JButton(Strings.GUARDAR);
+        jbGuardar.setBounds(430, this.posicionY, 120, 30);
+        jbGuardar.addActionListener(this);
+        this.add(jbGuardar);
+
+        jbCancelar = new JButton(Strings.CANCELAR);
+        jbCancelar.setBounds(560, this.posicionY, 120, 30);
+        jbCancelar.addActionListener(this);
+        this.add(jbCancelar);
+
         this.posicionY += 40;
 
         jtTitulo = new JTextField();
@@ -104,38 +124,60 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        if (tipo.equals(Strings.TIPO_1)) {
+                        if (tipo.equals(Strings.TIPO_3)) {
+                            jbRespuesta.setEnabled(false);
+                            JTextArea textoRespuesta = new JTextArea();
+                            textoRespuesta.setLineWrap(true);
+                            JScrollPane scrollTexto = new JScrollPane(textoRespuesta);
+                            scrollTexto.setBounds(posicionX + 30, posicionY, 300, 100);
+                            add(scrollTexto);
+                            posicionY += 130;
+                        } else {
 
                             String respuesta = JOptionPane.showInputDialog("Ingrese una respuesta", null);
-                            JRadioButton boton = new JRadioButton(respuesta);
-                            boton.setBounds(posicionX + 30, posicionY, 300, 20);
+                            if (!respuesta.equals("")) {
 
-                            grupoRadio.add(boton);
-                            add(boton);
-                            posicionY += 40;
+                                if (tipo.equals(Strings.TIPO_1)) {
 
-                        } else if (tipo.equals(Strings.TIPO_2)) {
+                                    JRadioButton boton = new JRadioButton(respuesta);
+                                    boton.setBounds(posicionX + 30, posicionY, respuesta.length() * 40, 20);
 
-                            String respuesta = JOptionPane.showInputDialog("Ingrese una respuesta", null);
-                            JCheckBox boton = new JCheckBox(respuesta);
-                            boton.setBounds(posicionX + 30, posicionY, 300, 20);
-                            grupoCheck.add(boton);
-                            add(boton);
-                            posicionY += 40;
-                             
+                                    grupoRadio.add(boton);
+                                    add(boton);
+                                    posicionY += 40;
+                                } else if (tipo.equals(Strings.TIPO_2)) {
 
-                        } else if (tipo.equals(Strings.TIPO_3)) {
+                                    JCheckBox boton = new JCheckBox(respuesta);
+                                    boton.setBounds(posicionX + 30, posicionY, respuesta.length() * 40, 20);
+//                                grupoCheck.add(boton);
+                                    add(boton);
+                                    posicionY += 40;
 
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No debe dejar el espacio en blanco",
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+
+                            }
                         }
 
                     }
+
                 });
                 this.add(jbRespuesta);
 
-            } else {
-                System.out.println("Canceló");
+                if (this.posicionY >= 600) {
+                    this.setPreferredSize(new Dimension(800, this.posicionY));
+                }
+
+                this.updateUI();
+
             }
 
+        } else if(e.getSource() == jbGuardar){
+            
+        }else if(e.getSource() == jbCancelar){
+            
         }
 
     }

@@ -58,7 +58,7 @@ public class Login extends JDialog implements ActionListener{
 
         this.panelDePestanas = new JTabbedPane();
         this.panelDePestanas.setBounds(0, 0, 400, 400);
-        this.panelDePestanas.setBackground(Color.BLUE);
+//        this.panelDePestanas.setBackground(Color.BLUE);
         this.panelAdmin = new JPanel();
         this.panelAdmin.setLayout(new GridBagLayout());
         this.panelEncuestado = new JPanel();
