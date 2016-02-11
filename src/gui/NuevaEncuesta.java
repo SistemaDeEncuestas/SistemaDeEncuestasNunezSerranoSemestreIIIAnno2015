@@ -2,6 +2,7 @@ package gui;
 
 import domain.Encuesta;
 import domain.Pregunta;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,9 +44,9 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
         super();
         this.posicionX = 10;
         this.posicionY = 30;
-        
-       this.preguntas = new ArrayList<>();
-        
+
+        this.preguntas = new ArrayList<>();
+        this.setBackground(Color.GRAY);
         initComponents();
         this.setPreferredSize(new Dimension(850, 600));
         this.setLayout(null);
@@ -135,29 +136,31 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
                         } else {
 
                             String respuesta = JOptionPane.showInputDialog("Ingrese una respuesta", null);
-                            if (!respuesta.equals("")) {
+                            if (respuesta != null) {
+                                if (!respuesta.trim().equals("")) {
 
-                                if (tipo.equals(Strings.TIPO_1)) {
+                                    if (tipo.equals(Strings.TIPO_1)) {
 
-                                    JRadioButton boton = new JRadioButton(respuesta);
-                                    boton.setBounds(posicionX + 30, posicionY, respuesta.length() * 40, 20);
+                                        JRadioButton boton = new JRadioButton(respuesta);
+                                        boton.setBounds(posicionX + 30, posicionY, respuesta.length() * 40, 20);
 
-                                    grupoRadio.add(boton);
-                                    add(boton);
-                                    posicionY += 40;
-                                } else if (tipo.equals(Strings.TIPO_2)) {
+                                        grupoRadio.add(boton);
+                                        add(boton);
+                                        posicionY += 40;
+                                    } else if (tipo.equals(Strings.TIPO_2)) {
 
-                                    JCheckBox boton = new JCheckBox(respuesta);
-                                    boton.setBounds(posicionX + 30, posicionY, respuesta.length() * 40, 20);
+                                        JCheckBox boton = new JCheckBox(respuesta);
+                                        boton.setBounds(posicionX + 30, posicionY, respuesta.length() * 40, 20);
 //                                grupoCheck.add(boton);
-                                    add(boton);
-                                    posicionY += 40;
+                                        add(boton);
+                                        posicionY += 40;
+
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No debe dejar el espacio en blanco",
+                                            "Error", JOptionPane.ERROR_MESSAGE);
 
                                 }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "No debe dejar el espacio en blanco",
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-
                             }
                         }
 
@@ -174,10 +177,10 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
 
             }
 
-        } else if(e.getSource() == jbGuardar){
-            
-        }else if(e.getSource() == jbCancelar){
-            
+        } else if (e.getSource() == jbGuardar) {
+
+        } else if (e.getSource() == jbCancelar) {
+
         }
 
     }
