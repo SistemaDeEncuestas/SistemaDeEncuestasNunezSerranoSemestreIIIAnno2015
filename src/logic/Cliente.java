@@ -38,41 +38,49 @@ public class Cliente extends Thread {
         this.peticion = peticion;
         this.nick = nick;
         this.contrasenna = contrasenna;
+        this.start();
     }
 
     public Cliente(String peticion, Administrador administrador) {
         this.peticion = peticion;
         this.administrador = administrador;
+        this.start();
     }
 
     public Cliente(String peticion, Encuestado encuestado) {
         this.peticion = peticion;
         this.encuestado = encuestado;
+        this.start();
     }
 
     public Cliente(String peticion) {
         this.peticion = peticion;
+        this.start();
     }
 
     public Cliente(String peticion, Encuesta encuesta) {
         this.peticion = peticion;
         this.encuesta = encuesta;
+        this.start();
     }
 
     public Cliente(String peticion, String nombreEncuesta) {
         this.peticion = peticion;
         this.nombreEncuesta = nombreEncuesta;
+        this.start();
     }
 
     public Cliente(String peticion, String nombreEncuesta, List<Encuestado> lista) {
         this.peticion = peticion;
         this.nombreEncuesta = nombreEncuesta;
         this.listaEncuestados = lista;
+        this.start();
     }
 
     public Cliente(String peticion, List<Correo> listaCorreos) {
         this.peticion = peticion;
         this.listaCorreos = listaCorreos;
+        this.start();
     }
 
     @Override
@@ -88,58 +96,80 @@ public class Cliente extends Thread {
             switch (this.peticion) {
 
                 case Strings.PETICION_LOGIN_ADMIN:
+                    enviar.println(this.peticion);
                     enviar.println(this.nick);
                     enviar.println(this.contrasenna);
+//                    Administrador a = recibir.readLine();
                     
                     break;
 
                 case Strings.PETICION_LOGIN_USER:
+                    enviar.println(this.peticion);
                     enviar.println(this.nick);
                     enviar.println(this.contrasenna);
 
                     break;
 
                 case Strings.PETICION_REGISTRA_ADMIN:
+                    enviar.println(this.peticion);
                     enviar.println(this.administrador);
 
                     break;
 
                 case Strings.PETICION_REGISTRAR_USER:
+                    enviar.println(this.peticion);
                     enviar.println(this.encuestado);
 
                     break;
 
                 case Strings.PETICION_GET_ENCUESTADOS: 
-                    ;
+                    enviar.println(this.peticion);;
                 //TODO
                 case Strings.PETICION_CREAR_ENCUESTA:
+                    enviar.println(this.peticion);
                     enviar.println(this.encuesta);
 
                     break;
 
                 case Strings.PETICION_EDITA_ENCUESTA:
+                    enviar.println(this.peticion);
                     enviar.println(this.nombreEncuesta);
 
                     break;
 
                 case Strings.PETICION_GUARDA_EDICION:
+                    enviar.println(this.peticion);
                     enviar.println(this.encuesta);
 
                     break;
 
                 case Strings.PETICION_ENVIAR_ENCUESTA:
+                    enviar.println(this.peticion);
                     enviar.println(this.nombreEncuesta);
                     enviar.println(this.listaEncuestados);
 
                     break;
 
                 case Strings.PETICION_DEVOLVER_ENCUESTA:
+                    enviar.println(this.peticion);
                     enviar.println(this.encuesta);
 
                     break;
 
                 case Strings.PETICION_ENVIAR_CORREO:
+                    enviar.println(this.peticion);
                     enviar.println(this.listaCorreos);
+                    break;
+                    
+                case Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN:
+                    enviar.println(this.peticion);
+                    enviar.println(this.administrador);
+                    
+                    break;
+                case Strings.PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO:
+                    enviar.println(this.peticion);
+                    enviar.println(this.encuestado);
+                    
                     break;
 
             }
