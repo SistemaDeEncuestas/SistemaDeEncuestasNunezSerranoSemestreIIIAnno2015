@@ -26,8 +26,9 @@ public class Cliente extends Thread {
 
     private String peticion;
     private String nick;
-    private String contrasnna;
+    private String contrasenna;
     private Administrador administrador;
+    private Encuestado encuestado;
     private Encuesta encuesta;
     private String nombreEncuesta;
     private List<Encuestado> listaEncuestados;
@@ -36,12 +37,17 @@ public class Cliente extends Thread {
     public Cliente(String peticion, String nick, String contrasenna) {
         this.peticion = peticion;
         this.nick = nick;
-        this.contrasnna = contrasenna;
+        this.contrasenna = contrasenna;
     }
 
     public Cliente(String peticion, Administrador administrador) {
         this.peticion = peticion;
         this.administrador = administrador;
+    }
+
+    public Cliente(String peticion, Encuestado encuestado) {
+        this.peticion = peticion;
+        this.encuestado = encuestado;
     }
 
     public Cliente(String peticion) {
@@ -80,34 +86,66 @@ public class Cliente extends Thread {
 
             //Comienza el protocolo de comunicacion
             switch (this.peticion) {
-                
-                case Strings.PETICION_LOGIN_ADMIN: ;
+
+                case Strings.PETICION_LOGIN_ADMIN:
+                    enviar.println(this.nick);
+                    enviar.println(this.contrasenna);
                     
-                case Strings.PETICION_LOGIN_USER: ;
-                    
-                case Strings.PETICION_REGISTRA_ADMIN: ;
-                    
-                case Strings.PETICION_REGISTRAR_USER: ;
-                    
-                case Strings.PETICION_GET_ENCUESTADOS: ;
-                    
-                case Strings.PETICION_CREAR_ENCUESTA: ;
-                    
-                case Strings.PETICION_EDITA_ENCUESTA: ;
-                    
-                case Strings.PETICION_GUARDA_EDICION: ;
-                    
-                case Strings.PETICION_ENVIAR_ENCUESTA: ;
-                    
-                case Strings.PETICION_DEVOLVER_ENCUESTA: ;
-                    
-                case Strings.PETICION_ENVIAR_CORREO: ; 
-                    
+                    break;
+
+                case Strings.PETICION_LOGIN_USER:
+                    enviar.println(this.nick);
+                    enviar.println(this.contrasenna);
+
+                    break;
+
+                case Strings.PETICION_REGISTRA_ADMIN:
+                    enviar.println(this.administrador);
+
+                    break;
+
+                case Strings.PETICION_REGISTRAR_USER:
+                    enviar.println(this.encuestado);
+
+                    break;
+
+                case Strings.PETICION_GET_ENCUESTADOS: 
+                    ;
+                //TODO
+                case Strings.PETICION_CREAR_ENCUESTA:
+                    enviar.println(this.encuesta);
+
+                    break;
+
+                case Strings.PETICION_EDITA_ENCUESTA:
+                    enviar.println(this.nombreEncuesta);
+
+                    break;
+
+                case Strings.PETICION_GUARDA_EDICION:
+                    enviar.println(this.encuesta);
+
+                    break;
+
+                case Strings.PETICION_ENVIAR_ENCUESTA:
+                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.listaEncuestados);
+
+                    break;
+
+                case Strings.PETICION_DEVOLVER_ENCUESTA:
+                    enviar.println(this.encuesta);
+
+                    break;
+
+                case Strings.PETICION_ENVIAR_CORREO:
+                    enviar.println(this.listaCorreos);
+                    break;
+
             }
 
-            enviar.println("instruccion que el cliente le manda al server");
-
-            System.out.println("El servidor dice: " + recibir.readLine());
+//            enviar.println("instruccion que el cliente le manda al server");
+//            System.out.println("El servidor dice: " + recibir.readLine());
 
             socket.close();
 
