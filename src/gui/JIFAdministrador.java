@@ -159,9 +159,9 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         if (e.getSource() == jbNuevo) {
 
             NuevaEncuesta panelEncuesta = new NuevaEncuesta();
-            scroll = new JScrollPane(panelEncuesta);
-            scroll.setAutoscrolls(true);
-            this.add(scroll, BorderLayout.CENTER);
+//            scroll = new JScrollPane(panelEncuesta);
+//            scroll.setAutoscrolls(true);
+            this.add(panelEncuesta, BorderLayout.CENTER);
             updateUI();
 
         } 

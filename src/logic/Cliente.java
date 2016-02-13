@@ -1,5 +1,9 @@
 package logic;
 
+import domain.Administrador;
+import domain.Correo;
+import domain.Encuesta;
+import domain.Encuestado;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,95 +12,117 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import util.Strings;
 
 /**
  *
  * @author adriansb3105
+ * @author Daniel
  */
 public class Cliente extends Thread {
 
-    private int puerto;
-    private boolean flag;
+    private String peticion;
+    private String nick;
+    private String contrasnna;
+    private Administrador administrador;
+    private Encuesta encuesta;
+    private String nombreEncuesta;
+    private List<Encuestado> listaEncuestados;
+    private List<Correo> listaCorreos;
 
-    public Cliente(int puerto) {
-        super("Client thread");
-        this.puerto = puerto;
+    public Cliente(String peticion, String nick, String contrasenna) {
+        this.peticion = peticion;
+        this.nick = nick;
+        this.contrasnna = contrasenna;
+    }
 
+    public Cliente(String peticion, Administrador administrador) {
+        this.peticion = peticion;
+        this.administrador = administrador;
+    }
+
+    public Cliente(String peticion) {
+        this.peticion = peticion;
+    }
+
+    public Cliente(String peticion, Encuesta encuesta) {
+        this.peticion = peticion;
+        this.encuesta = encuesta;
+    }
+
+    public Cliente(String peticion, String nombreEncuesta) {
+        this.peticion = peticion;
+        this.nombreEncuesta = nombreEncuesta;
+    }
+
+    public Cliente(String peticion, String nombreEncuesta, List<Encuestado> lista) {
+        this.peticion = peticion;
+        this.nombreEncuesta = nombreEncuesta;
+        this.listaEncuestados = lista;
+    }
+
+    public Cliente(String peticion, List<Correo> listaCorreos) {
+        this.peticion = peticion;
+        this.listaCorreos = listaCorreos;
     }
 
     @Override
     public void run() {
-       
-//            while (true) {
-                try {
+        try {
+
+            InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
+            Socket socket = new Socket(direccionIP, 5700);
+            PrintStream enviar = new PrintStream(socket.getOutputStream());
+            BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            //Comienza el protocolo de comunicacion
+            switch (this.peticion) {
+                
+                case Strings.PETICION_LOGIN_ADMIN: ;
                     
-                    InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
+                case Strings.PETICION_LOGIN_USER: ;
                     
-                    Socket socket = new Socket(direccionIP, this.puerto);
+                case Strings.PETICION_REGISTRA_ADMIN: ;
                     
-                    PrintStream enviar = new PrintStream(socket.getOutputStream());
+                case Strings.PETICION_REGISTRAR_USER: ;
                     
-                    BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                case Strings.PETICION_GET_ENCUESTADOS: ;
                     
+                case Strings.PETICION_CREAR_ENCUESTA: ;
                     
+                case Strings.PETICION_EDITA_ENCUESTA: ;
                     
-                    Scanner escaner = new Scanner(System.in);
-                    System.out.println("ingrese texto");
-                    String texto = escaner.nextLine();
-                    enviar.println(texto);
+                case Strings.PETICION_GUARDA_EDICION: ;
                     
+                case Strings.PETICION_ENVIAR_ENCUESTA: ;
                     
-                    System.out.println("El servidor me envia: " + recibir.readLine());
-
+                case Strings.PETICION_DEVOLVER_ENCUESTA: ;
                     
-
-                    //Protocolo de comunicacion!!!!!!!!!!!!!
-                    String respuestaServidor = recibir.readLine();
-                    System.out.println("Adrian dice: " + respuestaServidor);
-                    if (respuestaServidor.equals("Listo")) {
-                        Element elementoEstudiante = new Element("estudiante");
-                        elementoEstudiante.setAttribute("cedula", "cedula1");
-
-                        Element elementoNombre = new Element("nombre");
-                        elementoNombre.addContent("nombre1");
-
-                        Element elementoEdad = new Element("edad");
-                        elementoEdad.addContent("10");
-
-                        elementoEstudiante.addContent(elementoNombre);
-                        elementoEstudiante.addContent(elementoEdad);
-
-                        XMLOutputter ouput = new XMLOutputter(Format.getCompactFormat());
-                        String xmlStringEstudianteElemento = ouput.outputString(elementoEstudiante);
-
-                        xmlStringEstudianteElemento = xmlStringEstudianteElemento.replace("\n", "");
-                        enviar.println(xmlStringEstudianteElemento);
-
-                    }
-                    socket.close();
-
-                } catch (UnknownHostException ex) {
-                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                case Strings.PETICION_ENVIAR_CORREO: ; 
                     
-                }catch(ConnectException ess){
-                    System.out.println("SERVIDOR EN MANTENIMIENTO");
-                    System.exit(0);
-                } 
-                catch (IOException ex) {
-                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-                } 
+            }
 
-//            } 
+            enviar.println("instruccion que el cliente le manda al server");
 
-//            }
+            System.out.println("El servidor dice: " + recibir.readLine());
 
+            socket.close();
+
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (ConnectException ess) {
+            System.out.println("SERVIDOR EN MANTENIMIENTO");
+            System.exit(0);
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        System.exit(0);
 
     }
 
+}

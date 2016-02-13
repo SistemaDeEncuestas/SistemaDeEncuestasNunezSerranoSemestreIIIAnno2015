@@ -45,16 +45,14 @@ public class Strings {
 
     public final static String BORDE_DATOS = "Datos de usuario";
     public final static String BORDE_HISTORIAL = "Historial";
-    public final static String BORDE_BANDEJA = "Bandeja de entrada" ;
-    
-    
+    public final static String BORDE_BANDEJA = "Bandeja de entrada";
+
     public final static String TIPO_MULTIPLE = "multiple";
     public final static String TIPO_UNICA = "unica";
     public final static String TIPO_ABIERTA = "abierta";
-    
+
     public final static String RUTA_ARCHIVOS = "src/files/nombresDeArchivos.xml";
-    
-    
+
     /* NuevaEncuesta*/
     public final static String TITULO = "Ingrese el título de la encuesta:";
     public final static String DESCRIPCION = "Ingrese una breve descripción";
@@ -63,8 +61,23 @@ public class Strings {
     public final static String TIPO_1 = "Pregunta de respuesta única";
     public final static String TIPO_2 = "Pregunta de respuesta múltiple";
     public final static String TIPO_3 = "Pregunta de respuesta abierta";
-    public final static String OPTION_TITULO =  "Elija el tipo";
+    public final static String OPTION_TITULO = "Elija el tipo";
     public final static String OPTION_PREGUNTA = "¿Qué tipo de pregunta desea ingresar?";
     public final static String GUARDAR = "Guardar";
-    public final static String CANCELAR= "Cancelar";
+    public final static String CANCELAR = "Cancelar";
+
+    /*Constantes para las peticiones del cliente*/
+    public final static String PETICION_LOGIN_ADMIN = "loginAdministrador";
+    public final static String PETICION_LOGIN_USER = "loginEncuestado";
+    public final static String PETICION_REGISTRA_ADMIN = "registrarAdministrador";
+    public final static String PETICION_REGISTRAR_USER = "registarUsuario";
+    public final static String PETICION_GET_ENCUESTADOS = "getEncuestados";
+    public final static String PETICION_CREAR_ENCUESTA = "crearEncuesta";
+    public final static String PETICION_EDITA_ENCUESTA = "editarEncuesta";
+    public final static String PETICION_GUARDA_EDICION = "guardarEdicion";
+    public final static String PETICION_ENVIAR_ENCUESTA = "enviarEncuesta";
+    public final static String PETICION_DEVOLVER_ENCUESTA = "devolverEncuesta";
+    public final static String PETICION_ENVIAR_CORREO = "enviarCorreo";
+    
+
 }

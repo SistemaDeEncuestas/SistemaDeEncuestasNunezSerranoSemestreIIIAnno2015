@@ -2,6 +2,7 @@ package gui;
 
 import domain.Encuesta;
 import domain.Pregunta;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,9 @@ import util.Strings;
  * @author Daniel
  */
 public class NuevaEncuesta extends JPanel implements ActionListener {
-
+    
+    private JPanel jpEstatico;
+    private JPanel jpDinamico;
     private JLabel jlTitulo;
     private JLabel jlDescripcion;
     private JTextField jtTitulo;
@@ -36,64 +39,73 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
     private JScrollPane scroll;
     private int posicionX;
     private int posicionY;
+    private int largo;
     private Encuesta miEncuesta;
     private List<Pregunta> preguntas;
+    
 
     public NuevaEncuesta() {
 
         super();
         this.posicionX = 10;
         this.posicionY = 30;
-
+        this.largo = 850;
         this.preguntas = new ArrayList<>();
-        this.setBackground(Color.GRAY);
+//      this.setBackground(Color.GRAY);
         initComponents();
-        this.setPreferredSize(new Dimension(850, 600));
-        this.setLayout(null);
+        
+        this.setPreferredSize(new Dimension(this.largo, 600));
+        this.setLayout(new BorderLayout());
         this.setVisible(true);
-        this.setAutoscrolls(true);
+//      this.setAutoscrolls(true);
 
     }
 
     private void initComponents() {
 
+        jpEstatico = new JPanel();
+        jpEstatico.setLayout(null);
+        jpEstatico.setBackground(Color.red);
+        this.add(jpEstatico,BorderLayout.NORTH);
+        
+        
         jlTitulo = new JLabel(Strings.TITULO);
         jlTitulo.setBounds(this.posicionX, this.posicionY, 200, 20);
-        this.add(jlTitulo);
+        jpEstatico.add(jlTitulo);
 
         jbGuardar = new JButton(Strings.GUARDAR);
         jbGuardar.setBounds(430, this.posicionY, 120, 30);
         jbGuardar.addActionListener(this);
-        this.add(jbGuardar);
+        jpEstatico.add(jbGuardar);
 
         jbCancelar = new JButton(Strings.CANCELAR);
         jbCancelar.setBounds(560, this.posicionY, 120, 30);
         jbCancelar.addActionListener(this);
-        this.add(jbCancelar);
+        jpEstatico.add(jbCancelar);
 
-        this.posicionY += 40;
+        this.posicionY += 30;
 
         jtTitulo = new JTextField();
         jtTitulo.setBounds(this.posicionX, this.posicionY, 400, 20);
-        this.add(jtTitulo);
-        this.posicionY += 60;
+        jpEstatico.add(jtTitulo);
+        this.posicionY += 40;
 
         jlDescripcion = new JLabel(Strings.DESCRIPCION);
         jlDescripcion.setBounds(this.posicionX, this.posicionY, 200, 20);
-        this.add(jlDescripcion);
-        this.posicionY += 40;
+        jpEstatico.add(jlDescripcion);
+        this.posicionY += 30;
 
         jtDescripcion = new JTextArea();
         jtDescripcion.setLineWrap(true);
         scroll = new JScrollPane(jtDescripcion);
-        scroll.setBounds(this.posicionX, this.posicionY, 400, 100);
-        this.add(scroll);
-        this.posicionY += 130;
+        scroll.setBounds(this.posicionX, this.posicionY, 400, 80);
+        jpEstatico.add(scroll);
+        this.posicionY += 90;
 
         jbPregunta = new JButton(Strings.PREGUNTA);
         jbPregunta.setBounds(this.posicionX, this.posicionY, 200, 20);
         jbPregunta.addActionListener(this);
-        this.add(jbPregunta);
+        jpEstatico.add(jbPregunta);
         this.posicionY += 40;
 
     }
@@ -136,9 +148,15 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
                         } else {
 
                             String respuesta = JOptionPane.showInputDialog("Ingrese una respuesta", null);
+                            
+                            
+                            
                             if (respuesta != null) {
+                                if(respuesta.trim().length()>largo){
+                                largo = respuesta.length();
+                            }
                                 if (!respuesta.trim().equals("")) {
-
+                                    
                                     if (tipo.equals(Strings.TIPO_1)) {
 
                                         JRadioButton boton = new JRadioButton(respuesta);
@@ -170,7 +188,7 @@ public class NuevaEncuesta extends JPanel implements ActionListener {
                 this.add(jbRespuesta);
 
                 if (this.posicionY >= 600) {
-                    this.setPreferredSize(new Dimension(800, this.posicionY));
+                    this.setPreferredSize(new Dimension(this.largo, this.posicionY));
                 }
 
                 this.updateUI();
