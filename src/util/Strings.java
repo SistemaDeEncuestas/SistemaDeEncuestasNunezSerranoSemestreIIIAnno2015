@@ -78,8 +78,7 @@ public class Strings {
     public final static String PETICION_ENVIAR_ENCUESTA = "enviarEncuesta";
     public final static String PETICION_DEVOLVER_ENCUESTA = "devolverEncuesta";
     public final static String PETICION_ENVIAR_CORREO = "enviarCorreo";
-     public final static String PETICION_CAMBIAR_CONTRASENNA_ADMIN = "cambiarContrasennaAdministrador";
-      public final static String PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO = "cambiarContrasennaEncuestado";
-    
+    public final static String PETICION_CAMBIAR_CONTRASENNA_ADMIN = "cambiarContrasennaAdministrador";
+    public final static String PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO = "cambiarContrasennaEncuestado";
 
 }

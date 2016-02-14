@@ -7,6 +7,7 @@ import domain.Encuestado;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
@@ -86,97 +87,96 @@ public class Cliente extends Thread {
     @Override
     public void run() {
         try {
-
             InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
             Socket socket = new Socket(direccionIP, 5700);
-            PrintStream enviar = new PrintStream(socket.getOutputStream());
-            BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            //Comienza el protocolo de comunicacion
+            ObjectOutputStream enviar = new ObjectOutputStream(socket.getOutputStream());
+            
+            /*Comienza el protocolo de comunicacion*/
             switch (this.peticion) {
 
                 case Strings.PETICION_LOGIN_ADMIN:
-                    enviar.println(this.peticion);
-                    enviar.println(this.nick);
-                    enviar.println(this.contrasenna);
-//                    Administrador a = recibir.readLine();
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeUTF(this.nick);
+                    enviar.writeUTF(this.contrasenna);
                     
                     break;
 
                 case Strings.PETICION_LOGIN_USER:
-                    enviar.println(this.peticion);
-                    enviar.println(this.nick);
-                    enviar.println(this.contrasenna);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeUTF(this.nick);
+                    enviar.writeUTF(this.contrasenna);
 
                     break;
 
                 case Strings.PETICION_REGISTRA_ADMIN:
-                    enviar.println(this.peticion);
-                    enviar.println(this.administrador);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.administrador);
 
                     break;
 
                 case Strings.PETICION_REGISTRAR_USER:
-                    enviar.println(this.peticion);
-                    enviar.println(this.encuestado);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.encuestado);
 
                     break;
 
                 case Strings.PETICION_GET_ENCUESTADOS: 
-                    enviar.println(this.peticion);;
+                    enviar.writeUTF(this.peticion);;
                 //TODO
+                    
+                    break;
+                    
                 case Strings.PETICION_CREAR_ENCUESTA:
-                    enviar.println(this.peticion);
-                    enviar.println(this.encuesta);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.encuesta);
 
                     break;
 
                 case Strings.PETICION_EDITA_ENCUESTA:
-                    enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeUTF(this.nombreEncuesta);
 
                     break;
 
                 case Strings.PETICION_GUARDA_EDICION:
-                    enviar.println(this.peticion);
-                    enviar.println(this.encuesta);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.encuesta);
 
                     break;
 
+                    //admin
                 case Strings.PETICION_ENVIAR_ENCUESTA:
-                    enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
-                    enviar.println(this.listaEncuestados);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeUTF(this.nombreEncuesta);
+                    enviar.writeObject(this.listaEncuestados);
 
                     break;
 
+                    //encuestado
                 case Strings.PETICION_DEVOLVER_ENCUESTA:
-                    enviar.println(this.peticion);
-                    enviar.println(this.encuesta);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.encuesta);
 
                     break;
 
-                case Strings.PETICION_ENVIAR_CORREO:
-                    enviar.println(this.peticion);
-                    enviar.println(this.listaCorreos);
-                    break;
+//                case Strings.PETICION_ENVIAR_CORREO:
+//                    enviar.writeUTF(this.peticion);
+//                    enviar.writeObject(this.listaCorreos);
+//                    break;
                     
                 case Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN:
-                    enviar.println(this.peticion);
-                    enviar.println(this.administrador);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.administrador);
                     
                     break;
                 case Strings.PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO:
-                    enviar.println(this.peticion);
-                    enviar.println(this.encuestado);
+                    enviar.writeUTF(this.peticion);
+                    enviar.writeObject(this.encuestado);
                     
                     break;
 
             }
-
-//            enviar.println("instruccion que el cliente le manda al server");
-//            System.out.println("El servidor dice: " + recibir.readLine());
-
+            
             socket.close();
 
         } catch (UnknownHostException ex) {
