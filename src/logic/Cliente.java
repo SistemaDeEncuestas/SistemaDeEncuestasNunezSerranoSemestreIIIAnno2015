@@ -5,8 +5,10 @@ import domain.Correo;
 import domain.Encuesta;
 import domain.Encuestado;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ConnectException;
@@ -34,6 +36,11 @@ public class Cliente extends Thread {
     private String nombreEncuesta;
     private List<Encuestado> listaEncuestados;
     private List<Correo> listaCorreos;
+    
+    private Administrador administradorRecibido;
+    private Encuestado encuestadoRecibido;
+    private Encuesta encuestaRecibida;
+    private Encuestado[] listaEncuestadosRecibida;
 
     public Cliente(String peticion, String nick, String contrasenna) {
         this.peticion = peticion;
@@ -90,6 +97,8 @@ public class Cliente extends Thread {
             InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
             Socket socket = new Socket(direccionIP, 5700);
             ObjectOutputStream enviar = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream recibir = new ObjectInputStream(socket.getInputStream());
+//              ObjectInputStream recibir = new ObjectInputStream(new DataInputStream(socket.getInputStream()));
             
             /*Comienza el protocolo de comunicacion*/
             switch (this.peticion) {
@@ -98,14 +107,16 @@ public class Cliente extends Thread {
                     enviar.writeUTF(this.peticion);
                     enviar.writeUTF(this.nick);
                     enviar.writeUTF(this.contrasenna);
-                    
+                    this.administradorRecibido = (Administrador) recibir.readObject();
                     break;
 
                 case Strings.PETICION_LOGIN_USER:
                     enviar.writeUTF(this.peticion);
                     enviar.writeUTF(this.nick);
                     enviar.writeUTF(this.contrasenna);
-
+                    
+                    this.encuestadoRecibido = (Encuestado) recibir.readObject();
+                    
                     break;
 
                 case Strings.PETICION_REGISTRA_ADMIN:
@@ -122,26 +133,27 @@ public class Cliente extends Thread {
 
                 case Strings.PETICION_GET_ENCUESTADOS: 
                     enviar.writeUTF(this.peticion);;
-                //TODO
+                    
+                    this.listaEncuestadosRecibida = (Encuestado[]) recibir.readObject();
                     
                     break;
                     
                 case Strings.PETICION_CREAR_ENCUESTA:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.encuesta);
-
+                   
                     break;
 
                 case Strings.PETICION_EDITA_ENCUESTA:
                     enviar.writeUTF(this.peticion);
                     enviar.writeUTF(this.nombreEncuesta);
-
+                    this.encuestaRecibida = (Encuesta) recibir.readObject();
                     break;
 
                 case Strings.PETICION_GUARDA_EDICION:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.encuesta);
-
+                    
                     break;
 
                     //admin
@@ -176,6 +188,7 @@ public class Cliente extends Thread {
                     break;
 
             }
+            recibir.close();
             
             socket.close();
 
@@ -185,12 +198,31 @@ public class Cliente extends Thread {
         } catch (ConnectException ess) {
             System.out.println("SERVIDOR EN MANTENIMIENTO");
             System.exit(0);
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         System.exit(0);
 
     }
+
+    public Administrador getAdministradorRecibido() {
+        return administradorRecibido;
+    }
+
+    public Encuestado getEncuestadoRecibido() {
+        return encuestadoRecibido;
+    }
+
+    public Encuesta getEncuestaRecibida() {
+        return encuestaRecibida;
+    }
+
+    public Encuestado[] getListaEncuestadosRecibida() {
+        return listaEncuestadosRecibida;
+    }
+    
+    
+    
 
 }

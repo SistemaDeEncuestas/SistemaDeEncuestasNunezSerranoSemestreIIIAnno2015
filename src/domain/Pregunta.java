@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author Daniel
  */
-public abstract class Pregunta {
+public abstract class Pregunta implements Serializable{
 
     private String enunciado;
     private String tipo;
