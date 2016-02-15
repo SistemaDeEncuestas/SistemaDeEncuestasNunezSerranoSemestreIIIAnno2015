@@ -4,13 +4,9 @@ import domain.Administrador;
 import domain.Correo;
 import domain.Encuesta;
 import domain.Encuestado;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -34,7 +30,7 @@ public class Cliente extends Thread {
     private Encuestado encuestado;
     private Encuesta encuesta;
     private String nombreEncuesta;
-    private List<Encuestado> listaEncuestados;
+    private List<String> listaEncuestados;
     private List<Correo> listaCorreos;
     
     private Administrador administradorRecibido;
@@ -42,6 +38,7 @@ public class Cliente extends Thread {
     private Encuesta encuestaRecibida;
     private Encuestado[] listaEncuestadosRecibida;
 
+    /*PETICION_LOGIN_ADMIN, PETICION_LOGIN_USER*/
     public Cliente(String peticion, String nick, String contrasenna) {
         this.peticion = peticion;
         this.nick = nick;
@@ -78,7 +75,7 @@ public class Cliente extends Thread {
         this.start();
     }
 
-    public Cliente(String peticion, String nombreEncuesta, List<Encuestado> lista) {
+    public Cliente(String peticion, String nombreEncuesta, List<String> lista) {
         this.peticion = peticion;
         this.nombreEncuesta = nombreEncuesta;
         this.listaEncuestados = lista;
@@ -114,34 +111,27 @@ public class Cliente extends Thread {
                     enviar.writeUTF(this.peticion);
                     enviar.writeUTF(this.nick);
                     enviar.writeUTF(this.contrasenna);
-                    
                     this.encuestadoRecibido = (Encuestado) recibir.readObject();
-                    
                     break;
-
+                    
                 case Strings.PETICION_REGISTRA_ADMIN:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.administrador);
-
                     break;
 
                 case Strings.PETICION_REGISTRAR_USER:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.encuestado);
-
                     break;
-
+                    
                 case Strings.PETICION_GET_ENCUESTADOS: 
-                    enviar.writeUTF(this.peticion);;
-                    
+                    enviar.writeUTF(this.peticion);
                     this.listaEncuestadosRecibida = (Encuestado[]) recibir.readObject();
-                    
                     break;
                     
                 case Strings.PETICION_CREAR_ENCUESTA:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.encuesta);
-                   
                     break;
 
                 case Strings.PETICION_EDITA_ENCUESTA:
@@ -150,31 +140,31 @@ public class Cliente extends Thread {
                     this.encuestaRecibida = (Encuesta) recibir.readObject();
                     break;
 
+                    
                 case Strings.PETICION_GUARDA_EDICION:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.encuesta);
                     
                     break;
 
+                    
+                    
+                    
                     //admin
                 case Strings.PETICION_ENVIAR_ENCUESTA:
                     enviar.writeUTF(this.peticion);
                     enviar.writeUTF(this.nombreEncuesta);
                     enviar.writeObject(this.listaEncuestados);
-
                     break;
 
+                    
+                    
                     //encuestado
                 case Strings.PETICION_DEVOLVER_ENCUESTA:
                     enviar.writeUTF(this.peticion);
                     enviar.writeObject(this.encuesta);
 
                     break;
-
-//                case Strings.PETICION_ENVIAR_CORREO:
-//                    enviar.writeUTF(this.peticion);
-//                    enviar.writeObject(this.listaCorreos);
-//                    break;
                     
                 case Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN:
                     enviar.writeUTF(this.peticion);
@@ -195,7 +185,7 @@ public class Cliente extends Thread {
         } catch (UnknownHostException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
 
-        } catch (ConnectException ess) {
+        } catch (ConnectException ce) {
             System.out.println("SERVIDOR EN MANTENIMIENTO");
             System.exit(0);
         } catch (IOException | ClassNotFoundException ex) {
