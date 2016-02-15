@@ -140,13 +140,6 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         jPanelIzquierda.add(jpEntrada, BorderLayout.CENTER);
 
-        jpHistorial = new JPanel();
-        historial = BorderFactory.createTitledBorder(null, Strings.BORDE_HISTORIAL, TitledBorder.CENTER, TitledBorder.CENTER);
-        jpHistorial.setBorder(historial);
-        jpHistorial.setLayout(new BoxLayout(jpHistorial, BoxLayout.Y_AXIS));
-
-        jPanelIzquierda.add(jpHistorial, BorderLayout.SOUTH);
-
 //        jpContenido = new JPanel();
 //        jpContenido.setBackground(Color.GRAY);
 //        jpContenido.setLayout(new BorderLayout());
@@ -159,12 +152,22 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         if (e.getSource() == jbNuevo) {
 
             NuevaEncuesta panelEncuesta = new NuevaEncuesta();
-//            scroll = new JScrollPane(panelEncuesta);
-//            scroll.setAutoscrolls(true);
-            this.add(panelEncuesta, BorderLayout.CENTER);
+            scroll = new JScrollPane(panelEncuesta);
+            scroll.setAutoscrolls(true);
+            this.add(scroll, BorderLayout.CENTER);
             updateUI();
 
-        } 
+        } else if(e.getSource() == jbNuevoAdmin){
+            
+            PanelCreaAdministrador panelCreaAdmin = new PanelCreaAdministrador();
+            this.add(panelCreaAdmin);
+            updateUI();
+        } else if(e.getSource() == jbEnviar){
+            // enviar la listade usuarios y mis encuestas como parametro
+            PanelEnviarCorreos enviarCorreos = new PanelEnviarCorreos();
+            this.add(enviarCorreos);
+            updateUI();
+        }
     }
 
 }

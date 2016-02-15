@@ -28,10 +28,13 @@ public class Strings {
     public final static String REGISTROCORREO = "Ingrese su correo electrónico";
     public final static String REGISTROCONTRASENIA = "Ingrese su contraseña";
     public final static String REGISTROVERIFICACONTRASENIA = "Verifique su contraseña";
+    public final static String REGISTRO_CONTRASENIA_TEMPORAL = "Ingrese su contraseña (Recuerde que esta es temporal)";
 
     /*Mensajes*/
     public final static String ERROR = "Error";
     public final static String ERRORCAMPOVACIO = "Debe llenar todos los campos";
+    public final static String ERROR_CONTRASENNA_DIFERENTE = "La contraseña debe coincidir en los dos campos";
+    public final static String ERROR_NOMBRE_USUARIO_OCUPADO = "El nombre de usuario escogido ya existe, por favor escoja otro";
 
     /*JIFAdministrador*/
     public final static String ENCUESTAS = "Tus encuestas";
@@ -80,5 +83,13 @@ public class Strings {
     public final static String PETICION_ENVIAR_CORREO = "enviarCorreo";
     public final static String PETICION_CAMBIAR_CONTRASENNA_ADMIN = "cambiarContrasennaAdministrador";
     public final static String PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO = "cambiarContrasennaEncuestado";
+
+    /* PanelEnviarCorreos*/
+    public final static String LABEL_ENCUESTADOS = "Escoja a los usuarios que quiera enviarle la encuesta";
+    public final static String BOTON_ANNADIR = "Añadir";
+    public final static String LABEL_ENCUESTA = "Escoja una encuesta para enviar";
+    public final static String BOTON_ENVIAR = "Enviar";
+    public final static String BOTON_ELIMINAR = "Eliminar";
+     
 
 }
