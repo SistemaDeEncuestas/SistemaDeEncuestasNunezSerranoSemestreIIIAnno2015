@@ -67,8 +67,8 @@ public class Graficos extends JFrame{
         this.panel.add(chartPanel);
     }
     
-    public static void main(String[] args){
-        Graficos e = new Graficos();
-        e.setVisible(true);
-    }
+//    public static void main(String[] args){
+//        Graficos e = new Graficos();
+//        e.setVisible(true);
+//    }
 }

@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class Administrador extends Usuario {
 
-    private List<Encuesta> encuestasCreadas;
+    private List<String> encuestasCreadas;
     private boolean primeraVez;
 
-    public Administrador(String nombre, String nombreUsuario, String contrasenna,String correoElectronico) {
-        super(nombre, nombreUsuario, contrasenna, correoElectronico);
+    public Administrador(String nombre, String nickName, String contrasenna,String correoElectronico) {
+        super(nombre, nickName, contrasenna, correoElectronico);
         this.encuestasCreadas = new ArrayList<>();
         this.primeraVez = true;
     }
@@ -24,11 +24,11 @@ public class Administrador extends Usuario {
         this.primeraVez = true;
     }
     
-    public List<Encuesta> getEncuestasCreadas() {
+    public List<String> getEncuestasCreadas() {
         return encuestasCreadas;
     }
 
-    public void setEncuestasCreadas(List<Encuesta> encuestasCreadas) {
+    public void setEncuestasCreadas(List<String> encuestasCreadas) {
         this.encuestasCreadas = encuestasCreadas;
     }
 
@@ -44,7 +44,7 @@ public class Administrador extends Usuario {
 
     @Override
     public String toString() {
-        return "Administrador{" + "encuestasCreadas=" + encuestasCreadas + ", primeraVez=" + primeraVez + '}';
+        return super.toString() + " Administrador{" + "encuestasCreadas=" + encuestasCreadas + ", primeraVez=" + primeraVez + '}';
     }
 
 }

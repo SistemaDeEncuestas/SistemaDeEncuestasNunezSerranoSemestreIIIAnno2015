@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -150,12 +150,13 @@ public class Login extends JDialog implements ActionListener{
             
             if (!this.jtfNickAdmin.getText().trim().isEmpty() && this.jpfContraseniaAdmin.getPassword().length != 0) {
                 
-                System.out.println("Verificar admin");
-                JIFAdministrador jifAdministrador = new JIFAdministrador();
-                this.escritorio.add(jifAdministrador);
-                dispose();
+                String pass = "";
+                for (int i = 0; i < this.jpfContraseniaAdmin.getPassword().length; i++) {
+                    pass += this.jpfContraseniaAdmin.getPassword()[i];
+                }
                 
-                
+                Cliente cliente = new Cliente(this, Strings.PETICION_LOGIN_ADMIN, this.jtfNickAdmin.getText(), pass);
+                cliente.start();
                 
             }else{
                 JOptionPane.showMessageDialog(null, Strings.ERRORCAMPOVACIO, Strings.ERROR, JOptionPane.ERROR_MESSAGE);

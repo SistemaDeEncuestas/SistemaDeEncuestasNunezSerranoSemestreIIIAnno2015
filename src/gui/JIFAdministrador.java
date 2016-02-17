@@ -1,9 +1,9 @@
 
 package gui;
 
+import domain.Administrador;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import jdk.nashorn.internal.scripts.JS;
 import util.Strings;
 
 /**
@@ -27,6 +26,7 @@ import util.Strings;
  */
 public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
+    private Administrador administrador;
     private JPanel jPanelIzquierda;
     private JPanel jpDatos;
     private JPanel jpEntrada;
@@ -50,15 +50,14 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JToolBar jToolBar;
      private JScrollPane scroll ;
 
-    public JIFAdministrador() {
+    public JIFAdministrador(Administrador administrador) {
         super("Bienvenido", true, true, true);
-
         this.setLayout(new BorderLayout());
+        this.administrador = administrador;
         init();
-        this.setVisible(true);
         this.setBackground(Color.GRAY);
         this.setSize(850, 600);
-
+        this.setVisible(true);
     }
 
     private void init() {

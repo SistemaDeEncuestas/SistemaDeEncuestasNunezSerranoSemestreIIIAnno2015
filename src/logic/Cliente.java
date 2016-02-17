@@ -4,16 +4,31 @@ import domain.Administrador;
 import domain.Correo;
 import domain.Encuesta;
 import domain.Encuestado;
+import gui.JIFAdministrador;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
+import java.io.StringReader;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import util.Strings;
 
 /**
@@ -32,18 +47,19 @@ public class Cliente extends Thread {
     private String nombreEncuesta;
     private List<String> listaEncuestados;
     private List<Correo> listaCorreos;
-    
+    private JDialog contexto;
     private Administrador administradorRecibido;
     private Encuestado encuestadoRecibido;
     private Encuesta encuestaRecibida;
     private Encuestado[] listaEncuestadosRecibida;
 
     /*PETICION_LOGIN_ADMIN, PETICION_LOGIN_USER*/
-    public Cliente(String peticion, String nick, String contrasenna) {
+    public Cliente(JDialog contexto, String peticion, String nick, String contrasenna) {
+        this.contexto = contexto;
         this.peticion = peticion;
         this.nick = nick;
         this.contrasenna = contrasenna;
-        this.start();
+//        this.start();
     }
 
     public Cliente(String peticion, Administrador administrador) {
@@ -93,93 +109,103 @@ public class Cliente extends Thread {
         try {
             InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
             Socket socket = new Socket(direccionIP, 5700);
-            ObjectOutputStream enviar = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream recibir = new ObjectInputStream(socket.getInputStream());
-//              ObjectInputStream recibir = new ObjectInputStream(new DataInputStream(socket.getInputStream()));
-            
+            PrintStream enviar = new PrintStream(socket.getOutputStream());
+            BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
             /*Comienza el protocolo de comunicacion*/
             switch (this.peticion) {
 
                 case Strings.PETICION_LOGIN_ADMIN:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeUTF(this.nick);
-                    enviar.writeUTF(this.contrasenna);
-                    this.administradorRecibido = (Administrador) recibir.readObject();
+                    enviar.println(this.peticion);
+                    enviar.println(this.nick);
+                    enviar.println(this.contrasenna);
+                    String adminXML = recibir.readLine();
+                    if (!adminXML.equals("null")) {
+                        this.administrador = recibirPeticionLoginAdmin(adminXML);
+//                        JIFAdministrador jifAdministrador = new JIFAdministrador(this.administrador);
+                        
+//                        this.contexto.dispose();
+                        System.out.println(this.administrador);
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuario o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     break;
-
-                case Strings.PETICION_LOGIN_USER:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeUTF(this.nick);
-                    enviar.writeUTF(this.contrasenna);
-                    this.encuestadoRecibido = (Encuestado) recibir.readObject();
-                    break;
-                    
-                case Strings.PETICION_REGISTRA_ADMIN:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.administrador);
-                    break;
-
-                case Strings.PETICION_REGISTRAR_USER:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.encuestado);
-                    break;
-                    
-                case Strings.PETICION_GET_ENCUESTADOS: 
-                    enviar.writeUTF(this.peticion);
-                    this.listaEncuestadosRecibida = (Encuestado[]) recibir.readObject();
-                    break;
-                    
-                case Strings.PETICION_CREAR_ENCUESTA:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.encuesta);
-                    break;
-
-                case Strings.PETICION_EDITA_ENCUESTA:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeUTF(this.nombreEncuesta);
-                    this.encuestaRecibida = (Encuesta) recibir.readObject();
-                    break;
-
-                    
-                case Strings.PETICION_GUARDA_EDICION:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.encuesta);
-                    
-                    break;
-
-                    
-                    
-                    
-                    //admin
-                case Strings.PETICION_ENVIAR_ENCUESTA:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeUTF(this.nombreEncuesta);
-                    enviar.writeObject(this.listaEncuestados);
-                    break;
-
-                    
-                    
-                    //encuestado
-                case Strings.PETICION_DEVOLVER_ENCUESTA:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.encuesta);
-
-                    break;
-                    
-                case Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.administrador);
-                    
-                    break;
-                case Strings.PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO:
-                    enviar.writeUTF(this.peticion);
-                    enviar.writeObject(this.encuestado);
-                    
-                    break;
-
+                
+                
+//
+//                case Strings.PETICION_LOGIN_USER:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.nick);
+//                    enviar.println(this.contrasenna);
+//                    this.encuestadoRecibido = (Encuestado) recibir.readObject();
+//                    break;
+//                    
+//                case Strings.PETICION_REGISTRA_ADMIN:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.administrador);
+//                    break;
+//
+//                case Strings.PETICION_REGISTRAR_USER:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.encuestado);
+//                    break;
+//                    
+//                case Strings.PETICION_GET_ENCUESTADOS: 
+//                    enviar.println(this.peticion);
+//                    this.listaEncuestadosRecibida = (Encuestado[]) recibir.readObject();
+//                    break;
+//                    
+//                case Strings.PETICION_CREAR_ENCUESTA:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.encuesta);
+//                    break;
+//
+//                case Strings.PETICION_EDITA_ENCUESTA:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.nombreEncuesta);
+//                    this.encuestaRecibida = (Encuesta) recibir.readObject();
+//                    break;
+//
+//                    
+//                case Strings.PETICION_GUARDA_EDICION:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.encuesta);
+//                    
+//                    break;
+//
+//                    
+//                    
+//                    
+//                    //admin
+//                case Strings.PETICION_ENVIAR_ENCUESTA:
+//                    enviar.writeUTF(this.peticion);
+//                    enviar.writeUTF(this.nombreEncuesta);
+//                    enviar.writeObject(this.listaEncuestados);
+//                    break;
+//
+//                    
+//                    
+//                    //encuestado
+//                case Strings.PETICION_DEVOLVER_ENCUESTA:
+//                    enviar.writeUTF(this.peticion);
+//                    enviar.writeObject(this.encuesta);
+//
+//                    break;
+//                    
+//                case Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN:
+//                    enviar.writeUTF(this.peticion);
+//                    enviar.writeObject(this.administrador);
+//                    
+//                    break;
+//                case Strings.PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO:
+//                    enviar.writeUTF(this.peticion);
+//                    enviar.writeObject(this.encuestado);
+//                    
+//                    break;
             }
             recibir.close();
-            
+
             socket.close();
 
         } catch (UnknownHostException ex) {
@@ -188,31 +214,39 @@ public class Cliente extends Thread {
         } catch (ConnectException ce) {
             System.out.println("SERVIDOR EN MANTENIMIENTO");
             System.exit(0);
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         System.exit(0);
 
     }
-
-    public Administrador getAdministradorRecibido() {
-        return administradorRecibido;
-    }
-
-    public Encuestado getEncuestadoRecibido() {
-        return encuestadoRecibido;
-    }
-
-    public Encuesta getEncuestaRecibida() {
-        return encuestaRecibida;
-    }
-
-    public Encuestado[] getListaEncuestadosRecibida() {
-        return listaEncuestadosRecibida;
-    }
     
-    
-    
+    public Administrador recibirPeticionLoginAdmin(String adminXML) {
+        try {
+            SAXBuilder saxBuilder = new SAXBuilder();
+            StringReader stringReader = new StringReader(adminXML);
+            Document doc = saxBuilder.build(stringReader);
+            Element rootAdmin = doc.getRootElement();
+            
+            Administrador admin = new Administrador(rootAdmin.getAttributeValue("nickname"),
+                                                            rootAdmin.getChildText("nombre"),
+                                                            rootAdmin.getChildText("contrasenna"),
+                                                            rootAdmin.getChildText("correo"));
+            admin.setPrimeraVez(Boolean.getBoolean(rootAdmin.getChildText("primeraVez")));
 
+            List<String> listaEncuestas = new ArrayList<>();
+            
+            for (int i = 0; i < rootAdmin.getChild("encuestas").getChildren().size(); i++) {
+                listaEncuestas.add(rootAdmin.getChild("encuestas").getChild("encuesta"+i).getValue());
+            }
+            
+            admin.setEncuestasCreadas(listaEncuestas);
+            
+            return admin;
+        } catch (JDOMException | IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
