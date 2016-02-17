@@ -23,8 +23,11 @@ public class MainPrincipal {
 
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+
+        } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(MainPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         PantallaPrincipal pantallaPrincipal = new PantallaPrincipal();

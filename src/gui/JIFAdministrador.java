@@ -146,25 +146,31 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
     }
 
-    @Override
+     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbNuevo) {
 
-            NuevaEncuesta panelEncuesta = new NuevaEncuesta();
-            scroll = new JScrollPane(panelEncuesta);
-            scroll.setAutoscrolls(true);
-            this.add(scroll, BorderLayout.CENTER);
+            NuevaEncuesta jifNuevaEncuesta = new NuevaEncuesta();
+            jifNuevaEncuesta.ocultarBarraTitulo();
+            this.add(jifNuevaEncuesta, BorderLayout.CENTER);
             updateUI();
 
-        } else if(e.getSource() == jbNuevoAdmin){
+        } else if(e.getSource() == jbNuevoAdmin){ 
             
-            PanelCreaAdministrador panelCreaAdmin = new PanelCreaAdministrador();
-            this.add(panelCreaAdmin);
+            JIFCreaAdministrador creaAdmin = new JIFCreaAdministrador();
+            creaAdmin.ocultarBarraTitulo();
+            this.add(creaAdmin, BorderLayout.CENTER);
             updateUI();
         } else if(e.getSource() == jbEnviar){
             // enviar la listade usuarios y mis encuestas como parametro
-            PanelEnviarCorreos enviarCorreos = new PanelEnviarCorreos();
-            this.add(enviarCorreos);
+            JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos();
+            enviarCorreos.ocultarBarraTitulo();
+            this.add(enviarCorreos, BorderLayout.CENTER);
+            updateUI();
+        } else if(e.getSource() == jbEliminar){
+            JIFEliminaEncuesta jifElimina = new JIFEliminaEncuesta();
+            jifElimina.ocultarBarraTitulo();
+            this.add(jifElimina, BorderLayout.CENTER);
             updateUI();
         }
     }

@@ -59,8 +59,8 @@ public class Strings {
     /* NuevaEncuesta*/
     public final static String TITULO = "Ingrese el título de la encuesta:";
     public final static String DESCRIPCION = "Ingrese una breve descripción";
-    public final static String PREGUNTA = "Ingrese una nueva pregunta";
-    public final static String RESPUESTA = "Ingrese una respuesta";
+    public final static String PREGUNTA = "Nueva pregunta";
+    public final static String RESPUESTA = "Agregar respuesta";
     public final static String TIPO_1 = "Pregunta de respuesta única";
     public final static String TIPO_2 = "Pregunta de respuesta múltiple";
     public final static String TIPO_3 = "Pregunta de respuesta abierta";
@@ -90,6 +90,9 @@ public class Strings {
     public final static String LABEL_ENCUESTA = "Escoja una encuesta para enviar";
     public final static String BOTON_ENVIAR = "Enviar";
     public final static String BOTON_ELIMINAR = "Eliminar";
-     
+
+    /*Panel elimina encuestas*/
+    public final static String LABEL_ESCOGE_ENCUESTA = "Por favor, escoja una encuesta";
+     public final static String LABEL_AVISO = "Se ha eliminado la encuesta seleccionada";
 
 }

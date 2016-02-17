@@ -8,6 +8,7 @@ package gui;
 import domain.Administrador;
 import domain.Encuesta;
 import domain.Encuestado;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,23 +18,27 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import util.Strings;
 
 /**
  *
  * @author Daniel
  */
-public class PanelEnviarCorreos extends JPanel implements ActionListener {
+public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
 
     private JLabel jlUsuarios;
     private JComboBox jComboUsuarios;
     private JButton jbAgregar;
     private JList jListaSeleccionados;
     private JButton jbEliminar;
+    private JButton jbCancelar;
     private JLabel jlEncuesta;
     private JComboBox jComboEncuestas;
     private JButton jbEnviar;
@@ -42,10 +47,14 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
     private GridBagConstraints gridBag;
     private Encuestado[] encuestados;
     private Administrador administrador;
+    private JComponent barra;
+    private Dimension dimensionBarra;
 //
 //    public PanelEnviarCorreos(Administrador administrador, Encuestado[] encuestados) {
 //
 //        super();
+//     this.dimensionBarra = null;
+//        this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
 //        this.listaSeleccionados = new ArrayList<>();
 //        this.encuestados = encuestados;
 //        this.administrador = administrador;
@@ -59,9 +68,11 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
 //
 //    }
 
-    public PanelEnviarCorreos() {
+    public JIFEnviarCorreos() {
 
         super();
+        this.dimensionBarra = null;
+        this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
         this.listaSeleccionados = new ArrayList<>();
 
         this.setLayout(new GridBagLayout());
@@ -73,10 +84,18 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
         this.setVisible(true);
 
     }
+    
+    public void ocultarBarraTitulo() {
+        barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
+        dimensionBarra = barra.getPreferredSize();
+        barra.setSize(0, 0);
+        barra.setPreferredSize(new Dimension(0, 0));
+        repaint();
+    }
 
     public void initComponents() {
 
-        this.gridBag.insets = new Insets(50, 30, 0, 30);
+        this.gridBag.insets = new Insets(50, 10, 0, 10);
         this.jlUsuarios = new JLabel(Strings.LABEL_ENCUESTADOS, SwingConstants.CENTER);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.gridBag.gridx = 0;
@@ -85,7 +104,7 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
 
         this.jComboUsuarios = new JComboBox();
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-         this.gridBag.weightx = 2;
+        this.gridBag.weightx = 2;
         llenaComboBoxUsuarios();
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 1;
@@ -100,7 +119,7 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
 
         this.jListaSeleccionados = new JList();
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-         this.gridBag.weightx = 2;
+        this.gridBag.weightx = 2;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 2;
         this.add(this.jListaSeleccionados, gridBag);
@@ -126,11 +145,23 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
         this.add(this.jComboEncuestas, gridBag);
 
         this.jbEnviar = new JButton(Strings.BOTON_ENVIAR);
-        this.gridBag.fill = GridBagConstraints.HORIZONTAL;
+        this.gridBag.fill = GridBagConstraints.NONE;
+          this.gridBag.anchor = GridBagConstraints.CENTER;
         this.jbEnviar.addActionListener(this);
+        this.gridBag.ipadx = 45;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 5;
         this.add(this.jbEnviar, gridBag);
+        
+        this.jbCancelar = new JButton(Strings.CANCELAR);
+        this.gridBag.fill = GridBagConstraints.NONE;
+         this.gridBag.anchor = GridBagConstraints.CENTER;
+        this.jbCancelar.addActionListener(this);
+         this.gridBag.ipadx = 35;
+        this.gridBag.gridx = 0;
+        this.gridBag.gridy = 6;
+        this.add(this.jbCancelar, gridBag);
+        
 
     }
 
@@ -145,6 +176,11 @@ public class PanelEnviarCorreos extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource() == jbCancelar){
+            this.dispose();
+            updateUI();
+        }
+        
     }
 
 }
