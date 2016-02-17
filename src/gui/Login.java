@@ -155,7 +155,7 @@ public class Login extends JDialog implements ActionListener{
                     pass += this.jpfContraseniaAdmin.getPassword()[i];
                 }
                 
-                Cliente cliente = new Cliente(this, Strings.PETICION_LOGIN_ADMIN, this.jtfNickAdmin.getText(), pass);
+                Cliente cliente = new Cliente(this.escritorio, this, Strings.PETICION_LOGIN_ADMIN, this.jtfNickAdmin.getText(), pass);
                 cliente.start();
                 
             }else{

@@ -52,9 +52,11 @@ public class Cliente extends Thread {
     private Encuestado encuestadoRecibido;
     private Encuesta encuestaRecibida;
     private Encuestado[] listaEncuestadosRecibida;
+    private JDesktopPane escritorio;
 
     /*PETICION_LOGIN_ADMIN, PETICION_LOGIN_USER*/
-    public Cliente(JDialog contexto, String peticion, String nick, String contrasenna) {
+    public Cliente(JDesktopPane escritorio, JDialog contexto, String peticion, String nick, String contrasenna) {
+        this.escritorio = escritorio;
         this.contexto = contexto;
         this.peticion = peticion;
         this.nick = nick;
@@ -122,9 +124,12 @@ public class Cliente extends Thread {
                     String adminXML = recibir.readLine();
                     if (!adminXML.equals("null")) {
                         this.administrador = recibirPeticionLoginAdmin(adminXML);
-//                        JIFAdministrador jifAdministrador = new JIFAdministrador(this.administrador);
+                        JIFAdministrador jifAdministrador = new JIFAdministrador(this.escritorio, this.administrador);
                         
-//                        this.contexto.dispose();
+                        Thread h1 = new Thread(jifAdministrador);
+                        h1.start();
+                        
+                        this.contexto.dispose();
                         System.out.println(this.administrador);
                         
                     } else {
@@ -217,8 +222,6 @@ public class Cliente extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        System.exit(0);
 
     }
     

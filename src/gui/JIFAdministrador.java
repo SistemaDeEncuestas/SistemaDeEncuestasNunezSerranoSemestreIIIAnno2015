@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +25,7 @@ import util.Strings;
  *
  * @author Daniel
  */
-public class JIFAdministrador extends JInternalFrame implements ActionListener {
+public class JIFAdministrador extends JInternalFrame implements ActionListener, Runnable{
 
     private Administrador administrador;
     private JPanel jPanelIzquierda;
@@ -49,15 +50,15 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JLabel jlListaEncuestas;
     private JToolBar jToolBar;
      private JScrollPane scroll ;
+     private JDesktopPane escritorio;
 
-    public JIFAdministrador(Administrador administrador) {
+    public JIFAdministrador(JDesktopPane escritorio, Administrador administrador) {
         super("Bienvenido", true, true, true);
         this.setLayout(new BorderLayout());
         this.administrador = administrador;
-        init();
         this.setBackground(Color.GRAY);
         this.setSize(850, 600);
-        this.setVisible(true);
+        this.escritorio = escritorio;
     }
 
     private void init() {
@@ -144,6 +145,8 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 //        jpContenido.setLayout(new BorderLayout());
 //        this.add(jpContenido, BorderLayout.CENTER);
 
+        this.escritorio.add(this);
+        this.setVisible(true);
     }
 
      @Override
@@ -173,6 +176,11 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             this.add(jifElimina, BorderLayout.CENTER);
             updateUI();
         }
+    }
+
+    @Override
+    public void run() {
+        init();
     }
 
 }
