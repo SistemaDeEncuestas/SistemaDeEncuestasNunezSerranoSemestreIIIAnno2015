@@ -33,7 +33,7 @@ import util.Strings;
 public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener {
 
     private JLabel jlMensaje;
-   
+
     private JComboBox jcEncuestas;
     private JButton jbAbrir;
     private JButton jbCancelar;
@@ -41,11 +41,12 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
     private Dimension dimensionBarra;
     private List<String> listaEncuestas;
     private GridBagConstraints gridBag;
-    
+    private boolean flag;
     JInternalFrame jifAdmin;
 
-    public JIFEscogeEncuesta(JInternalFrame jifAdmin, List<String> listaEncuestas) {
+    public JIFEscogeEncuesta(JInternalFrame jifAdmin, List<String> listaEncuestas, boolean flag) {
         super();
+        this.flag = flag;
         this.jifAdmin = jifAdmin;
         this.listaEncuestas = listaEncuestas;
         this.dimensionBarra = null;
@@ -66,55 +67,54 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
     }
 
     public void initComponents() {
-        
+
         this.jlMensaje = new JLabel(Strings.LABEL_ESCOGE_ENCUESTA);
         this.gridBag.insets = new Insets(60, 10, 10, 10);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 0;
         this.add(jlMensaje, gridBag);
-        
+
         this.jcEncuestas = new JComboBox();
         llenaCombo();
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 1;
         this.add(jcEncuestas, gridBag);
-        
+
         this.jbAbrir = new JButton(Strings.BOTON_ABRIR);
         this.jbAbrir.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 2;
         this.add(jbAbrir, gridBag);
-         
+
         this.jbCancelar = new JButton(Strings.CANCELAR);
         this.jbCancelar.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 3;
         this.add(jbCancelar, gridBag);
-        
+
     }
-    
-    public void llenaCombo(){
+
+    public void llenaCombo() {
         for (int i = 0; i < this.listaEncuestas.size(); i++) {
             this.jcEncuestas.addItem(this.listaEncuestas.get(i));
-            
+
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == jbCancelar){
+        if (e.getSource() == jbCancelar) {
             this.dispose();
             updateUI();
-        } else if(e.getSource() == jbAbrir){
+        } else if (e.getSource() == jbAbrir) {
             //TODO
-            
-               
-              List<Pregunta> lista = new ArrayList<>();
-           
+
+            List<Pregunta> lista = new ArrayList<>();
+
             Pregunta p1 = new PreguntaRespuestaUnica("Pregunta 1");
             p1.setTipo(Strings.TIPO_UNICA);
             List<String> respuestap1 = new ArrayList<>();
@@ -127,7 +127,7 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
             respuestap1.add(r1p3);
             respuestap1.add(r1p4);
             p1.setListaRespuestas(respuestap1);
-            
+
             Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
             p1.setTipo(Strings.TIPO_UNICA);
             List<String> respuestap2 = new ArrayList<>();
@@ -140,20 +140,30 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
             respuestap2.add(r2p3);
             respuestap2.add(r2p4);
             p2.setListaRespuestas(respuestap2);
-            
+
             Pregunta p3 = new PreguntaAbierta("Pregunta 3");
             p3.setTipo(Strings.TIPO_ABIERTA);
             lista.add(p1);
             lista.add(p2);
-            lista.add(p3 );
+            lista.add(p3);
 
             Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
                     "Esto es una prueba para probar el panel de llenaencuesta", "encuesta1", lista);
             System.out.println(encuesta);
-            JIFAbrirEncuesta abrir = new JIFAbrirEncuesta(this.jifAdmin,encuesta);
-            abrir.ocultarBarraTitulo();
-            this.dispose();
-            this.jifAdmin.add(abrir, BorderLayout.CENTER);
+            if (!this.flag) {
+                JIFAbrirEncuesta abrir = new JIFAbrirEncuesta(this.jifAdmin, encuesta);
+                abrir.ocultarBarraTitulo();
+                this.dispose();
+                this.jifAdmin.add(abrir, BorderLayout.CENTER);
+            } else {
+
+                JIFEditaEncuesta edita = new JIFEditaEncuesta(jifAdmin, encuesta);
+                edita.ocultarBarraTitulo();
+                this.dispose();
+                this.jifAdmin.add(edita, BorderLayout.CENTER);
+
+            }
+
         }
     }
 

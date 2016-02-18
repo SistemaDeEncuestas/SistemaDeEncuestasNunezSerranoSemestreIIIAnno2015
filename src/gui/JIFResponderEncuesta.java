@@ -264,6 +264,7 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
 
                 this.encuestaActual.getPreguntas().get(k).setListaRespuestas(listaRespuestas);
             }
+            System.out.println(encuestaActual);
         }
     }
 

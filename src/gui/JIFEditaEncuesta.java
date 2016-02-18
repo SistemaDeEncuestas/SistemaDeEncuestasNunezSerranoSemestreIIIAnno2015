@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package gui;
 
 import domain.Encuesta;
@@ -8,7 +13,6 @@ import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -29,14 +33,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import logic.Cliente;
 import util.Strings;
 
 /**
  *
  * @author Daniel
  */
-public class NuevaEncuesta extends JInternalFrame implements ActionListener {
+public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
 
     private JPanel jpEstatico;
     private JPanel jpDinamico;
@@ -56,27 +59,26 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
     private Dimension dimensionBarra;
     private GridBagConstraints gridBagEstatico;
     private GridBagConstraints gridBagDinamico;
-
     private int posicionY;
     private int largo;
-
     private Encuesta miEncuesta;
     private List<Pregunta> listaPreguntas;
-
     private String titulo;
     private String descripcion;
     private String nombreCreador;
     private String nombreArchivo;
-    Pregunta preguntaActual;
+    private Pregunta preguntaActual;
     private String tipoPregunta;
+    private JInternalFrame jifPadre; 
 
-    public NuevaEncuesta(String nombreCreador) {
+    public JIFEditaEncuesta(JInternalFrame jifPadre, Encuesta encuesta) {
 
         super();
+        this.jifPadre = jifPadre;
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
 
-        this.nombreCreador = nombreCreador;
+        this.miEncuesta = encuesta;
         this.listaPreguntas = new ArrayList<>();
         this.titulo = "";
         this.descripcion = "";
@@ -194,7 +196,6 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
         jpEstatico.add(jbRespuesta, gridBagEstatico);
 
         this.jpDinamico = new JPanel(new GridBagLayout());
-//        this.jpDinamico.setBackground(Color.black);
         this.scrollDinamico = new JScrollPane(jpDinamico);
         this.scrollDinamico.setAutoscrolls(true);
         this.add(scrollDinamico, BorderLayout.CENTER);
@@ -202,8 +203,93 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
         this.gridBagDinamico.fill = GridBagConstraints.NONE;
         this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
 
-        this.gridBagDinamico.insets = new Insets(10, 10, 10, 100);
+        this.gridBagDinamico.insets = new Insets(10, 10, 10, 10);
+        llenaContenido();
+        this.jifPadre.add(this, BorderLayout.CENTER);
 
+    }
+
+    public void llenaContenido() {
+        for (int i = 0; i < this.miEncuesta.getPreguntas().size(); i++) {
+
+            Pregunta preguntaTemporal = this.miEncuesta.getPreguntas().get(i);
+
+            JTextField enunciado = new JTextField(preguntaTemporal.getEnunciado());
+
+            this.gridBagDinamico.fill = GridBagConstraints.NONE; 
+            this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+            this.gridBagDinamico.weighty = 0;
+            this.gridBagDinamico.weightx = 0;
+            this.gridBagDinamico.ipadx = 0;
+            this.gridBagDinamico.ipady = 0;
+            this.gridBagDinamico.gridx = 0;
+            this.gridBagDinamico.gridy = this.posicionEnGrid;
+            this.posicionEnGrid++;
+            this.jpDinamico.add(enunciado, gridBagDinamico);
+
+            String tipo = preguntaTemporal.getTipo();
+
+            if (tipo.equals(Strings.TIPO_UNICA)) {
+
+                ButtonGroup grupo = new ButtonGroup();
+
+                for (int j = 0; j < preguntaTemporal.getListaRespuestas().size(); j++) {
+
+                    JRadioButton radio = new JRadioButton(preguntaTemporal.getListaRespuestas().get(j));
+//                    radio.setBackground(Color.white);
+                    this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
+                    this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                    this.gridBagDinamico.weighty = 0;
+                    this.gridBagDinamico.weightx = 0;
+                    this.gridBagDinamico.ipady = 0;
+                    this.gridBagDinamico.ipadx = 0;
+                    this.gridBagDinamico.gridx = 0;
+                    this.gridBagDinamico.gridy = this.posicionEnGrid;
+                    this.posicionEnGrid++;
+                    grupo.add(radio);
+
+                    this.jpDinamico.add(radio, gridBagDinamico);
+
+                }
+
+            } else if (tipo.equals(Strings.TIPO_MULTIPLE)) {
+
+                for (int j = 0; j < preguntaTemporal.getListaRespuestas().size(); j++) {
+
+                    JCheckBox check = new JCheckBox(preguntaTemporal.getListaRespuestas().get(j));
+//                    check.setBackground(Color.white);
+                    this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
+                    this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                    this.gridBagDinamico.weighty = 0;
+                    this.gridBagDinamico.weightx = 0;
+                    this.gridBagDinamico.ipady = 0;
+                    this.gridBagDinamico.ipadx = 0;
+                    this.gridBagDinamico.gridx = 0;
+                    this.gridBagDinamico.gridy = this.posicionEnGrid;
+                    this.posicionEnGrid++;
+
+                    this.jpDinamico.add(check, gridBagDinamico);
+
+                }
+
+            } else if (tipo.equals(Strings.TIPO_ABIERTA)) {
+                JTextArea jtaRespuesta = new JTextArea();
+                jtaRespuesta.setLineWrap(true);
+
+                JScrollPane scrollRespuesta = new JScrollPane(jtaRespuesta);
+                this.gridBagDinamico.fill = GridBagConstraints.NONE;
+                this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                this.gridBagDinamico.weightx = 3;
+                this.gridBagDinamico.weighty = 2;
+                this.gridBagDinamico.ipadx = 0;
+                this.gridBagDinamico.ipady = 0;
+                this.gridBagDinamico.gridx = 0;
+                this.gridBagDinamico.gridy = this.posicionEnGrid;
+                this.posicionEnGrid++;
+                jpDinamico.add(scrollRespuesta, gridBagDinamico);
+            }
+
+        }
     }
 
     @Override
@@ -326,28 +412,11 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
             }
             this.updateUI();
             this.ocultarBarraTitulo();
-        } else if (e.getSource() == jbGuardar) {
-
-            String tituloEncuesta = this.jtTitulo.getText().trim();
-            String descripcionEncuesta = this.jtDescripcion.getText().trim();
-
-            if (!tituloEncuesta.isEmpty() && !descripcionEncuesta.isEmpty()) {
-                descripcionEncuesta = descripcionEncuesta.replaceAll("\n", "&");
-                this.nombreArchivo = JOptionPane.showInputDialog(rootPane, "Ingrese un nombre para el archivo", "Guardar como:",
-                        JOptionPane.QUESTION_MESSAGE);
-                this.miEncuesta = new Encuesta(this.nombreCreador, tituloEncuesta,
-                        descripcionEncuesta, this.nombreArchivo, this.listaPreguntas);
-                System.out.println(this.miEncuesta);
-                Cliente cliente = new Cliente(Strings.PETICION_CREAR_ENCUESTA, this.miEncuesta);
-
-                // llamar a cliente
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "No debe dejar espacios en blanco", Strings.ERROR, JOptionPane.ERROR_MESSAGE);
-            }
-
         } else if (e.getSource() == jbCancelar) {
             this.dispose();
             updateUI();
+        } else if (e.getSource() == jbGuardar) {
+            //TODO
         }
 
     }

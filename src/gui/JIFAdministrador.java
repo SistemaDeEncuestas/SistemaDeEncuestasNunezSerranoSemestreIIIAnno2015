@@ -1,17 +1,11 @@
 package gui;
 
 import domain.Administrador;
-import domain.Encuesta;
-import domain.Pregunta;
-import domain.PreguntaAbierta;
-import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -41,7 +35,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JButton jbNuevo;
     private JButton jbEditar;
     private JButton jbEliminar;
-     private JButton jbEnviar;
+    private JButton jbEnviar;
     private JButton jbEnviarACorreo;
     private JButton jbNuevoAdmin;
     private JButton jbEstadisticas;
@@ -56,7 +50,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JList jListEncuestas;
 
     public JIFAdministrador(JDesktopPane escritorio, Administrador administrador) {
-        super("Bienvenido "+administrador.getNickname(), true, true, true);
+        super("Bienvenido " + administrador.getNickname(), true, true, true);
         this.setLayout(new BorderLayout());
         this.administrador = administrador;
         this.setBackground(Color.GRAY);
@@ -112,7 +106,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jbEstadisticas.setToolTipText(Strings.ESTADISTICAS);
         jbEstadisticas.addActionListener(this);
         jToolBar.add(jbEstadisticas);
-       
+
         jToolBar.setFloatable(false);
         jToolBar.setRollover(true);
         this.add(jToolBar, BorderLayout.NORTH);
@@ -148,7 +142,6 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         jPanelIzquierda.add(jpEntrada, BorderLayout.CENTER);
 
-        
         this.escritorio.add(this);
 
     }
@@ -166,57 +159,57 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == jbEncuestas){
-            
-         JIFEscogeEncuesta jifEscogeEncuesta = new JIFEscogeEncuesta(this,this.administrador.getEncuestasCreadas());
-         jifEscogeEncuesta.ocultarBarraTitulo();
-         this.add(jifEscogeEncuesta,BorderLayout.CENTER);
-         updateUI();
-            
-            
-        }else if (e.getSource() == jbNuevo) {
+        if (e.getSource() == jbEncuestas) {
 
-            NuevaEncuesta jifNuevaEncuesta = new NuevaEncuesta(this.administrador.getNickname());
+            JIFEscogeEncuesta jifEscogeEncuesta = new JIFEscogeEncuesta(this, this.administrador.getEncuestasCreadas(), false);
+            jifEscogeEncuesta.ocultarBarraTitulo();
+            this.add(jifEscogeEncuesta, BorderLayout.CENTER);
+            updateUI();
+
+        } else if (e.getSource() == jbNuevo) {
+
+            JIFNuevaEncuesta jifNuevaEncuesta = new JIFNuevaEncuesta(this.administrador.getNickname());
             jifNuevaEncuesta.ocultarBarraTitulo();
             this.add(jifNuevaEncuesta, BorderLayout.CENTER);
             updateUI();
 
-        }else if(e.getSource() == jbEditar){
-            
-            
-        }else if (e.getSource() == jbEliminar) {
-            
+        } else if (e.getSource() == jbEditar) {
+
+            JIFEscogeEncuesta jifEscoge = new JIFEscogeEncuesta(this, this.administrador.getEncuestasCreadas(), true);
+            jifEscoge.ocultarBarraTitulo();
+            this.add(jifEscoge, BorderLayout.CENTER);
+            updateUI();
+
+        } else if (e.getSource() == jbEliminar) {
+
             JIFEliminaEncuesta jifElimina = new JIFEliminaEncuesta(this.administrador.getEncuestasCreadas());
             jifElimina.ocultarBarraTitulo();
             this.add(jifElimina, BorderLayout.CENTER);
             updateUI();
-            
-        }else if(e.getSource() == jbEnviar){
+
+        } else if (e.getSource() == jbEnviar) {
             JIFEnviarEncuesta enviarEncuesta = new JIFEnviarEncuesta();
             enviarEncuesta.ocultarBarraTitulo();
             this.add(enviarEncuesta, BorderLayout.CENTER);
             updateUI();
-            
-            
+
         } else if (e.getSource() == jbNuevoAdmin) {
-            
+
             JIFCreaAdministrador creaAdmin = new JIFCreaAdministrador();
             creaAdmin.ocultarBarraTitulo();
             this.add(creaAdmin, BorderLayout.CENTER);
             updateUI();
-            
+
         } else if (e.getSource() == jbEnviarACorreo) {
-            
+
             // enviar la listade usuarios y mis encuestas como parametro
             JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos();
             enviarCorreos.ocultarBarraTitulo();
             this.add(enviarCorreos, BorderLayout.CENTER);
             updateUI();
-            
-        } else if(e.getSource() == jbEstadisticas){
-            
-            
-            
+
+        } else if (e.getSource() == jbEstadisticas) {
+
         }
     }
 

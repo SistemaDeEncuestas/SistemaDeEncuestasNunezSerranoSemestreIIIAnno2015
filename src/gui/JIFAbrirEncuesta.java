@@ -48,7 +48,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
     private JLabel jlTitulo;
     private JTextArea jtaDescripcion;
     private JScrollPane scroll;
-    private JButton jbToPDF;
+    private JButton jbGuardar;
     private JButton jbCancelar;
     private JPanel jpDinamico;
     private JScrollPane scrollDinamico;
@@ -105,21 +105,17 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
         this.gridBagEstatico.gridy = 0;
         jpEstatico.add(jlTitulo, gridBagEstatico);
 
-        jbToPDF = new JButton();
-        jbToPDF.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
-        jbToPDF.setToolTipText(Strings.A_PDF);
+        jbGuardar = new JButton(Strings.GUARDAR);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.gridwidth = 1;
         this.gridBagEstatico.ipadx = 30;
         this.gridBagEstatico.gridx = 3;
         this.gridBagEstatico.gridy = 0;
-        jbToPDF.addActionListener(this);
-        jpEstatico.add(jbToPDF, gridBagEstatico);
+        jbGuardar.addActionListener(this);
+        jpEstatico.add(jbGuardar, gridBagEstatico);
 
-        jbCancelar = new JButton();
-        jbCancelar.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
-        jbCancelar.setToolTipText(Strings.CANCELAR);
+        jbCancelar = new JButton(Strings.CANCELAR);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.gridwidth = 1;
@@ -243,7 +239,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
         if (e.getSource() == jbCancelar) {
             this.dispose();
             updateUI();
-        } else if (e.getSource() == jbToPDF) {
+        } else if (e.getSource() == jbGuardar) {
             Exportar exportar = new Exportar();
             boolean exportado = exportar.exportarAPDF(this.encuestaActual);
             if (exportado) {
