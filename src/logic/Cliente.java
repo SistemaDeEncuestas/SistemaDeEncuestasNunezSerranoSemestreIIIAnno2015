@@ -48,10 +48,6 @@ public class Cliente {
     private List<String> listaEncuestados;
     private List<String> listaCorreos;
     private JDialog contexto;
-    private Administrador administradorRecibido;
-    private Encuestado encuestadoRecibido;
-    private Encuesta encuestaRecibida;
-    private Encuestado[] listaEncuestadosRecibida;
     private JDesktopPane escritorio;
 
     /*PETICION_LOGIN_ADMIN, PETICION_LOGIN_USER*/
@@ -101,16 +97,17 @@ public class Cliente {
         this.start();
     }
 
-    public Cliente(String peticion, List<String> listaCorreos) {
+    public Cliente(String peticion, List<String> listaCorreos, String nombreEncuesta) {
         this.peticion = peticion;
+        this.nombreEncuesta = nombreEncuesta;
         this.listaCorreos = listaCorreos;
         this.start();
     }
 
     private void start() {
         try {
-            InetAddress direccionIP = InetAddress.getByName("10.155.7.225");
-            Socket socket = new Socket(direccionIP, 5700);
+            InetAddress direccionIP = InetAddress.getByName(Strings.IP);
+            Socket socket = new Socket(direccionIP, Strings.PUERTO);
             PrintStream enviar = new PrintStream(socket.getOutputStream());
             BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -127,7 +124,6 @@ public class Cliente {
                         JIFAdministrador jifAdministrador = new JIFAdministrador(this.escritorio, this.administrador);
 
                         this.contexto.dispose();
-                        System.out.println(this.administrador);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -149,9 +145,8 @@ public class Cliente {
                     } else {
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
-//                    
+
                 case Strings.PETICION_REGISTRA_ADMIN:
                     enviar.println(this.peticion);
                     enviar.println(enviarRegistrarAdmin(this.administrador));
@@ -180,45 +175,37 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "El usuario ya existe", Strings.ERROR, JOptionPane.ERROR_MESSAGE);
                     }
                     break;
-//                    
-//                case Strings.PETICION_GET_ENCUESTADOS: 
-//                    enviar.println(this.peticion);
-//                    this.listaEncuestadosRecibida = (Encuestado[]) recibir.readObject();
-//                    break;
-//                    
+
                 case Strings.PETICION_CREAR_ENCUESTA:
                     enviar.println(this.peticion);
                     enviar.println(enviarNuevaEncuesta(this.encuesta));
-                   
+
                     String respuestaEncuestaCreada = recibir.readLine();
-                    if(respuestaEncuestaCreada.equals("insertada")){
-                       
+                    if (respuestaEncuestaCreada.equals("insertada")) {
+
                         JOptionPane.showMessageDialog(null, "su encuesta se ha insertado con exito", "Listo", JOptionPane.INFORMATION_MESSAGE);
-                        
-                    } else{
-                          JOptionPane.showMessageDialog(null, "El nombre de la encuesta ya existe, renómbrela", "Error", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El nombre de la encuesta ya existe, renómbrela", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    
-                   
-                    
                     break;
-//
+
 //                case Strings.PETICION_EDITA_ENCUESTA:
 //                    enviar.println(this.peticion);
 //                    enviar.println(this.nombreEncuesta);
 //                    this.encuestaRecibida = (Encuesta) recibir.readObject();
 //                    break;
-//
-//                    
+
+                    
 //                case Strings.PETICION_GUARDA_EDICION:
 //                    enviar.println(this.peticion);
 //                    enviar.println(this.encuesta);
 //                    
 //                    break;
-//
-//                    
-//                    
-//                    
+
+                    
+                    
+                    
 //                    //admin
 //                case Strings.PETICION_ENVIAR_ENCUESTA:
 //                    enviar.writeUTF(this.peticion);
@@ -245,9 +232,18 @@ public class Cliente {
 //                    enviar.writeObject(this.encuestado);
 //                    
 //                    break;
+                case Strings.PETICION_ENVIAR_CORREO:
+                        enviar.println(this.peticion);
+                        enviar.println(this.nombreEncuesta);
+                        enviar.println(enviarCorreos(this.listaCorreos));
+                    break;
+    
+                case Strings.PETICION_LISTAS_USUARIOS:
+                    enviar.println(this.peticion);
+                    Strings.listaNombresUsuarios = recibirPeticionListasUsuarios(recibir.readLine());
+                    break;
             }
             recibir.close();
-
             socket.close();
 
         } catch (UnknownHostException ex) {
@@ -440,4 +436,47 @@ public class Cliente {
         return null;
     }
 
+    private List<String> recibirPeticionListasUsuarios(String nombresEncuestadosXML) {
+
+        List<String> nombres = new ArrayList<>();
+
+        try {
+            SAXBuilder saxBuilder = new SAXBuilder();
+            StringReader stringReader = new StringReader(nombresEncuestadosXML);
+            Document doc;
+            doc = saxBuilder.build(stringReader);
+            Element rootAdmin = doc.getRootElement();
+            
+            List lista = rootAdmin.getChildren();
+            
+            for (Object objActual : lista) {
+                Element elemActual = (Element) objActual;
+                nombres.add(elemActual.getValue());
+            }
+            
+            return nombres;
+        } catch (JDOMException | IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+
+    private String enviarCorreos(List<String> listaCorreos) {
+        
+        Element elemCorreos = new Element("correos");
+        
+        for (int i = 0; i < listaCorreos.size(); i++) {
+            Element elemCorreo = new Element("correo");
+            elemCorreo.addContent(listaCorreos.get(i));
+            elemCorreos.addContent(elemCorreo);
+        }
+        
+        XMLOutputter output = new XMLOutputter(Format.getCompactFormat());
+        String userXML = output.outputString(elemCorreos);
+
+        userXML = userXML.replace("\n", "");
+
+        return userXML;
+    }
 }

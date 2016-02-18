@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import domain.Administrador;
@@ -16,11 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import logic.Cliente;
+import security.Encriptar;
 import util.Strings;
 
 /**
@@ -36,10 +32,9 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
     private JLabel jlVerificaContrasenna;
     private JTextField jtNombre;
     private JTextField jtNickname;
-    private JTextField jtContrasenna;
+    private JPasswordField jtContrasenna;
+    private JPasswordField jtVerificaContrasenna;
     private JTextField jtCorreoElectronico;
-    private JTextField jtVerificaContrasenna;
-
     private JButton jbRegistrar;
     private JButton jbCancelar;
     private JLabel jlMensaje;
@@ -109,7 +104,7 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
         this.gridBag.gridy = 6;
         this.add(this.jlContrasenna, gridBag);
 
-        this.jtContrasenna = new JTextField();
+        this.jtContrasenna = new JPasswordField();
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 7;
         this.add(this.jtContrasenna, gridBag);
@@ -119,7 +114,7 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
         this.gridBag.gridy = 8;
         this.add(this.jlVerificaContrasenna, gridBag);
 
-        this.jtVerificaContrasenna = new JTextField();
+        this.jtVerificaContrasenna = new JPasswordField();
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 9;
         this.add(this.jtVerificaContrasenna, gridBag);
@@ -156,21 +151,19 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
 
         if (e.getSource() == jbRegistrar) {
 
-            String nombre = jtNombre.getText();
-            System.out.println(nombre);
-            String nombreUsuario = jtNickname.getText();
-            String contrasenna = jtContrasenna.getText();
-            String verificaContrasenna = jtVerificaContrasenna.getText();
-            String correoElectronico = jtCorreoElectronico.getText();
+            String nombre = jtNombre.getText().trim();
+            String nombreUsuario = jtNickname.getText().trim();
+            String correoElectronico = jtCorreoElectronico.getText().trim();
 
-            if (!nombre.equals("") && !nombreUsuario.equals("") && !contrasenna.equals("")
-                    && !verificaContrasenna.equals("") && !correoElectronico.equals("")) {
+            if (!nombre.isEmpty() && !nombreUsuario.isEmpty() && jtContrasenna.getPassword().length != 0
+                    && jtVerificaContrasenna.getPassword().length != 0 && !correoElectronico.isEmpty()) {
 
+                String contrasenna = Encriptar.password(jtContrasenna.getPassword(), Encriptar.SHA256);
+                String verificaContrasenna = Encriptar.password(jtVerificaContrasenna.getPassword(), Encriptar.SHA256);
+            
                 if (contrasenna.equals(verificaContrasenna)) {
-
                     Administrador administrador = new Administrador(nombre, nombreUsuario, contrasenna, correoElectronico);
-//                     llamar al server para insertar
-                   Cliente cliente = new Cliente(Strings.PETICION_REGISTRA_ADMIN, administrador);
+                    Cliente cliente = new Cliente(Strings.PETICION_REGISTRA_ADMIN, administrador);
                 } else {
                     jlMensaje.setText(Strings.ERROR_CONTRASENNA_DIFERENTE);
                 }

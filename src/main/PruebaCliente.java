@@ -1,7 +1,6 @@
 package main;
 
 import domain.Administrador;
-import domain.Encuesta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +20,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import security.Encriptar;
 import util.Strings;
 
 /**
@@ -99,13 +99,25 @@ public class PruebaCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 //    public static void main(String args[]) {
-//        
+        
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
 //                new PruebaCliente();
 //            }
 //        });
+        
+//        char[] a = {'1','5'};
+//        System.out.println(Encriptar.password(a, Encriptar.SHA256));
+        
+//        List<String> lista = new ArrayList<>();
+//        lista.add("adrian-3105@hotmail.com");
+//        lista.add("danielnuso@gmail.com");
+//        lista.add("adriansb3105@yahoo.com");
+//        lista.add("adriansb3105@gmail.com");
+//        
+//        Cliente c = new Cliente(Strings.PETICION_ENVIAR_CORREO, lista, "Hoda");
+//        
 //    }
 
     public Administrador recibirPeticionLoginAdmin(String adminXML) {

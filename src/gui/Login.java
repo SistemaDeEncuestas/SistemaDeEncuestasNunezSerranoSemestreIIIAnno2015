@@ -17,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import logic.Cliente;
+import security.Encriptar;
 import util.Strings;
 
 /**
@@ -56,7 +57,6 @@ public class Login extends JDialog implements ActionListener {
 
         this.panelDePestanas = new JTabbedPane();
         this.panelDePestanas.setBounds(0, 0, 400, 400);
-//        this.panelDePestanas.setBackground(Color.BLUE);
         this.panelAdmin = new JPanel();
         this.panelAdmin.setLayout(new GridBagLayout());
         this.panelEncuestado = new JPanel();
@@ -148,11 +148,7 @@ public class Login extends JDialog implements ActionListener {
 
             if (!this.jtfNickAdmin.getText().trim().isEmpty() && this.jpfContraseniaAdmin.getPassword().length != 0) {
 
-                String pass = "";
-                for (int i = 0; i < this.jpfContraseniaAdmin.getPassword().length; i++) {
-                    pass += this.jpfContraseniaAdmin.getPassword()[i];
-                }
-
+                String pass = Encriptar.password(this.jpfContraseniaAdmin.getPassword(), Encriptar.SHA256);
                 Cliente cliente = new Cliente(this.escritorio, this, Strings.PETICION_LOGIN_ADMIN, this.jtfNickAdmin.getText(), pass);
 
             } else {
@@ -163,11 +159,7 @@ public class Login extends JDialog implements ActionListener {
         if (e.getSource() == this.jbIngresoEncuestado) {
             if (!this.jtfNickEncuestado.getText().trim().isEmpty() && this.jpfContraseniaEncuestado.getPassword().length != 0) {
 
-                String pass = "";
-                for (int i = 0; i < this.jpfContraseniaEncuestado.getPassword().length; i++) {
-                    pass += this.jpfContraseniaEncuestado.getPassword()[i];
-                }
-
+                String pass = Encriptar.password(this.jpfContraseniaEncuestado.getPassword(), Encriptar.SHA256);
                 Cliente cliente = new Cliente(this.escritorio, this, Strings.PETICION_LOGIN_USER, this.jtfNickEncuestado.getText(), pass);
                 
             } else {

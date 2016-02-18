@@ -1,10 +1,16 @@
 package util;
 
+import java.util.List;
+
 /**
  * @author adriansb3105
  */
 public class Strings {
 
+    public final static String IP = "localhost";
+    public final static int PUERTO = 5700;
+    public static List<String> listaNombresUsuarios;
+    
     /*PantallaPrincipal*/
     public final static String JMENU_NOMBRE = "Archivo";
     public final static String ITEM_REGISTRARSE = "Registrar Usuario";
@@ -71,6 +77,7 @@ public class Strings {
     public final static String CANCELAR = "Cancelar";
 
     /*Constantes para las peticiones del cliente*/
+    public final static String PETICION_LISTAS_USUARIOS = "listasUsuarios";
     public final static String PETICION_LOGIN_ADMIN = "loginAdministrador";
     public final static String PETICION_LOGIN_USER = "loginEncuestado";
     public final static String PETICION_REGISTRA_ADMIN = "registrarAdministrador";

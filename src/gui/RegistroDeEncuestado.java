@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import logic.Cliente;
+import security.Encriptar;
 import util.Strings;
 
 /**
@@ -141,26 +142,15 @@ public class RegistroDeEncuestado extends JDialog implements ActionListener {
 
             String nombre = jtfNombre.getText().trim();
             String nickname = jtfNombreUsuario.getText().trim();
-            char[] contrasenna = jpfContrasenia.getPassword();
-            char[] verifcaContasenna = jpfContraseniaVerificar.getPassword();
             String correo = jtfCorreo.getText().trim();
-            String pass = "";
-            for (int i = 0; i < contrasenna.length; i++) {
-                pass += contrasenna[i];
+            
+            if (!nombre.isEmpty() && !nickname.isEmpty() && jpfContrasenia.getPassword().length != 0 && jpfContraseniaVerificar.getPassword().length != 0 && !correo.isEmpty()) {
 
-            }
-
-            String verificaPass = "";
-
-            for (int i = 0; i < verifcaContasenna.length; i++) {
-                verificaPass += verifcaContasenna[i];
-
-            }
-
-            if (!nombre.equals("") && !nickname.equals("") && !pass.equals("") && !verificaPass.equals("") && !correo.equals("")) {
-
-                if (pass.equals(verificaPass)) {
-                    Encuestado encuestado = new Encuestado(nombre, nickname, pass, correo);
+                String contrasenna = Encriptar.password(jpfContrasenia.getPassword(), Encriptar.SHA256);
+                String verifica = Encriptar.password(jpfContraseniaVerificar.getPassword(), Encriptar.SHA256);
+                
+                if (contrasenna.equals(verifica)) {
+                    Encuestado encuestado = new Encuestado(nombre, nickname, contrasenna, correo);
                     Cliente cliente = new Cliente(escritorio,Strings.PETICION_REGISTRAR_USER, encuestado);
                     this.dispose();
                     
