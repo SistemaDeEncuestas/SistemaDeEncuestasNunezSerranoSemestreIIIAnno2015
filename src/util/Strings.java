@@ -47,6 +47,7 @@ public class Strings {
     public final static String NUEVA_ENCUESTA = "Nueva encuesta";
     public final static String EDITAR_ENCUESTA = "Editar encuesta";
     public final static String ELIMINAR_ENCUESTA = "Eliminar encuesta";
+     public final static String ENVIAR = "Enviar a usuarios";
     public final static String A_CORREO = "Enviar a correo electrónico";
     public final static String NUEVO_ADMIN = "Crear nueva cuenta de administrador";
     public final static String ESTADISTICAS = "Mostrar estadísticas";
@@ -102,5 +103,7 @@ public class Strings {
     /*Panel elimina encuestas*/
     public final static String LABEL_ESCOGE_ENCUESTA = "Por favor, escoja una encuesta";
      public final static String LABEL_AVISO = "Se ha eliminado la encuesta seleccionada";
-
+     
+     /*JIF escoge encuesta*/
+      public final static String BOTON_ABRIR = "Abrir";
 }

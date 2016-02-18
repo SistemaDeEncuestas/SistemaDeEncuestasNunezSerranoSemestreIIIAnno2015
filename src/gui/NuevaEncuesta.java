@@ -241,6 +241,8 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
                     JLabel jlPregunta = new JLabel(pregunta);
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                    this.gridBagDinamico.weighty = 0;
+                    this.gridBagDinamico.weightx = 0;
                     this.gridBagDinamico.ipadx = 0;
                     this.gridBagDinamico.ipady = 0;
                     this.gridBagDinamico.gridx = 0;
@@ -268,8 +270,10 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
                 JScrollPane scrollTexto = new JScrollPane(textoRespuesta);
                 this.gridBagDinamico.fill = GridBagConstraints.NONE;
                 this.gridBagDinamico.anchor = GridBagConstraints.WEST;
-                this.gridBagDinamico.ipady = 40;
-                this.gridBagDinamico.ipadx = 89;
+                this.gridBagDinamico.weighty = 3;
+                this.gridBagDinamico.weightx = 3;
+                this.gridBagDinamico.ipady = 0;
+                this.gridBagDinamico.ipadx = 0;
                 this.gridBagDinamico.gridx = 0;
                 this.gridBagDinamico.gridy = this.posicionEnGrid;
                 this.posicionEnGrid++;
@@ -289,6 +293,8 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
                             JRadioButton boton = new JRadioButton(respuesta);
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                            this.gridBagDinamico.weighty = 0;
+                            this.gridBagDinamico.weightx = 0;
                             this.gridBagDinamico.ipady = 0;
                             this.gridBagDinamico.ipadx = 0;
                             this.gridBagDinamico.gridx = 0;
@@ -302,6 +308,8 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
                             JCheckBox botonCheck = new JCheckBox(respuesta);
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                            this.gridBagDinamico.weighty = 0;
+                            this.gridBagDinamico.weightx = 0;
                             this.gridBagDinamico.ipady = 0;
                             this.gridBagDinamico.ipadx = 0;
                             this.gridBagDinamico.gridx = 0;

@@ -15,53 +15,58 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javafx.scene.control.RadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import util.Exportar;
 import util.Strings;
 
 /**
  *
  * @author Daniel
  */
-public class JIFResponderEncuesta extends JInternalFrame implements ActionListener {
+public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
 
     private Encuesta encuestaActual;
 
     private JComponent barra;
     private Dimension dimensionBarra;
 
+    private JPanel jpContenedor;
     private JPanel jpEstatico;
     private GridBagConstraints gridBagEstatico;
     private JLabel jlTitulo;
     private JTextArea jtaDescripcion;
     private JScrollPane scroll;
-    private JButton jbGuardar;
+    private JButton jbToPDF;
     private JButton jbCancelar;
     private JPanel jpDinamico;
     private JScrollPane scrollDinamico;
     private GridBagConstraints gridBagDinamico;
 
+    private JInternalFrame jifAdmin;
+
     private int posicionEnGrid;
 
-    public JIFResponderEncuesta(Encuesta encuesta) {
+    public JIFAbrirEncuesta(JInternalFrame jifAdmin, Encuesta encuesta) {
 
         super();
         this.posicionEnGrid = 0;
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
+        this.jifAdmin = jifAdmin;
         this.encuestaActual = encuesta;
-        this.setLayout(new BorderLayout());
+
         initComponentes();
         this.setPreferredSize(new Dimension(850, 700));
         this.setVisible(true);
@@ -79,9 +84,13 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
 
     private void initComponentes() {
 
+        this.jpContenedor = new JPanel();
+        this.jpContenedor.setLayout(new BorderLayout());
+        this.add(jpContenedor);
+
         jpEstatico = new JPanel();
         jpEstatico.setLayout(new GridBagLayout());
-        this.add(jpEstatico, BorderLayout.NORTH);
+        this.jpContenedor.add(jpEstatico, BorderLayout.NORTH);
         this.gridBagEstatico = new GridBagConstraints();
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
@@ -96,17 +105,21 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
         this.gridBagEstatico.gridy = 0;
         jpEstatico.add(jlTitulo, gridBagEstatico);
 
-        jbGuardar = new JButton(Strings.GUARDAR);
+        jbToPDF = new JButton();
+        jbToPDF.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
+        jbToPDF.setToolTipText(Strings.A_PDF);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.gridwidth = 1;
         this.gridBagEstatico.ipadx = 30;
         this.gridBagEstatico.gridx = 3;
         this.gridBagEstatico.gridy = 0;
-        jbGuardar.addActionListener(this);
-        jpEstatico.add(jbGuardar, gridBagEstatico);
+        jbToPDF.addActionListener(this);
+        jpEstatico.add(jbToPDF, gridBagEstatico);
 
-        jbCancelar = new JButton(Strings.CANCELAR);
+        jbCancelar = new JButton();
+        jbCancelar.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
+        jbCancelar.setToolTipText(Strings.CANCELAR);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.gridwidth = 1;
@@ -131,14 +144,15 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
         this.jpDinamico.setBackground(Color.white);
         this.scrollDinamico = new JScrollPane(jpDinamico);
         this.scrollDinamico.setAutoscrolls(true);
-        this.add(scrollDinamico, BorderLayout.CENTER);
+        this.jpContenedor.add(scrollDinamico, BorderLayout.CENTER);
         this.gridBagDinamico = new GridBagConstraints();
         this.gridBagDinamico.fill = GridBagConstraints.NONE;
         this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
 
-        this.gridBagDinamico.insets = new Insets(10, 10, 10,0);
+        this.gridBagDinamico.insets = new Insets(10, 10, 10, 0);
 
         llenaContenido();
+        this.jifAdmin.add(this, BorderLayout.CENTER);
     }
 
     public void llenaContenido() {
@@ -166,7 +180,7 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
                 ButtonGroup grupo = new ButtonGroup();
 
                 for (int j = 0; j < preguntaActual.getListaRespuestas().size(); j++) {
-                    
+
                     JRadioButton radio = new JRadioButton(preguntaActual.getListaRespuestas().get(j));
                     radio.setBackground(Color.white);
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
@@ -179,8 +193,7 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
                     this.gridBagDinamico.gridy = this.posicionEnGrid;
                     this.posicionEnGrid++;
                     grupo.add(radio);
-                    
-                    
+
                     this.jpDinamico.add(radio, gridBagDinamico);
 
                 }
@@ -188,10 +201,10 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
             } else if (tipo.equals(Strings.TIPO_MULTIPLE)) {
 
                 for (int j = 0; j < preguntaActual.getListaRespuestas().size(); j++) {
-                    
+
                     JCheckBox check = new JCheckBox(preguntaActual.getListaRespuestas().get(j));
                     check.setBackground(Color.white);
-                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
+                    this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
                     this.gridBagDinamico.weightx = 0;
@@ -200,12 +213,11 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
                     this.gridBagDinamico.gridx = 0;
                     this.gridBagDinamico.gridy = this.posicionEnGrid;
                     this.posicionEnGrid++;
-                    
+
                     this.jpDinamico.add(check, gridBagDinamico);
-                    
+
                 }
-                
-                
+
             } else if (tipo.equals(Strings.TIPO_ABIERTA)) {
                 JTextArea jtaRespuesta = new JTextArea();
                 jtaRespuesta.setLineWrap(true);
@@ -231,9 +243,16 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
         if (e.getSource() == jbCancelar) {
             this.dispose();
             updateUI();
-        } else if (e.getSource() == jbGuardar) {
-
+        } else if (e.getSource() == jbToPDF) {
+            Exportar exportar = new Exportar();
+            boolean exportado = exportar.exportarAPDF(this.encuestaActual);
+            if (exportado) {
+                JOptionPane.showMessageDialog(rootPane, "Hemos exportado su encuesta con éxito",
+                        "Listo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No se pudo crear el archivo",
+                        "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
-
 }

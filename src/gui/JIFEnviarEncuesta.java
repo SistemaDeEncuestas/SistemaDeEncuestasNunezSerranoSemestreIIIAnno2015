@@ -6,7 +6,6 @@
 package gui;
 
 import domain.Administrador;
-import domain.Encuesta;
 import domain.Encuestado;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -22,7 +21,6 @@ import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import util.Strings;
@@ -31,7 +29,7 @@ import util.Strings;
  *
  * @author Daniel
  */
-public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
+public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener {
 
     private JLabel jlUsuarios;
     private JComboBox jComboUsuarios;
@@ -50,7 +48,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
     private JComponent barra;
     private Dimension dimensionBarra;
 //
-//    public PanelEnviarCorreos(Administrador administrador, Encuestado[] encuestados) {
+//    public JIFEnviarEncuesta (Administrador administrador, Encuestado[] encuestados) {
 //
 //        super();
 //     this.dimensionBarra = null;
@@ -68,7 +66,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
 //
 //    }
 
-    public JIFEnviarCorreos() {
+    public JIFEnviarEncuesta() {
 
         super();
         this.dimensionBarra = null;
@@ -84,7 +82,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.setVisible(true);
 
     }
-
+    
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -98,7 +96,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.gridBag.insets = new Insets(50, 10, 0, 10);
         this.jlUsuarios = new JLabel(Strings.LABEL_ENCUESTADOS, SwingConstants.CENTER);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-        this.gridBag.ipadx = 0;
+         this.gridBag.ipadx =0;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 0;
         this.add(this.jlUsuarios, gridBag);
@@ -106,7 +104,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.jComboUsuarios = new JComboBox();
         this.gridBag.fill = GridBagConstraints.CENTER;
         this.gridBag.weightx = 2;
-        this.gridBag.ipadx = 120;
+        this.gridBag.ipadx =120;
         llenaComboBoxUsuarios();
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 1;
@@ -115,15 +113,15 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.jbAgregar = new JButton(Strings.BOTON_ANNADIR);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.jbAgregar.addActionListener(this);
-        this.gridBag.ipadx = 0;
+        this.gridBag.ipadx =0;
         this.gridBag.gridx = 1;
         this.gridBag.gridy = 1;
         this.add(this.jbAgregar, gridBag);
 
         this.jListaSeleccionados = new JList();
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-        this.gridBag.ipadx = 0;
         this.gridBag.weightx = 2;
+        this.gridBag.ipadx =0;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 2;
         this.add(this.jListaSeleccionados, gridBag);
@@ -131,43 +129,45 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.jbEliminar = new JButton(Strings.BOTON_ELIMINAR);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.jbEliminar.addActionListener(this);
-        this.gridBag.ipadx = 0;
+        this.gridBag.ipadx =0;
         this.gridBag.gridx = 1;
         this.gridBag.gridy = 2;
         this.add(this.jbEliminar, gridBag);
 
         this.jlEncuesta = new JLabel(Strings.LABEL_ENCUESTA, SwingConstants.CENTER);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-        this.gridBag.ipadx = 0;
+        this.gridBag.ipadx =0;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 3;
         this.add(this.jlEncuesta, gridBag);
 
         this.jComboEncuestas = new JComboBox();
         this.gridBag.fill = GridBagConstraints.CENTER;
-        this.gridBag.ipadx = 120;
         llenaComboBoxEncuestas();
+        this.gridBag.ipadx =120;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 4;
         this.add(this.jComboEncuestas, gridBag);
 
         this.jbEnviar = new JButton(Strings.BOTON_ENVIAR);
         this.gridBag.fill = GridBagConstraints.NONE;
-        this.gridBag.anchor = GridBagConstraints.CENTER;
+          this.gridBag.anchor = GridBagConstraints.CENTER;
         this.jbEnviar.addActionListener(this);
+        
         this.gridBag.ipadx = 45;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 5;
         this.add(this.jbEnviar, gridBag);
-
+        
         this.jbCancelar = new JButton(Strings.CANCELAR);
         this.gridBag.fill = GridBagConstraints.NONE;
-        this.gridBag.anchor = GridBagConstraints.CENTER;
+         this.gridBag.anchor = GridBagConstraints.CENTER;
         this.jbCancelar.addActionListener(this);
-        this.gridBag.ipadx = 35;
+         this.gridBag.ipadx = 35;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 6;
         this.add(this.jbCancelar, gridBag);
+        
 
     }
 
@@ -182,11 +182,11 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == jbCancelar) {
+        if(e.getSource() == jbCancelar){
             this.dispose();
             updateUI();
         }
-
+        
     }
 
 }

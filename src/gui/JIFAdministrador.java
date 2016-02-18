@@ -1,11 +1,17 @@
 package gui;
 
 import domain.Administrador;
+import domain.Encuesta;
+import domain.Pregunta;
+import domain.PreguntaAbierta;
+import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -31,23 +37,19 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JPanel jPanelIzquierda;
     private JPanel jpDatos;
     private JPanel jpEntrada;
-    private JPanel jpHistorial;
-    private JPanel jpContenido;
     private JButton jbEncuestas;
     private JButton jbNuevo;
     private JButton jbEditar;
     private JButton jbEliminar;
-    private JButton jbEnviar;
+     private JButton jbEnviar;
+    private JButton jbEnviarACorreo;
     private JButton jbNuevoAdmin;
-    private JButton jbToPdf;
     private JButton jbEstadisticas;
     private Border bordeDatos;
     private Border bandejaDeEntrada;
-    private Border historial;
     private JLabel jlNombre;
     private JLabel jlNickname;
     private JLabel jlCorreo;
-    private JLabel jlListaEncuestas;
     private JToolBar jToolBar;
     private JScrollPane scroll;
     private JDesktopPane escritorio;
@@ -91,10 +93,15 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jbEliminar.addActionListener(this);
         jToolBar.add(jbEliminar);
         jbEnviar = new JButton();
-        jbEnviar.setIcon(new ImageIcon(getClass().getResource("/images/mail.png")));
-        jbEnviar.setToolTipText(Strings.A_CORREO);
+        jbEnviar.setIcon(new ImageIcon(getClass().getResource("/images/enviar.png")));
+        jbEnviar.setToolTipText(Strings.ENVIAR);
         jbEnviar.addActionListener(this);
         jToolBar.add(jbEnviar);
+        jbEnviarACorreo = new JButton();
+        jbEnviarACorreo.setIcon(new ImageIcon(getClass().getResource("/images/mail.png")));
+        jbEnviarACorreo.setToolTipText(Strings.A_CORREO);
+        jbEnviarACorreo.addActionListener(this);
+        jToolBar.add(jbEnviarACorreo);
         jbNuevoAdmin = new JButton();
         jbNuevoAdmin.setIcon(new ImageIcon(getClass().getResource("/images/admins.png")));
         jbNuevoAdmin.setToolTipText(Strings.NUEVO_ADMIN);
@@ -105,12 +112,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jbEstadisticas.setToolTipText(Strings.ESTADISTICAS);
         jbEstadisticas.addActionListener(this);
         jToolBar.add(jbEstadisticas);
-        jbToPdf = new JButton();
-        jbToPdf.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
-        jbToPdf.setToolTipText(Strings.A_PDF);
-        jbToPdf.addActionListener(this);
-        jToolBar.add(jbToPdf);
-
+       
         jToolBar.setFloatable(false);
         jToolBar.setRollover(true);
         this.add(jToolBar, BorderLayout.NORTH);
@@ -146,10 +148,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         jPanelIzquierda.add(jpEntrada, BorderLayout.CENTER);
 
-//        jpContenido = new JPanel();
-//        jpContenido.setBackground(Color.GRAY);
-//        jpContenido.setLayout(new BorderLayout());
-//        this.add(jpContenido, BorderLayout.CENTER);
+        
         this.escritorio.add(this);
 
     }
@@ -169,6 +168,10 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == jbEncuestas){
             
+         JIFEscogeEncuesta jifEscogeEncuesta = new JIFEscogeEncuesta(this,this.administrador.getEncuestasCreadas());
+         jifEscogeEncuesta.ocultarBarraTitulo();
+         this.add(jifEscogeEncuesta,BorderLayout.CENTER);
+         updateUI();
             
             
         }else if (e.getSource() == jbNuevo) {
@@ -188,14 +191,21 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             this.add(jifElimina, BorderLayout.CENTER);
             updateUI();
             
-        }  else if (e.getSource() == jbNuevoAdmin) {
+        }else if(e.getSource() == jbEnviar){
+            JIFEnviarEncuesta enviarEncuesta = new JIFEnviarEncuesta();
+            enviarEncuesta.ocultarBarraTitulo();
+            this.add(enviarEncuesta, BorderLayout.CENTER);
+            updateUI();
+            
+            
+        } else if (e.getSource() == jbNuevoAdmin) {
             
             JIFCreaAdministrador creaAdmin = new JIFCreaAdministrador();
             creaAdmin.ocultarBarraTitulo();
             this.add(creaAdmin, BorderLayout.CENTER);
             updateUI();
             
-        } else if (e.getSource() == jbEnviar) {
+        } else if (e.getSource() == jbEnviarACorreo) {
             
             // enviar la listade usuarios y mis encuestas como parametro
             JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos();
@@ -204,10 +214,6 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             updateUI();
             
         } else if(e.getSource() == jbEstadisticas){
-            
-            
-            
-        }else if(e.getSource() == jbToPdf){
             
             
             
