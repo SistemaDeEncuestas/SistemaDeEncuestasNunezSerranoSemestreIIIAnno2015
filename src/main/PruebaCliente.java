@@ -20,7 +20,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import security.Encriptar;
 import util.Strings;
 
 /**
@@ -98,7 +97,7 @@ public class PruebaCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//    public static void main(String args[]) {
+    public static void main(String args[]) {
         
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
@@ -115,10 +114,14 @@ public class PruebaCliente extends javax.swing.JFrame {
 //        lista.add("danielnuso@gmail.com");
 //        lista.add("adriansb3105@yahoo.com");
 //        lista.add("adriansb3105@gmail.com");
-//        
-//        Cliente c = new Cliente(Strings.PETICION_ENVIAR_CORREO, lista, "Hoda");
-//        
-//    }
+        
+//        Cliente c = new Cliente(Strings.PETICION_LISTAS_USUARIOS);
+//        System.out.println(Strings.listaNombresUsuarios);
+        
+        
+        
+        
+    }
 
     public Administrador recibirPeticionLoginAdmin(String adminXML) {
         try {

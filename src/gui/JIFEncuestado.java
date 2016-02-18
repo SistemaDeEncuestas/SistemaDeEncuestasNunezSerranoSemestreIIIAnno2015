@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import domain.Encuesta;
 import domain.Encuestado;
 import domain.Pregunta;
 import domain.PreguntaAbierta;
+import domain.PreguntaRespuestaMultiple;
 import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +34,6 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
 
     private JPanel jpArriba;
     private JPanel jpIzquierda;
-    private JPanel jpDerecha;
     private JPanel jpEntrada;
     private JPanel jpBoton;
     private JPanel jpHistorial;
@@ -47,7 +42,6 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     private JLabel jlCorreo;
     private JLabel jlLIsta;
     private JLabel jlBandeja;
-    private JLabel jlHistorial;
     private JButton jbAbrir;
     private Border tituloArriba;
     private Border bandejaDeEntrada;
@@ -144,13 +138,10 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbAbrir) {
-            List<String> encuestaActual = jListEncuestasCompartidas.getSelectedValuesList();
-            //LLamar a cliente y pedir la encuesta
-
             List<Pregunta> lista = new ArrayList<>();
            
-            Pregunta p1 = new PreguntaRespuestaUnica("Pregunta 1");
-            p1.setTipo(Strings.TIPO_UNICA);
+            Pregunta p1 = new PreguntaRespuestaMultiple("Pregunta 1");
+            p1.setTipo(Strings.TIPO_MULTIPLE);
             List<String> respuestap1 = new ArrayList<>();
             String r1p1 = "reps 1";
             String r1p2 = "reps 2";
@@ -163,26 +154,57 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
             p1.setListaRespuestas(respuestap1);
             
             Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
-            p1.setTipo(Strings.TIPO_UNICA);
+            p2.setTipo(Strings.TIPO_UNICA);
             List<String> respuestap2 = new ArrayList<>();
-            String r2p1 = "reps 1";
-            String r2p2 = "reps 2";
-            String r2p3 = "reps 3";
-            String r2p4 = "reps 4";
+            String r2p1 = "reps a";
+            String r2p2 = "reps b";
+            String r2p3 = "reps c";
+            String r2p4 = "reps d";
             respuestap2.add(r2p1);
             respuestap2.add(r2p2);
             respuestap2.add(r2p3);
             respuestap2.add(r2p4);
             p2.setListaRespuestas(respuestap2);
             
-            Pregunta p3 = new PreguntaAbierta("Pregunta 3");
-            p3.setTipo(Strings.TIPO_ABIERTA);
+            
+            Pregunta p3 = new PreguntaRespuestaMultiple("Pregunta 3");
+            p3.setTipo(Strings.TIPO_MULTIPLE);
+            List<String> respuestap3 = new ArrayList<>();
+            String r3p1 = "reps 1";
+            String r3p2 = "reps 2";
+            String r3p3 = "reps 3";
+            String r3p4 = "reps 4";
+            respuestap3.add(r3p1);
+            respuestap3.add(r3p2);
+            respuestap3.add(r3p3);
+            respuestap3.add(r3p4);
+            p3.setListaRespuestas(respuestap3);
+            
+            Pregunta p4 = new PreguntaAbierta("Pregunta 4");
+            p4.setTipo(Strings.TIPO_ABIERTA);
+            
+            Pregunta p5 = new PreguntaRespuestaUnica("Pregunta 5");
+            p5.setTipo(Strings.TIPO_UNICA);
+            List<String> respuestap5 = new ArrayList<>();
+            String r5p1 = "reps a";
+            String r5p2 = "reps b";
+            String r5p3 = "reps c";
+            String r5p4 = "reps d";
+            respuestap5.add(r5p1);
+            respuestap5.add(r5p2);
+            respuestap5.add(r5p3);
+            respuestap5.add(r5p4);
+            p5.setListaRespuestas(respuestap5);
+            
+            
             lista.add(p1);
             lista.add(p2);
-            lista.add(p3 );
+            lista.add(p3);
+            lista.add(p4);
+            lista.add(p5);
 
             Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
-                    "Esto es una prueba para probar el panel de llenaencuesta", "encuesta1", lista);
+                    "Esto es una prueba para probar el panel de llena encuesta", "encuesta1", lista);
             JIFResponderEncuesta responde = new JIFResponderEncuesta(encuesta);
             responde.ocultarBarraTitulo();
             this.add(responde, BorderLayout.CENTER);

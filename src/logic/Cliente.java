@@ -182,9 +182,7 @@ public class Cliente {
 
                     String respuestaEncuestaCreada = recibir.readLine();
                     if (respuestaEncuestaCreada.equals("insertada")) {
-
-                        JOptionPane.showMessageDialog(null, "su encuesta se ha insertado con exito", "Listo", JOptionPane.INFORMATION_MESSAGE);
-
+                        JOptionPane.showMessageDialog(null, "Su encuesta se ha insertado con exito", "Listo", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "El nombre de la encuesta ya existe, renómbrela", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -255,7 +253,6 @@ public class Cliente {
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public String enviarRegistrarUser(Encuestado encuestado) {
