@@ -51,7 +51,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
         this.jmArchivo.add(jmiCerrarSesion);
 
         this.login = new Login(this.escritorio);
-
+//        Thread hilo = new Thread(this.login);
+//        hilo.start();
         this.escritorio.setBounds(0, 10, this.getWidth(), this.getHeight());
 //        escritorio.setBackground(Color.GRAY);
         this.login.setLocationRelativeTo(null);
@@ -68,6 +69,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
             registroDeEncuestado.setLocationRelativeTo(null);
         } else if (e.getSource() == jmiInciarSesion) {
             this.login = new Login(this.escritorio);
+//            Thread hilo = new Thread(this.login);
+//            hilo.start();
             this.login.setLocationRelativeTo(null);
             this.login.setVisible(true);
 

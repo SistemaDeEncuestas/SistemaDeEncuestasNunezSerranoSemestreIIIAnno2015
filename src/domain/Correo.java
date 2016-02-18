@@ -5,8 +5,6 @@ package domain;
  */
 public class Correo {
     
-    private String usuario;
-    private String contrasenia;
     private String rutaArchivo;
     private String nombreArchivo;
     private String destinatario;
@@ -14,41 +12,11 @@ public class Correo {
     private String mensaje;
 
     public Correo() {
-        this.usuario = "";
-        this.contrasenia = "";
         this.rutaArchivo = "";
         this.nombreArchivo = "";
         this.destinatario = "";
         this.asunto = "";
         this.mensaje = "";
-    }
-
-    /**
-     * @return the usuario
-     */
-    public String getUsuario() {
-        return usuario;
-    }
-
-    /**
-     * @param usuario the usuario to set
-     */
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    /**
-     * @return the contrasenia
-     */
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    /**
-     * @param contrasenia the contrasenia to set
-     */
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
     }
 
     /**
@@ -123,7 +91,7 @@ public class Correo {
 
     @Override
     public String toString() {
-        return "Correo{" + "usuario=" + usuario + ", contrasenia=" + contrasenia + ", rutaArchivo=" + rutaArchivo + ", nombreArchivo=" + nombreArchivo + ", destinatario=" + destinatario + ", asunto=" + asunto + ", mensaje=" + mensaje + '}';
+        return "Correo{" + ", rutaArchivo=" + rutaArchivo + ", nombreArchivo=" + nombreArchivo + ", destinatario=" + destinatario + ", asunto=" + asunto + ", mensaje=" + mensaje + '}';
     }
     
 }

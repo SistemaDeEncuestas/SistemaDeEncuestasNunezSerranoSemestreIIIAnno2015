@@ -44,7 +44,7 @@ public class ConexionMail {
             p.put("mail.smtp.host", "smtp.live.com");
             p.setProperty("mail.smtp.starttls.enable", "true");
             p.setProperty("mail.smtp.port", "25");
-            p.setProperty("mail.smtp.user", correo.getUsuario());
+            p.setProperty("mail.smtp.user", "adrian-3105@hotmail.com");
             p.setProperty("mail.smtp.auth", "true");
 
             Session s = Session.getDefaultInstance(p, null);
@@ -60,13 +60,13 @@ public class ConexionMail {
             m.addBodyPart(adjunto);
 
             MimeMessage mensaje = new MimeMessage(s);
-            mensaje.setFrom(new InternetAddress(correo.getUsuario()));
+            mensaje.setFrom(new InternetAddress("adrian-3105@hotmail.com"));
             mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(correo.getDestinatario()));
             mensaje.setSubject(correo.getAsunto());
             mensaje.setContent(m);
 
             Transport t = s.getTransport("smtp");
-            t.connect(correo.getUsuario(), correo.getContrasenia());
+            t.connect("adrian-3105@hotmail.com", "Serrano310594");
             t.sendMessage(mensaje, mensaje.getAllRecipients());
             t.close();
 

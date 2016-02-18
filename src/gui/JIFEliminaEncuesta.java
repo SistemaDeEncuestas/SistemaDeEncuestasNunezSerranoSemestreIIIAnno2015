@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -29,10 +30,11 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
     private JButton jbEliminar;
     private JComponent barra;
     private Dimension dimensionBarra;
+    private List<String> listaEncuestas;
 
-    public JIFEliminaEncuesta() {
+    public JIFEliminaEncuesta(List<String> listaEncuestas) {
         super();
-
+        this.listaEncuestas = listaEncuestas;
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
         this.setLayout(new FlowLayout());
@@ -73,7 +75,10 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
     }
     
     public void llenaCombo(){
-        
+        for (int i = 0; i < this.listaEncuestas.size(); i++) {
+            this.jcEncuestas.addItem(this.listaEncuestas.get(i));
+            
+        }
     }
 
     @Override

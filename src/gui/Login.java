@@ -22,7 +22,7 @@ import util.Strings;
 /**
  * @author adriansb3105
  */
-public class Login extends JDialog implements ActionListener{
+public class Login extends JDialog implements ActionListener {
 
     private JTabbedPane panelDePestanas;
     private JPanel panelAdmin;
@@ -40,7 +40,7 @@ public class Login extends JDialog implements ActionListener{
     private JButton jbRegistroEncuestado;
     private GridBagConstraints grid;
     private JDesktopPane escritorio;
-    
+
     public Login(JDesktopPane escritorio) {
         super();
         this.escritorio = escritorio;
@@ -48,11 +48,9 @@ public class Login extends JDialog implements ActionListener{
         this.setSize(new Dimension(400, 400));
         this.setResizable(false);
         this.setModal(true);
-
         init();
-    }
 
-    
+    }
 
     private void init() {
 
@@ -73,71 +71,71 @@ public class Login extends JDialog implements ActionListener{
         this.grid.gridx = 0;
         this.grid.gridy = 0;
         this.panelAdmin.add(this.jlNickAdmin, grid);
-        
+
         this.grid.insets = new Insets(10, 20, 30, 20);
         this.jtfNickAdmin = new JTextField();
         this.grid.gridx = 0;
         this.grid.gridy = 1;
         this.panelAdmin.add(this.jtfNickAdmin, grid);
-        
+
         this.grid.insets = new Insets(30, 20, 10, 20);
         this.jlContraseniaAdmin = new JLabel(Strings.LOGINCONTRASENIA, SwingConstants.CENTER);
         this.grid.gridx = 0;
         this.grid.gridy = 2;
         this.panelAdmin.add(this.jlContraseniaAdmin, grid);
-        
+
         this.grid.insets = new Insets(10, 20, 30, 20);
         this.jpfContraseniaAdmin = new JPasswordField();
         this.grid.gridx = 0;
         this.grid.gridy = 3;
         this.panelAdmin.add(this.jpfContraseniaAdmin, grid);
-        
+
         this.grid.insets = new Insets(30, 20, 10, 20);
         this.jbIngresoAdmin = new JButton(Strings.LOGININGRESAR);
         this.grid.gridx = 0;
         this.grid.gridy = 4;
         this.jbIngresoAdmin.addActionListener(this);
         this.panelAdmin.add(this.jbIngresoAdmin, grid);
-        
+
         /*Componentes del panel de usuario*/
         this.grid.insets = new Insets(20, 20, 10, 20);
         this.jlNickEncuestado = new JLabel(Strings.LOGINNICKUSUARIO, SwingConstants.CENTER);
         this.grid.gridx = 0;
         this.grid.gridy = 0;
         this.panelEncuestado.add(this.jlNickEncuestado, grid);
-        
+
         this.grid.insets = new Insets(10, 20, 30, 20);
         this.jtfNickEncuestado = new JTextField();
         this.grid.gridx = 0;
         this.grid.gridy = 1;
         this.panelEncuestado.add(this.jtfNickEncuestado, grid);
-        
+
         this.grid.insets = new Insets(30, 20, 10, 20);
         this.jlContraseniaEncuestado = new JLabel(Strings.LOGINCONTRASENIA, SwingConstants.CENTER);
         this.grid.gridx = 0;
         this.grid.gridy = 2;
         this.panelEncuestado.add(this.jlContraseniaEncuestado, grid);
-        
+
         this.grid.insets = new Insets(10, 20, 30, 20);
         this.jpfContraseniaEncuestado = new JPasswordField();
         this.grid.gridx = 0;
         this.grid.gridy = 3;
         this.panelEncuestado.add(this.jpfContraseniaEncuestado, grid);
-        
+
         this.grid.insets = new Insets(30, 20, 20, 20);
         this.jbIngresoEncuestado = new JButton(Strings.LOGININGRESAR);
         this.grid.gridx = 0;
         this.grid.gridy = 4;
         this.jbIngresoEncuestado.addActionListener(this);
         this.panelEncuestado.add(this.jbIngresoEncuestado, grid);
-        
+
         this.grid.insets = new Insets(20, 20, 10, 20);
         this.jbRegistroEncuestado = new JButton(Strings.REGISTRAR);
         this.grid.gridx = 0;
         this.grid.gridy = 5;
         this.jbRegistroEncuestado.addActionListener(this);
         this.panelEncuestado.add(this.jbRegistroEncuestado, grid);
-        
+
         this.panelDePestanas.addTab("Administrador", this.panelAdmin);
         this.panelDePestanas.addTab("Usuario", this.panelEncuestado);
         this.add(this.panelDePestanas);
@@ -145,42 +143,43 @@ public class Login extends JDialog implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == this.jbIngresoAdmin) {
-            
+
             if (!this.jtfNickAdmin.getText().trim().isEmpty() && this.jpfContraseniaAdmin.getPassword().length != 0) {
-                
+
                 String pass = "";
                 for (int i = 0; i < this.jpfContraseniaAdmin.getPassword().length; i++) {
                     pass += this.jpfContraseniaAdmin.getPassword()[i];
                 }
-                
+
                 Cliente cliente = new Cliente(this.escritorio, this, Strings.PETICION_LOGIN_ADMIN, this.jtfNickAdmin.getText(), pass);
-                cliente.start();
-                
-            }else{
+
+            } else {
                 JOptionPane.showMessageDialog(null, Strings.ERRORCAMPOVACIO, Strings.ERROR, JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         if (e.getSource() == this.jbIngresoEncuestado) {
             if (!this.jtfNickEncuestado.getText().trim().isEmpty() && this.jpfContraseniaEncuestado.getPassword().length != 0) {
+
+                String pass = "";
+                for (int i = 0; i < this.jpfContraseniaEncuestado.getPassword().length; i++) {
+                    pass += this.jpfContraseniaEncuestado.getPassword()[i];
+                }
+
+                Cliente cliente = new Cliente(this.escritorio, this, Strings.PETICION_LOGIN_USER, this.jtfNickEncuestado.getText(), pass);
                 
-                System.out.println("Verificar encuestado");
-                JIFEncuestado jifEncuestado = new JIFEncuestado();
-                this.escritorio.add(jifEncuestado);
-                dispose();
-                
-                
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, Strings.ERRORCAMPOVACIO, Strings.ERROR, JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         if (e.getSource() == this.jbRegistroEncuestado) {
-            
+
             RegistroDeEncuestado registroDeEncuestado = new RegistroDeEncuestado(this, escritorio);
             registroDeEncuestado.setLocationRelativeTo(null);
+            this.dispose();
         }
     }
 

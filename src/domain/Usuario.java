@@ -1,30 +1,28 @@
 package domain;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Daniel
  * 
  */
-public class Usuario implements Serializable{
+public class Usuario {
     
     private String nombre;
-    private String nickName;
+    private String nickname;
     private String contrasenna;
     private String correoElectronico;
 
     public Usuario() {
         this.nombre = "";
-        this.nickName = "";
+        this.nickname = "";
         this.contrasenna = "";
         this.correoElectronico = "";
     }
 
     
-    public Usuario(String nombre, String nickName, String contrasenna, String correoElectronico) {
+    public Usuario(String nombre, String nickname, String contrasenna, String correoElectronico) {
         this.nombre = nombre;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.contrasenna = contrasenna;
         this.correoElectronico = correoElectronico;
     }
@@ -37,12 +35,12 @@ public class Usuario implements Serializable{
         this.nombre = nombre;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nombreUsuario) {
-        this.nickName = nombreUsuario;
+    public void setNickname(String nombreUsuario) {
+        this.nickname = nombreUsuario;
     }
 
     public String getContrasenna() {
@@ -63,7 +61,7 @@ public class Usuario implements Serializable{
 
     @Override
     public String toString() {
-        return "Usuario{" + "nombre=" + nombre + ", nombreUsuario=" + nickName + 
+        return "Usuario{" + "nombre=" + nombre + ", nombreUsuario=" + nickname + 
                 ", contrasenna=" + contrasenna + ", correoElectronico=" + correoElectronico + '}';
     }
     

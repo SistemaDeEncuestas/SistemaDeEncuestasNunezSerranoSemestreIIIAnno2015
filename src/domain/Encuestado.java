@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Encuestado extends Usuario{
     
-   private List<Encuesta> listaEncuestas;
+   private List<String> listaEncuestas;
 
     public Encuestado(String nombre, String nickName, String contrasenna, String correoElectronico) {
         super(nombre, nickName, contrasenna, correoElectronico);
@@ -22,14 +22,22 @@ public class Encuestado extends Usuario{
     }
     
 
-    public List<Encuesta> getListaEncuestas() {
+    public List<String> getListaEncuestas() {
         return listaEncuestas;
     }
 
-    public void setListaEncuestas(List<Encuesta> listaEncuestas) {
+    public void setListaEncuestas(List<String> listaEncuestas) {
         this.listaEncuestas = listaEncuestas;
     }
+    
+    public void agregaEncuesta(String nombreEncuesta){
+        this.listaEncuestas.add(nombreEncuesta);
+    }
 
+    public void eliminaEncuesta(String nombreEncuesta){
+        this.listaEncuestas.remove(nombreEncuesta);
+    }
+    
     @Override
     public String toString() {
         return "Encuestado{" + "listaEncuestas=" + listaEncuestas + '}';

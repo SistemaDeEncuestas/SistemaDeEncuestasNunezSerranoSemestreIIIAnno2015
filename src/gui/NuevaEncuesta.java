@@ -2,6 +2,9 @@ package gui;
 
 import domain.Encuesta;
 import domain.Pregunta;
+import domain.PreguntaAbierta;
+import domain.PreguntaRespuestaMultiple;
+import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -55,22 +59,34 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
 
     private int posicionY;
     private int largo;
+
     private Encuesta miEncuesta;
-    private List<Pregunta> preguntas;
+    private List<Pregunta> listaPreguntas;
+
+    private String titulo;
+    private String descripcion;
+    private String nombreCreador;
+    private String nombreArchivo;
+    Pregunta preguntaActual;
     private String tipoPregunta;
 
-    public NuevaEncuesta() {
+    public NuevaEncuesta(String nombreCreador) {
 
         super();
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
+
+        this.nombreCreador = nombreCreador;
+        this.listaPreguntas = new ArrayList<>();
+        this.titulo = "";
+        this.descripcion = "";
+        this.nombreArchivo = "";
 
         this.posicionEnGrid = 0;
         this.posicionY = 30;
         this.largo = 850;
         this.tipoPregunta = "";
         this.setLayout(new BorderLayout());
-        this.preguntas = new ArrayList<>();
 
         initComponents();
 
@@ -186,7 +202,7 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
         this.gridBagDinamico.fill = GridBagConstraints.NONE;
         this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
 
-        this.gridBagDinamico.insets = new Insets(10, 10, 10, 500);
+        this.gridBagDinamico.insets = new Insets(10, 10, 10, 100);
 
     }
 
@@ -194,6 +210,7 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbPregunta) {
+
             this.jbRespuesta.setEnabled(true);
             this.grupoRadio = new ButtonGroup();
             String[] tiposPregunta = {Strings.TIPO_1, Strings.TIPO_2, Strings.TIPO_3};
@@ -203,10 +220,24 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
 
             if (tipoSeleccionado != null) {
                 this.tipoPregunta = tipoSeleccionado.toString();
+                if (this.tipoPregunta.equals(Strings.TIPO_1)) {
+                    preguntaActual = new PreguntaRespuestaUnica();
+                    preguntaActual.setTipo(Strings.TIPO_UNICA);
+                } else if (this.tipoPregunta.equals(Strings.TIPO_2)) {
+                    preguntaActual = new PreguntaRespuestaMultiple();
+                    preguntaActual.setTipo(Strings.TIPO_MULTIPLE);
+                } else {
+                    preguntaActual = new PreguntaAbierta();
+                    preguntaActual.setTipo(Strings.TIPO_ABIERTA);
+                }
 
                 String pregunta = JOptionPane.showInputDialog(rootPane, "Ingrese una Pregunta", "Nueva Pregunta",
                         JOptionPane.QUESTION_MESSAGE);
+
                 if (!pregunta.trim().equals("")) {
+                    preguntaActual.setEnunciado(pregunta);
+                    this.listaPreguntas.add(preguntaActual);
+
                     JLabel jlPregunta = new JLabel(pregunta);
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
@@ -228,14 +259,15 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
             }
 
         } else if (e.getSource() == jbRespuesta) {
+//            List<String> listaRespuestas = new ArrayList<>();
 
             if (this.tipoPregunta.equals(Strings.TIPO_3)) {
                 this.jbRespuesta.setEnabled(false);
                 JTextArea textoRespuesta = new JTextArea();
                 textoRespuesta.setLineWrap(true);
                 JScrollPane scrollTexto = new JScrollPane(textoRespuesta);
-                this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
-                this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
+                this.gridBagDinamico.fill = GridBagConstraints.NONE;
+                this.gridBagDinamico.anchor = GridBagConstraints.WEST;
                 this.gridBagDinamico.ipady = 40;
                 this.gridBagDinamico.ipadx = 89;
                 this.gridBagDinamico.gridx = 0;
@@ -251,6 +283,7 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
 
                     if (!respuesta.trim().equals("")) {
 
+                        this.preguntaActual.addRespuesta(respuesta);
                         if (this.tipoPregunta.equals(Strings.TIPO_1)) {
 
                             JRadioButton boton = new JRadioButton(respuesta);
@@ -286,6 +319,23 @@ public class NuevaEncuesta extends JInternalFrame implements ActionListener {
             this.updateUI();
             this.ocultarBarraTitulo();
         } else if (e.getSource() == jbGuardar) {
+
+            String tituloEncuesta = this.jtTitulo.getText().trim();
+            String descripcionEncuesta = this.jtDescripcion.getText().trim();
+
+            if (!tituloEncuesta.isEmpty() && !descripcionEncuesta.isEmpty()) {
+                descripcionEncuesta = descripcionEncuesta.replaceAll("\n", "&");
+                this.nombreArchivo = JOptionPane.showInputDialog(rootPane, "Ingrese un nombre para el archivo", "Guardar como:",
+                        JOptionPane.QUESTION_MESSAGE);
+                this.miEncuesta = new Encuesta(this.nombreCreador, tituloEncuesta,
+                        descripcionEncuesta, this.nombreArchivo, this.listaPreguntas);
+                System.out.println(this.miEncuesta);
+                Cliente cliente = new Cliente(Strings.PETICION_CREAR_ENCUESTA, this.miEncuesta);
+
+                // llamar a cliente
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No debe dejar espacios en blanco", Strings.ERROR, JOptionPane.ERROR_MESSAGE);
+            }
 
         } else if (e.getSource() == jbCancelar) {
             this.dispose();

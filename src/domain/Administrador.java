@@ -12,8 +12,8 @@ public class Administrador extends Usuario {
     private List<String> encuestasCreadas;
     private boolean primeraVez;
 
-    public Administrador(String nombre, String nickName, String contrasenna,String correoElectronico) {
-        super(nombre, nickName, contrasenna, correoElectronico);
+    public Administrador(String nombre, String nickname, String contrasenna,String correoElectronico) {
+        super(nombre, nickname, contrasenna, correoElectronico);
         this.encuestasCreadas = new ArrayList<>();
         this.primeraVez = true;
     }
@@ -32,7 +32,17 @@ public class Administrador extends Usuario {
         this.encuestasCreadas = encuestasCreadas;
     }
 
+    public void addEncuestasCreadas(String nombreEncuesta) {
+        this.encuestasCreadas.add(nombreEncuesta);
+    }
+
+   public void agregaEncuesta(String nombreEncuesta){
+       this.encuestasCreadas.add(nombreEncuesta);
+   }
    
+   public void eliminaEncuesta(String nombreEncuesta){
+       this.encuestasCreadas.remove(nombreEncuesta);
+   }
 
     public boolean isPrimeraVez() {
         return primeraVez;

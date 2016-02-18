@@ -1,4 +1,3 @@
-
 package gui;
 
 import domain.Administrador;
@@ -14,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
@@ -25,7 +25,7 @@ import util.Strings;
  *
  * @author Daniel
  */
-public class JIFAdministrador extends JInternalFrame implements ActionListener, Runnable{
+public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
     private Administrador administrador;
     private JPanel jPanelIzquierda;
@@ -49,16 +49,19 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener, 
     private JLabel jlCorreo;
     private JLabel jlListaEncuestas;
     private JToolBar jToolBar;
-     private JScrollPane scroll ;
-     private JDesktopPane escritorio;
+    private JScrollPane scroll;
+    private JDesktopPane escritorio;
+    private JList jListEncuestas;
 
     public JIFAdministrador(JDesktopPane escritorio, Administrador administrador) {
-        super("Bienvenido", true, true, true);
+        super("Bienvenido "+administrador.getNickname(), true, true, true);
         this.setLayout(new BorderLayout());
         this.administrador = administrador;
         this.setBackground(Color.GRAY);
         this.setSize(850, 600);
         this.escritorio = escritorio;
+        init();
+        this.setVisible(true);
     }
 
     private void init() {
@@ -114,6 +117,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener, 
 
         jPanelIzquierda = new JPanel();
         jPanelIzquierda.setLayout(new BorderLayout());
+        jPanelIzquierda.setBackground(new java.awt.Color(192, 192, 192));
         this.add(jPanelIzquierda, BorderLayout.WEST);
 
         jpDatos = new JPanel();
@@ -123,20 +127,22 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener, 
 
         jPanelIzquierda.add(jpDatos, BorderLayout.NORTH);
 
-        jlNombre = new JLabel("Nombre");
+        jlNombre = new JLabel(this.administrador.getNombre());
         jpDatos.add(jlNombre);
-        jlNickname = new JLabel("Nickname");
+        jlNickname = new JLabel(this.administrador.getNickname());
         jpDatos.add(jlNickname);
-        jlCorreo = new JLabel("Correo electronico");
+        jlCorreo = new JLabel(this.administrador.getCorreoElectronico());
         jpDatos.add(jlCorreo);
 
         jpEntrada = new JPanel();
-        bandejaDeEntrada = BorderFactory.createTitledBorder(null, Strings.BORDE_BANDEJA, TitledBorder.CENTER, TitledBorder.CENTER);
+        bandejaDeEntrada = BorderFactory.createTitledBorder(null, Strings.BORDE_BANDEJA_ADMIN, TitledBorder.CENTER, TitledBorder.CENTER);
         jpEntrada.setBorder(bandejaDeEntrada);
         jpEntrada.setLayout(new BoxLayout(jpEntrada, BoxLayout.Y_AXIS));
 
-        jlListaEncuestas = new JLabel("  Lista de encuestas  ");
-        jpEntrada.add(jlListaEncuestas);
+        jListEncuestas = new JList();
+        jListEncuestas.setBackground(new java.awt.Color(192, 192, 192));
+        jListEncuestas.setListData(llenaLista());
+        jpEntrada.add(jListEncuestas);
 
         jPanelIzquierda.add(jpEntrada, BorderLayout.CENTER);
 
@@ -144,43 +150,68 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener, 
 //        jpContenido.setBackground(Color.GRAY);
 //        jpContenido.setLayout(new BorderLayout());
 //        this.add(jpContenido, BorderLayout.CENTER);
-
         this.escritorio.add(this);
-        this.setVisible(true);
+
     }
 
-     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == jbNuevo) {
+    public String[] llenaLista() {
+        String[] encuestas = new String[this.administrador.getEncuestasCreadas().size()];
 
-            NuevaEncuesta jifNuevaEncuesta = new NuevaEncuesta();
+        for (int i = 0; i < this.administrador.getEncuestasCreadas().size(); i++) {
+            encuestas[i] = this.administrador.getEncuestasCreadas().get(i);
+
+        }
+
+        return encuestas;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == jbEncuestas){
+            
+            
+            
+        }else if (e.getSource() == jbNuevo) {
+
+            NuevaEncuesta jifNuevaEncuesta = new NuevaEncuesta(this.administrador.getNickname());
             jifNuevaEncuesta.ocultarBarraTitulo();
             this.add(jifNuevaEncuesta, BorderLayout.CENTER);
             updateUI();
 
-        } else if(e.getSource() == jbNuevoAdmin){ 
+        }else if(e.getSource() == jbEditar){
+            
+            
+        }else if (e.getSource() == jbEliminar) {
+            
+            JIFEliminaEncuesta jifElimina = new JIFEliminaEncuesta(this.administrador.getEncuestasCreadas());
+            jifElimina.ocultarBarraTitulo();
+            this.add(jifElimina, BorderLayout.CENTER);
+            updateUI();
+            
+        }  else if (e.getSource() == jbNuevoAdmin) {
             
             JIFCreaAdministrador creaAdmin = new JIFCreaAdministrador();
             creaAdmin.ocultarBarraTitulo();
             this.add(creaAdmin, BorderLayout.CENTER);
             updateUI();
-        } else if(e.getSource() == jbEnviar){
+            
+        } else if (e.getSource() == jbEnviar) {
+            
             // enviar la listade usuarios y mis encuestas como parametro
             JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos();
             enviarCorreos.ocultarBarraTitulo();
             this.add(enviarCorreos, BorderLayout.CENTER);
             updateUI();
-        } else if(e.getSource() == jbEliminar){
-            JIFEliminaEncuesta jifElimina = new JIFEliminaEncuesta();
-            jifElimina.ocultarBarraTitulo();
-            this.add(jifElimina, BorderLayout.CENTER);
-            updateUI();
+            
+        } else if(e.getSource() == jbEstadisticas){
+            
+            
+            
+        }else if(e.getSource() == jbToPdf){
+            
+            
+            
         }
-    }
-
-    @Override
-    public void run() {
-        init();
     }
 
 }

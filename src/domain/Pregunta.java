@@ -1,6 +1,5 @@
 package domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import java.util.List;
  *
  * @author Daniel
  */
-public abstract class Pregunta implements Serializable{
+public abstract class Pregunta{
 
     private String enunciado;
     private String tipo;
@@ -51,10 +50,13 @@ public abstract class Pregunta implements Serializable{
     public void setListaRespuestas(List<String> listaRespuestas) {
         this.listaRespuestas = listaRespuestas;
     }
-
+    
+    public void addRespuesta(String respuesta){
+        this.listaRespuestas.add(respuesta);
+    }
+    
     @Override
     public String toString() {
-        return "Pregunta{" + "enunciado=" + enunciado + ", tipo=" + tipo + '}';
+        return "Pregunta{" + "enunciado=" + enunciado + ", tipo=" + tipo + ", listaRespuestas=" + listaRespuestas + '}';
     }
-
 }

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -169,11 +170,7 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
 
                     Administrador administrador = new Administrador(nombre, nombreUsuario, contrasenna, correoElectronico);
 //                     llamar al server para insertar
-//                    boolean insertado = true;
-//                    if (!true) {
-//                        jlMensaje.setText(Strings.ERROR_NOMBRE_USUARIO_OCUPADO);
-//
-//                    }
+                   Cliente cliente = new Cliente(Strings.PETICION_REGISTRA_ADMIN, administrador);
                 } else {
                     jlMensaje.setText(Strings.ERROR_CONTRASENNA_DIFERENTE);
                 }

@@ -48,7 +48,8 @@ public class Strings {
 
     public final static String BORDE_DATOS = "Datos de usuario";
     public final static String BORDE_HISTORIAL = "Historial";
-    public final static String BORDE_BANDEJA = "Bandeja de entrada";
+    public final static String BORDE_BANDEJA_USUARIO = "Bandeja de entrada";
+    public final static String BORDE_BANDEJA_ADMIN = "Tus encuestas";
 
     public final static String TIPO_MULTIPLE = "multiple";
     public final static String TIPO_UNICA = "unica";
