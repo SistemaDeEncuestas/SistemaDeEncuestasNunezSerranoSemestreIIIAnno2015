@@ -45,7 +45,7 @@ public class Cliente {
     private Encuestado encuestado;
     private Encuesta encuesta;
     private String nombreEncuesta;
-    private List<String> listaEncuestados;
+    private List<String> lista;
     private List<String> listaCorreos;
     private JDialog contexto;
     private JDesktopPane escritorio;
@@ -93,7 +93,15 @@ public class Cliente {
     public Cliente(String peticion, String nombreEncuesta, List<String> lista) {
         this.peticion = peticion;
         this.nombreEncuesta = nombreEncuesta;
-        this.listaEncuestados = lista;
+        this.lista = lista;
+        this.start();
+    }
+    
+    public Cliente(String peticion, String nickName, String nombreEncuesta, List<String> lista) {
+        this.peticion = peticion;
+        this.nick = nickName;
+        this.nombreEncuesta = nombreEncuesta;
+        this.lista = lista;
         this.start();
     }
 
@@ -188,6 +196,14 @@ public class Cliente {
                     }
                     break;
 
+                    case Strings.PETICION_NOMBRES_POR_ENCUESTA:
+                        enviar.println(this.peticion);
+                        enviar.println(this.nick);
+                        enviar.println(this.nombreEncuesta);
+                        this.lista = recibirLista(recibir.readLine());
+                        break;
+                        
+                        
 //                case Strings.PETICION_EDITA_ENCUESTA:
 //                    enviar.println(this.peticion);
 //                    enviar.println(this.nombreEncuesta);
@@ -238,7 +254,7 @@ public class Cliente {
     
                 case Strings.PETICION_LISTAS_USUARIOS:
                     enviar.println(this.peticion);
-                    Strings.listaNombresUsuarios = recibirPeticionListasUsuarios(recibir.readLine());
+                    Strings.listaNombresUsuarios = recibirLista(recibir.readLine());
                     break;
             }
             recibir.close();
@@ -433,13 +449,13 @@ public class Cliente {
         return null;
     }
 
-    private List<String> recibirPeticionListasUsuarios(String nombresEncuestadosXML) {
+    private List<String> recibirLista(String listaString) {
 
         List<String> nombres = new ArrayList<>();
 
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
-            StringReader stringReader = new StringReader(nombresEncuestadosXML);
+            StringReader stringReader = new StringReader(listaString);
             Document doc;
             doc = saxBuilder.build(stringReader);
             Element rootAdmin = doc.getRootElement();

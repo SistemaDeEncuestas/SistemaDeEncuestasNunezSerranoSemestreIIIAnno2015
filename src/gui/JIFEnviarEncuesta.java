@@ -168,7 +168,6 @@ public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener 
         this.gridBag.gridy = 6;
         this.add(this.jbCancelar, gridBag);
         
-
     }
 
     private void llenaComboBoxUsuarios() {

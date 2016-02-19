@@ -1,6 +1,9 @@
 package main;
 
 import domain.Administrador;
+import gui.JIFEstadisticas;
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,43 +40,43 @@ public class PruebaCliente extends javax.swing.JFrame {
     public PruebaCliente() {
 //        initComponents();
         
-        try {
-            InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
-            Socket socket = new Socket(direccionIP, 5700);
-            PrintStream enviar = new PrintStream(socket.getOutputStream());
-            BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            /*Comienza el protocolo de comunicacion*/
-            switch (this.peticion) {
-                case Strings.PETICION_LOGIN_ADMIN:
-                    enviar.println(this.peticion);
-                    enviar.println(this.nick);
-                    enviar.println(this.contrasenna);
-                    String adminXML = recibir.readLine();
-                    if (!adminXML.equals("null")) {
-                        this.administrador = recibirPeticionLoginAdmin(adminXML);
-//                        JIFAdministrador jifAdministrador = new JIFAdministrador(this.administrador);
-                        
-                        System.out.println(this.administrador);
-                        
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Usuario o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    break;
-            }
-            recibir.close();
-
-            socket.close();
-
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-
-        } catch (ConnectException ce) {
-            System.out.println("SERVIDOR EN MANTENIMIENTO");
-            System.exit(0);
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            InetAddress direccionIP = InetAddress.getByName("127.0.0.1");
+//            Socket socket = new Socket(direccionIP, 5700);
+//            PrintStream enviar = new PrintStream(socket.getOutputStream());
+//            BufferedReader recibir = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//
+//            /*Comienza el protocolo de comunicacion*/
+//            switch (this.peticion) {
+//                case Strings.PETICION_LOGIN_ADMIN:
+//                    enviar.println(this.peticion);
+//                    enviar.println(this.nick);
+//                    enviar.println(this.contrasenna);
+//                    String adminXML = recibir.readLine();
+//                    if (!adminXML.equals("null")) {
+//                        this.administrador = recibirPeticionLoginAdmin(adminXML);
+////                        JIFAdministrador jifAdministrador = new JIFAdministrador(this.administrador);
+//                        
+//                        System.out.println(this.administrador);
+//                        
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "Usuario o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
+//                    }
+//                    break;
+//            }
+//            recibir.close();
+//
+//            socket.close();
+//
+//        } catch (UnknownHostException ex) {
+//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+//
+//        } catch (ConnectException ce) {
+//            System.out.println("SERVIDOR EN MANTENIMIENTO");
+//            System.exit(0);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
@@ -81,28 +84,38 @@ public class PruebaCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 270, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(352, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 244, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(342, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        
+//    public static void main(String args[]) {
+//        
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new PruebaCliente();
+//                new PruebaCliente().setVisible(true);
 //            }
 //        });
         
@@ -120,8 +133,7 @@ public class PruebaCliente extends javax.swing.JFrame {
         
         
         
-        
-    }
+//    }
 
     public Administrador recibirPeticionLoginAdmin(String adminXML) {
         try {
@@ -156,5 +168,6 @@ public class PruebaCliente extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox jComboBox1;
     // End of variables declaration//GEN-END:variables
 }

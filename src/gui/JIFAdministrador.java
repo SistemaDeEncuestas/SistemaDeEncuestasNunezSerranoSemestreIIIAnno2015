@@ -209,7 +209,10 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             updateUI();
 
         } else if (e.getSource() == jbEstadisticas) {
-
+            JIFEstadisticas estadisticas = new JIFEstadisticas(this.administrador.getEncuestasCreadas(), this.administrador.getNickname());
+            estadisticas.ocultarBarraTitulo();
+            this.add(estadisticas, BorderLayout.CENTER);
+            updateUI();
         }
     }
 

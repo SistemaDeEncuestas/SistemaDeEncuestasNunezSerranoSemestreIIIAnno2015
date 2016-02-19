@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ public class Strings {
     public final static String IP = "localhost";
     public final static int PUERTO = 5700;
     public static List<String> listaNombresUsuarios;
+    public static List<String> listaPreguntas = new ArrayList<>();
     
     /*PantallaPrincipal*/
     public final static String JMENU_NOMBRE = "Archivo";
@@ -94,7 +96,8 @@ public class Strings {
     public final static String PETICION_ENVIAR_CORREO = "enviarCorreo";
     public final static String PETICION_CAMBIAR_CONTRASENNA_ADMIN = "cambiarContrasennaAdministrador";
     public final static String PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO = "cambiarContrasennaEncuestado";
-
+    public final static String PETICION_NOMBRES_POR_ENCUESTA = "nombresPorEncuesta";
+    
     /* PanelEnviarCorreos*/
     public final static String LABEL_ENCUESTADOS = "Escoja a los usuarios que quiera enviarle la encuesta";
     public final static String BOTON_ANNADIR = "Añadir";
