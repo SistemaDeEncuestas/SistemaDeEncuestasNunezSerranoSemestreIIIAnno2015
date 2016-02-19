@@ -194,7 +194,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
         jpEstatico.add(jbRespuesta, gridBagEstatico);
 
         this.jpDinamico = new JPanel(new GridBagLayout());
-//        this.jpDinamico.setBackground(Color.black);
+        this.jpDinamico.setBackground(new java.awt.Color(224, 224, 224));
         this.scrollDinamico = new JScrollPane(jpDinamico);
         this.scrollDinamico.setAutoscrolls(true);
         this.add(scrollDinamico, BorderLayout.CENTER);
@@ -239,6 +239,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                     this.listaPreguntas.add(preguntaActual);
 
                     JLabel jlPregunta = new JLabel(pregunta);
+                    jlPregunta.setBackground(new java.awt.Color(224, 224, 224));
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -291,6 +292,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                         if (this.tipoPregunta.equals(Strings.TIPO_1)) {
 
                             JRadioButton boton = new JRadioButton(respuesta);
+                            boton.setBackground(new java.awt.Color(224, 224, 224));
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
@@ -306,6 +308,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                         } else if (this.tipoPregunta.equals(Strings.TIPO_2)) {
 
                             JCheckBox botonCheck = new JCheckBox(respuesta);
+                            botonCheck.setBackground(new java.awt.Color(224, 224, 224));
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
@@ -315,7 +318,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                             this.gridBagDinamico.gridx = 0;
                             this.gridBagDinamico.gridy = this.posicionEnGrid;
                             this.posicionEnGrid++;
-                            this.jpDinamico.add(botonCheck, gridBagEstatico);
+                            this.jpDinamico.add(botonCheck, gridBagDinamico);
 
                         }
                     } else {
@@ -335,6 +338,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                 descripcionEncuesta = descripcionEncuesta.replaceAll("\n", "&");
                 this.nombreArchivo = JOptionPane.showInputDialog(rootPane, "Ingrese un nombre para el archivo", "Guardar como:",
                         JOptionPane.QUESTION_MESSAGE);
+                this.nombreArchivo = this.nombreArchivo.replaceAll(" ", "_");
                 this.miEncuesta = new Encuesta(this.nombreCreador, tituloEncuesta,
                         descripcionEncuesta, this.nombreArchivo, this.listaPreguntas);
                 System.out.println(this.miEncuesta);

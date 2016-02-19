@@ -137,7 +137,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
         jpEstatico.add(scroll, gridBagEstatico);
 
         this.jpDinamico = new JPanel(new GridBagLayout());
-        this.jpDinamico.setBackground(Color.white);
+        this.jpDinamico.setBackground(new java.awt.Color(224, 224, 224));
         this.scrollDinamico = new JScrollPane(jpDinamico);
         this.scrollDinamico.setAutoscrolls(true);
         this.jpContenedor.add(scrollDinamico, BorderLayout.CENTER);
@@ -157,7 +157,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
             Pregunta preguntaActual = this.encuestaActual.getPreguntas().get(i);
 
             JLabel enunciado = new JLabel(preguntaActual.getEnunciado());
-
+            enunciado.setBackground(new java.awt.Color(224, 224, 224));
             this.gridBagDinamico.fill = GridBagConstraints.NONE;
             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
             this.gridBagDinamico.weighty = 0;
@@ -178,7 +178,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaActual.getListaRespuestas().size(); j++) {
 
                     JRadioButton radio = new JRadioButton(preguntaActual.getListaRespuestas().get(j));
-                    radio.setBackground(Color.white);
+                    radio.setBackground(new java.awt.Color(224, 224, 224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -199,7 +199,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaActual.getListaRespuestas().size(); j++) {
 
                     JCheckBox check = new JCheckBox(preguntaActual.getListaRespuestas().get(j));
-                    check.setBackground(Color.white);
+                    check.setBackground(new java.awt.Color(224,224,224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;

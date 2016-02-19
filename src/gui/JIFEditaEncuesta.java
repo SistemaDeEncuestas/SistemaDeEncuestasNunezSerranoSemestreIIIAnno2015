@@ -11,7 +11,6 @@ import domain.PreguntaAbierta;
 import domain.PreguntaRespuestaMultiple;
 import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -69,7 +69,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
     private String nombreArchivo;
     private Pregunta preguntaActual;
     private String tipoPregunta;
-    private JInternalFrame jifPadre; 
+    private JInternalFrame jifPadre;
 
     public JIFEditaEncuesta(JInternalFrame jifPadre, Encuesta encuesta) {
 
@@ -144,7 +144,8 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
         jbCancelar.addActionListener(this);
         jpEstatico.add(jbCancelar, gridBagEstatico);
 
-        jtTitulo = new JTextField();
+        jtTitulo = new JTextField(this.miEncuesta.getTitulo());
+        jtTitulo.setEditable(false);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.ipadx = 200;
@@ -161,7 +162,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
         this.gridBagEstatico.gridy = 2;
         jpEstatico.add(jlDescripcion, gridBagEstatico);
 
-        jtDescripcion = new JTextArea();
+        jtDescripcion = new JTextArea(this.miEncuesta.getDescripcion());
         jtDescripcion.setLineWrap(true);
         scroll = new JScrollPane(jtDescripcion);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
@@ -196,6 +197,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
         jpEstatico.add(jbRespuesta, gridBagEstatico);
 
         this.jpDinamico = new JPanel(new GridBagLayout());
+        this.jpDinamico.setBackground(new java.awt.Color(224,224,224));
         this.scrollDinamico = new JScrollPane(jpDinamico);
         this.scrollDinamico.setAutoscrolls(true);
         this.add(scrollDinamico, BorderLayout.CENTER);
@@ -213,10 +215,11 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
         for (int i = 0; i < this.miEncuesta.getPreguntas().size(); i++) {
 
             Pregunta preguntaTemporal = this.miEncuesta.getPreguntas().get(i);
+            this.listaPreguntas.add(preguntaTemporal);
+            JLabel enunciado = new JLabel(preguntaTemporal.getEnunciado());
+            enunciado.setBackground(new java.awt.Color(224,224,224));
 
-            JTextField enunciado = new JTextField(preguntaTemporal.getEnunciado());
-
-            this.gridBagDinamico.fill = GridBagConstraints.NONE; 
+            this.gridBagDinamico.fill = GridBagConstraints.NONE;
             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
             this.gridBagDinamico.weighty = 0;
             this.gridBagDinamico.weightx = 0;
@@ -236,7 +239,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaTemporal.getListaRespuestas().size(); j++) {
 
                     JRadioButton radio = new JRadioButton(preguntaTemporal.getListaRespuestas().get(j));
-//                    radio.setBackground(Color.white);
+                    radio.setBackground(new java.awt.Color(224,224,224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -257,7 +260,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaTemporal.getListaRespuestas().size(); j++) {
 
                     JCheckBox check = new JCheckBox(preguntaTemporal.getListaRespuestas().get(j));
-//                    check.setBackground(Color.white);
+                    check.setBackground(new java.awt.Color(224,224,224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -325,6 +328,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                     this.listaPreguntas.add(preguntaActual);
 
                     JLabel jlPregunta = new JLabel(pregunta);
+                    jlPregunta.setBackground(new java.awt.Color(224,224,224));
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -347,7 +351,6 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
             }
 
         } else if (e.getSource() == jbRespuesta) {
-//            List<String> listaRespuestas = new ArrayList<>();
 
             if (this.tipoPregunta.equals(Strings.TIPO_3)) {
                 this.jbRespuesta.setEnabled(false);
@@ -377,6 +380,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                         if (this.tipoPregunta.equals(Strings.TIPO_1)) {
 
                             JRadioButton boton = new JRadioButton(respuesta);
+                            boton.setBackground(new java.awt.Color(224,224,224));
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
@@ -392,6 +396,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                         } else if (this.tipoPregunta.equals(Strings.TIPO_2)) {
 
                             JCheckBox botonCheck = new JCheckBox(respuesta);
+                            botonCheck.setBackground(new java.awt.Color(224,224,224));
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
@@ -401,7 +406,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                             this.gridBagDinamico.gridx = 0;
                             this.gridBagDinamico.gridy = this.posicionEnGrid;
                             this.posicionEnGrid++;
-                            this.jpDinamico.add(botonCheck, gridBagEstatico);
+                            this.jpDinamico.add(botonCheck, gridBagDinamico);
 
                         }
                     } else {
@@ -416,7 +421,22 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
             this.dispose();
             updateUI();
         } else if (e.getSource() == jbGuardar) {
-            //TODO
+            String tituloEncuesta = this.jtTitulo.getText().trim();
+            String descripcionEncuesta = this.jtDescripcion.getText().trim();
+
+            if (!tituloEncuesta.isEmpty() && !descripcionEncuesta.isEmpty()) {
+                descripcionEncuesta = descripcionEncuesta.replaceAll("\n", "&");
+                this.nombreArchivo = this.miEncuesta.getNombreArchivo();
+                this.miEncuesta.setDescripcion(descripcionEncuesta);
+                this.miEncuesta.setPreguntas(listaPreguntas);
+                System.out.println(this.miEncuesta);
+//                Cliente cliente = new Cliente(Strings.PETICION_EDITA_ENCUESTA, this.miEncuesta);
+
+                // llamar a cliente
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No debe dejar espacios en blanco",
+                        Strings.ERROR, JOptionPane.ERROR_MESSAGE);
+            }
         }
 
     }

@@ -33,6 +33,7 @@ public class Strings {
     public final static String REGISTRONOMBREUSUARIO = "Ingrese su nombre de usuario";
     public final static String REGISTROCORREO = "Ingrese su correo electrónico";
     public final static String REGISTROCONTRASENIA = "Ingrese su contraseña";
+    public final static String REGISTRO_NUEVA_CONTRASENNA = "Ingrese su nueva contraseña";
     public final static String REGISTROVERIFICACONTRASENIA = "Verifique su contraseña";
     public final static String REGISTRO_CONTRASENIA_TEMPORAL = "Ingrese su contraseña (Recuerde que esta es temporal)";
 
@@ -40,6 +41,7 @@ public class Strings {
     public final static String ERROR = "Error";
     public final static String ERRORCAMPOVACIO = "Debe llenar todos los campos";
     public final static String ERROR_CONTRASENNA_DIFERENTE = "La contraseña debe coincidir en los dos campos";
+     public final static String ERROR_CONTRASENNA_INVALIDA = "La contraseña es incorrecta";
     public final static String ERROR_NOMBRE_USUARIO_OCUPADO = "El nombre de usuario escogido ya existe, por favor escoja otro";
 
     /*JIFAdministrador*/
