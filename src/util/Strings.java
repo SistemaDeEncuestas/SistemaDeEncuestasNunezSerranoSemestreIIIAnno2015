@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Clase que contiene algunas constantes tipo String para el control de acciones
+ * en el programa
+ *
  * @author adriansb3105
+ * @author Daniel
  */
 public class Strings {
 
@@ -12,7 +16,7 @@ public class Strings {
     public final static int PUERTO = 5700;
     public static List<String> listaNombresUsuarios;
     public static List<String> listaPreguntas = new ArrayList<>();
-    
+
     /*PantallaPrincipal*/
     public final static String JMENU_NOMBRE = "Archivo";
     public final static String ITEM_REGISTRARSE = "Registrar Usuario";
@@ -43,7 +47,7 @@ public class Strings {
     public final static String ERROR = "Error";
     public final static String ERRORCAMPOVACIO = "Debe llenar todos los campos";
     public final static String ERROR_CONTRASENNA_DIFERENTE = "La contraseña debe coincidir en los dos campos";
-     public final static String ERROR_CONTRASENNA_INVALIDA = "La contraseña es incorrecta";
+    public final static String ERROR_CONTRASENNA_INVALIDA = "La contraseña es incorrecta";
     public final static String ERROR_NOMBRE_USUARIO_OCUPADO = "El nombre de usuario escogido ya existe, por favor escoja otro";
 
     /*JIFAdministrador*/
@@ -51,12 +55,12 @@ public class Strings {
     public final static String NUEVA_ENCUESTA = "Nueva encuesta";
     public final static String EDITAR_ENCUESTA = "Editar encuesta";
     public final static String ELIMINAR_ENCUESTA = "Eliminar encuesta";
-     public final static String ENVIAR = "Enviar a usuarios";
+    public final static String ENVIAR = "Enviar a usuarios";
     public final static String A_CORREO = "Enviar a correo electrónico";
     public final static String NUEVO_ADMIN = "Crear nueva cuenta de administrador";
     public final static String ESTADISTICAS = "Mostrar estadísticas";
     public final static String A_PDF = "Exportar a pdf";
-     public final static String CERRAR_SESION = "Cerrar Sesión";
+    public final static String CERRAR_SESION = "Cerrar Sesión";
     public final static String BORDE_DATOS = "Datos de usuario";
     public final static String BORDE_HISTORIAL = "Historial";
     public final static String BORDE_BANDEJA_USUARIO = "Bandeja de entrada";
@@ -66,7 +70,7 @@ public class Strings {
     public final static String TIPO_ABIERTA = "abierta";
     public final static String RUTA_ARCHIVOS = "src/files/nombresDeArchivos.xml";
     public final static String RESPONDER = "Responder encuestas";
-    
+
     /*JIFEncuestado*/
     public final static String CAMBIAR_CONTRASENNA = "Cambiar la contraseña";
 
@@ -100,9 +104,9 @@ public class Strings {
     public final static String PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO = "cambiarContrasennaEncuestado";
     public final static String PETICION_NOMBRES_POR_ENCUESTA = "nombresPorEncuesta";
     public final static String PETICION_GET_ENCUESTA = "abrirEncuesta";
-     public final static String PETICION_SOLICITA_ENCUESTA = "solicitaEncuesta";
-     public final static String PETICION_CERRAR_SESION= "cerrarSesion";
-    
+    public final static String PETICION_SOLICITA_ENCUESTA = "solicitaEncuesta";
+    public final static String PETICION_CERRAR_SESION = "cerrarSesion";
+
     /* PanelEnviarCorreos*/
     public final static String LABEL_ENCUESTADOS = "Escoja a los usuarios que quiera enviarle la encuesta";
     public final static String BOTON_ANNADIR = "Añadir";
@@ -112,8 +116,8 @@ public class Strings {
 
     /*Panel elimina encuestas*/
     public final static String LABEL_ESCOGE_ENCUESTA = "Por favor, escoja una encuesta";
-     public final static String LABEL_AVISO = "Se ha eliminado la encuesta seleccionada";
-     
-     /*JIF escoge encuesta*/
-      public final static String BOTON_ABRIR = "Abrir";
+    public final static String LABEL_AVISO = "Se ha eliminado la encuesta seleccionada";
+
+    /*JIF escoge encuesta*/
+    public final static String BOTON_ABRIR = "Abrir";
 }

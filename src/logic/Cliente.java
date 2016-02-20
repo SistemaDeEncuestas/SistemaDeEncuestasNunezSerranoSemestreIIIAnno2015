@@ -7,6 +7,7 @@ import domain.Pregunta;
 import domain.PreguntaAbierta;
 import domain.PreguntaRespuestaMultiple;
 import domain.PreguntaRespuestaUnica;
+import domain.Usuario;
 import gui.JIFAbrirEncuesta;
 import gui.JIFAdministrador;
 import gui.JIFCambioDeContrasennaAdmin;
@@ -58,10 +59,10 @@ public class Cliente {
     private JDialog contexto;
     private JDesktopPane escritorio;
     private JInternalFrame jInternal;
-    private String respuesta;
     private boolean flag;
+    private Usuario usuario;
 
-    /*PETICION_LOGIN_ADMIN, PETICION_LOGIN_USER*/
+    /*Contructor para loguear a administradores y a encuestados*/
     public Cliente(JDesktopPane escritorio, JDialog contexto, String peticion, String nick, String contrasenna) {
         this.escritorio = escritorio;
         this.contexto = contexto;
@@ -70,18 +71,21 @@ public class Cliente {
         this.contrasenna = contrasenna;
         this.start();
     }
+    /*Contructor para registrar un administrador*/
 
     public Cliente(String peticion, Administrador administrador) {
         this.peticion = peticion;
         this.administrador = administrador;
         this.start();
     }
+    /*Contructor para cambiar la contraseña del encuestado*/
 
     public Cliente(String peticion, Encuestado encuestado) {
         this.peticion = peticion;
         this.encuestado = encuestado;
         this.start();
     }
+    /*Contructor para registrar encuestados*/
 
     public Cliente(JDesktopPane escritorio, String peticion, Encuestado encuestado) {
         this.escritorio = escritorio;
@@ -89,6 +93,7 @@ public class Cliente {
         this.encuestado = encuestado;
         this.start();
     }
+    /*Contructor para cambiar la contraseña de un administrador*/
 
     public Cliente(JDesktopPane escritorio, String peticion, Administrador admin) {
         this.escritorio = escritorio;
@@ -96,17 +101,20 @@ public class Cliente {
         this.administrador = admin;
         this.start();
     }
+    /*Contructor para recuperar una lista de los usuarios encuestados*/
 
     public Cliente(String peticion) {
         this.peticion = peticion;
         this.start();
     }
+    /*Contructor para editar encuestas y también para responderlas*/
 
     public Cliente(String peticion, Encuesta encuesta) {
         this.peticion = peticion;
         this.encuesta = encuesta;
         this.start();
     }
+    /*Contructor para crear una nueva encuesta*/
 
     public Cliente(String peticion, Encuesta encuesta, Administrador administrador) {
         this.administrador = administrador;
@@ -114,19 +122,24 @@ public class Cliente {
         this.encuesta = encuesta;
         this.start();
     }
+    /*Contructor para borrar una encuesta, tambien sirve para cerrar la sesion de un usuario*/
 
-    public Cliente(String peticion, String nombreEncuesta) {
+    public Cliente(String peticion, String nombre) {
         this.peticion = peticion;
-        this.nombre = nombreEncuesta;
+        this.nombre = nombre;
         this.start();
     }
+    /*Contructor para solicitar una encuesta del servidor*/
 
-    public Cliente(String peticion, String nombreEncuesta, JInternalFrame jInternal) {
+    public Cliente(String peticion, String nombreEncuesta, JInternalFrame jInternal, Usuario user) {
         this.peticion = peticion;
         this.jInternal = jInternal;
         this.nombre = nombreEncuesta;
+        this.usuario = user;
         this.start();
     }
+    /*Contructor para solicitar una encuesta del servidor e
+     inmediatamente me abre la ventana para editar o abrir dicha encuesta*/
 
     public Cliente(String peticion, String nombreEncuesta, JInternalFrame jifAdmin, boolean flag) {
         this.peticion = peticion;
@@ -135,6 +148,7 @@ public class Cliente {
         this.flag = flag;
         this.start();
     }
+    /*Contructor para cargar una lista de preguntas*/
 
     public Cliente(String peticion, String nombreEncuesta, List<String> lista) {
         this.peticion = peticion;
@@ -142,14 +156,7 @@ public class Cliente {
         this.lista = lista;
         this.start();
     }
-
-    public Cliente(String peticion, String nickName, String nombreEncuesta, List<String> lista) {
-        this.peticion = peticion;
-        this.nick = nickName;
-        this.nombre = nombreEncuesta;
-        this.lista = lista;
-        this.start();
-    }
+    /*Contructor para enviar un correo o una encuesta*/
 
     public Cliente(String peticion, List<String> listaEncuestados, String nombreEncuesta) {
         this.peticion = peticion;
@@ -158,6 +165,11 @@ public class Cliente {
         this.start();
     }
 
+    /**
+     * Método que se encarga de realizar la comunicacion del cliente con el
+     * servidor, está conformado por casos, que son todas las opciones de
+     * interaccion entre el cliente y el servidor.
+     */
     private void start() {
         try {
             InetAddress direccionIP = InetAddress.getByName(Strings.IP);
@@ -243,7 +255,7 @@ public class Cliente {
                     String respuestaEncuestaCreada = recibir.readLine();
                     if (respuestaEncuestaCreada.equals("insertada")) {
                         JOptionPane.showMessageDialog(null, "Su encuesta se ha insertado con exito", "Listo", JOptionPane.INFORMATION_MESSAGE);
-                        this.administrador.agregaEncuesta(this.encuesta.getTitulo());
+                        this.administrador.agregaEncuesta(this.encuesta.getNombreArchivo());
 
                     } else {
                         JOptionPane.showMessageDialog(null, "El nombre de la encuesta ya existe, renómbrela", "Error", JOptionPane.ERROR_MESSAGE);
@@ -270,7 +282,6 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "No se ha podido guardar la encuesta", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     break;
-                //admin
 
                 case Strings.PETICION_ENVIAR_ENCUESTA:
                     enviar.println(this.peticion);
@@ -285,10 +296,7 @@ public class Cliente {
                     }
 
                     break;
-//
-//                    
-//                    
-                //encuestado
+
                 case Strings.PETICION_DEVOLVER_ENCUESTA:
                     enviar.println(this.peticion);
                     enviar.println(enviarEncuesta(this.encuesta));
@@ -354,9 +362,10 @@ public class Cliente {
                     if (!stringEncuesta.equals("null")) {
                         Encuesta encuestaActual = recibirEncuesta(stringEncuesta);
 
-                        JIFResponderEncuesta responde = new JIFResponderEncuesta(encuestaActual);
+                        JIFResponderEncuesta responde = new JIFResponderEncuesta(encuestaActual, this.usuario);
                         responde.ocultarBarraTitulo();
                         this.jInternal.add(responde, BorderLayout.CENTER);
+
                     } else {
                         JOptionPane.showMessageDialog(null, "No se ha encontrado la encuesta",
                                 Strings.ERROR, JOptionPane.ERROR_MESSAGE);
@@ -418,6 +427,13 @@ public class Cliente {
         }
     }
 
+    /**
+     * Método que a partir de un String con formato XML me obtiene un objeto
+     * tipo encuesta.
+     *
+     * @param encuestaXML el String con formato XML.
+     * @return El objeto encuesta que se forma.
+     */
     private Encuesta recibirEncuesta(String encuestaXML) {
 
         try {
@@ -474,6 +490,12 @@ public class Cliente {
         return null;
     }
 
+    /**
+     * Metodo que me transforma un objeto tipo encuestado en un String en
+     *
+     * @param encuestado
+     * @return
+     */
     private String enviarEncuestado(Encuestado encuestado) {
 
         Element elemEncuestado = new Element("encuestado");

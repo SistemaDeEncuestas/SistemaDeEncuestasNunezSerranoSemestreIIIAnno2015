@@ -164,7 +164,7 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
             Object objetoActual = jListEncuestasCompartidas.getSelectedValue();
             if (objetoActual != null) {
                 String encuestaActual = objetoActual.toString();
-                Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this);
+                Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this, this.encuestado);
             }else{
                  JOptionPane.showMessageDialog(rootPane, "Por favor, escoja una encuesta de su bandeja de entrada",
                         "Problema al abrir la encuesta", JOptionPane.INFORMATION_MESSAGE);

@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import logic.Cliente;
@@ -151,6 +152,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jpEntrada.setLayout(new BoxLayout(jpEntrada, BoxLayout.Y_AXIS));
 
         jListEncuestas = new JList();
+        jListEncuestas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jListEncuestas.setBackground(new java.awt.Color(205, 205, 205));
         jListEncuestas.setListData(llenaLista());
         jpEntrada.add(jListEncuestas);
@@ -223,7 +225,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
             if (objetoEncuestaActual != null) {
                 String encuestaActual = objetoEncuestaActual.toString();
-                Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this);
+                Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this, this.administrador);
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Por favor, escoja una encuesta de su bandeja de entrada",
                         "Problema al abrir la encuesta", JOptionPane.INFORMATION_MESSAGE);

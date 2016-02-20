@@ -32,10 +32,6 @@ public class Administrador extends Usuario {
         this.encuestasCreadas = encuestasCreadas;
     }
 
-//    public void addEncuestasCreadas(String nombreEncuesta) {
-//        this.encuestasCreadas.add(nombreEncuesta);
-//    }
-
    public void agregaEncuesta(String nombreEncuesta){
        this.encuestasCreadas.add(nombreEncuesta);
    }

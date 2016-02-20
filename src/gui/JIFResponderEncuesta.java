@@ -1,7 +1,10 @@
 package gui;
 
+import domain.Administrador;
 import domain.Encuesta;
+import domain.Encuestado;
 import domain.Pregunta;
+import domain.Usuario;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -49,10 +52,11 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
     private JScrollPane scrollDinamico;
     private GridBagConstraints gridBagDinamico;
     private int posicionEnGrid;
+    private Usuario usuario;
 
-    public JIFResponderEncuesta(Encuesta encuesta) {
+    public JIFResponderEncuesta(Encuesta encuesta, Usuario usuario) {
         super();
-
+        this.usuario = usuario;
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(850, 700));
         this.setAutoscrolls(true);
@@ -261,13 +265,20 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
 
                         listaRespuestas.add(texto.getText());
                         break;
-                } 
+                }
 
                 this.encuestaActual.getPreguntas().get(k).setListaRespuestas(listaRespuestas);
             }
             System.out.println(encuestaActual);
             Cliente cliente = new Cliente(Strings.PETICION_DEVOLVER_ENCUESTA, this.encuestaActual);
-            
+            if (this.usuario instanceof Encuestado) {
+
+                Encuestado encuestado = (Encuestado) this.usuario;
+                encuestado.eliminaEncuesta(this.encuestaActual.getNombreArchivo());
+                System.out.println(encuestado);
+            }
+            this.dispose();
+
         }
     }
 

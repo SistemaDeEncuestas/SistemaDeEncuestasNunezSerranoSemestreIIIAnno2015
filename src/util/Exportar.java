@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package util;
 
 import com.itextpdf.text.Document;
@@ -25,6 +21,12 @@ import java.io.FileOutputStream;
 
 public class Exportar {
 
+    /**
+     * Metodo que me permite crear un archivo en formato pdf a partir de un
+     * objeto encuesta
+     * @param encuesta la encuesta a ser convertida
+     * @return true si logró exportar la encuesta, false para el caso contrario
+     */
     public boolean exportarAPDF(Encuesta encuesta) {
 
         try {
