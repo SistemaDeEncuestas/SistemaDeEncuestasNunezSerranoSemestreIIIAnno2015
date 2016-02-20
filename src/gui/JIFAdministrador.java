@@ -15,6 +15,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
@@ -42,6 +43,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JButton jbNuevoAdmin;
     private JButton jbEstadisticas;
     private JButton jbCerrarSesion;
+    private JButton jbResponder;
     private Border bordeDatos;
     private Border bandejaDeEntrada;
     private JLabel jlNombre;
@@ -104,16 +106,21 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jbNuevoAdmin.setToolTipText(Strings.NUEVO_ADMIN);
         jbNuevoAdmin.addActionListener(this);
         jToolBar.add(jbNuevoAdmin);
+        jbResponder = new JButton();
+        jbResponder.setIcon(new ImageIcon(getClass().getResource("/images/responder.png")));
+        jbResponder.setToolTipText(Strings.RESPONDER);
+        jbResponder.addActionListener(this);
+        jToolBar.add(jbResponder);
         jbEstadisticas = new JButton();
         jbEstadisticas.setIcon(new ImageIcon(getClass().getResource("/images/graficos.png")));
         jbEstadisticas.setToolTipText(Strings.ESTADISTICAS);
         jbEstadisticas.addActionListener(this);
         jToolBar.add(jbEstadisticas);
         jbCerrarSesion = new JButton();
-        jbCerrarSesion.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
+        jbCerrarSesion.setIcon(new ImageIcon(getClass().getResource("/images/close1.png")));
         jbCerrarSesion.setToolTipText(Strings.CERRAR_SESION);
-        jbEstadisticas.addActionListener(this);
-        jToolBar.add(jbEstadisticas);
+        jbCerrarSesion.addActionListener(this);
+        jToolBar.add(jbCerrarSesion);
 
         jToolBar.setFloatable(false);
         jToolBar.setRollover(true);
@@ -144,7 +151,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jpEntrada.setLayout(new BoxLayout(jpEntrada, BoxLayout.Y_AXIS));
 
         jListEncuestas = new JList();
-        jListEncuestas.setBackground(new java.awt.Color(192, 192, 192));
+        jListEncuestas.setBackground(new java.awt.Color(205, 205, 205));
         jListEncuestas.setListData(llenaLista());
         jpEntrada.add(jListEncuestas);
 
@@ -210,9 +217,19 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             this.add(creaAdmin, BorderLayout.CENTER);
             updateUI();
 
+        } else if (e.getSource() == jbResponder) {
+
+            Object objetoEncuestaActual = jListEncuestas.getSelectedValue();
+
+            if (objetoEncuestaActual != null) {
+                String encuestaActual = objetoEncuestaActual.toString();
+                Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Por favor, escoja una encuesta de su bandeja de entrada",
+                        "Problema al abrir la encuesta", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else if (e.getSource() == jbEnviarACorreo) {
 
-           
             JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos(this.administrador);
             enviarCorreos.ocultarBarraTitulo();
             this.add(enviarCorreos, BorderLayout.CENTER);
@@ -223,8 +240,8 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             estadisticas.ocultarBarraTitulo();
             this.add(estadisticas, BorderLayout.CENTER);
             updateUI();
-        } else if(e.getSource() == jbCerrarSesion){
-           
+        } else if (e.getSource() == jbCerrarSesion) {
+
             this.dispose();
         }
     }

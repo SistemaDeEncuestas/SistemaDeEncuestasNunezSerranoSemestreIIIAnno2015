@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Strings {
 
-    public final static String IP = "192.168.43.182";
+    public final static String IP = "localHost";
     public final static int PUERTO = 5700;
     public static List<String> listaNombresUsuarios;
     public static List<String> listaPreguntas = new ArrayList<>();
@@ -57,17 +57,18 @@ public class Strings {
     public final static String ESTADISTICAS = "Mostrar estadísticas";
     public final static String A_PDF = "Exportar a pdf";
      public final static String CERRAR_SESION = "Cerrar Sesión";
-
     public final static String BORDE_DATOS = "Datos de usuario";
     public final static String BORDE_HISTORIAL = "Historial";
     public final static String BORDE_BANDEJA_USUARIO = "Bandeja de entrada";
     public final static String BORDE_BANDEJA_ADMIN = "Tus encuestas";
-
     public final static String TIPO_MULTIPLE = "multiple";
     public final static String TIPO_UNICA = "unica";
     public final static String TIPO_ABIERTA = "abierta";
-
     public final static String RUTA_ARCHIVOS = "src/files/nombresDeArchivos.xml";
+    public final static String RESPONDER = "Responder encuestas";
+    
+    /*JIFEncuestado*/
+    public final static String CAMBIAR_CONTRASENNA = "Cambiar la contraseña";
 
     /* NuevaEncuesta*/
     public final static String TITULO = "Ingrese el título de la encuesta:";
@@ -91,7 +92,7 @@ public class Strings {
     public final static String PETICION_GET_ENCUESTADOS = "getEncuestados";
     public final static String PETICION_CREAR_ENCUESTA = "crearEncuesta";
     public final static String PETICION_GUARDA_EDICION = "guardarEdicion";
-     public final static String PETICION_ELIMINA_ENCUESTA = "eliminaEncuesta";
+    public final static String PETICION_ELIMINA_ENCUESTA = "eliminaEncuesta";
     public final static String PETICION_ENVIAR_ENCUESTA = "enviarEncuesta";
     public final static String PETICION_DEVOLVER_ENCUESTA = "devolverEncuesta";
     public final static String PETICION_ENVIAR_CORREO = "enviarCorreo";

@@ -58,7 +58,7 @@ public class Cliente {
     private JDialog contexto;
     private JDesktopPane escritorio;
     private JInternalFrame jInternal;
-
+    private String respuesta;
     private boolean flag;
 
     /*PETICION_LOGIN_ADMIN, PETICION_LOGIN_USER*/
@@ -121,9 +121,9 @@ public class Cliente {
         this.start();
     }
 
-    public Cliente(String peticion, String nombreEncuesta, JInternalFrame jifEncuestado) {
+    public Cliente(String peticion, String nombreEncuesta, JInternalFrame jInternal) {
         this.peticion = peticion;
-        this.jInternal = jifEncuestado;
+        this.jInternal = jInternal;
         this.nombre = nombreEncuesta;
         this.start();
     }
@@ -270,7 +270,7 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "No se ha podido guardar la encuesta", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     break;
-                    //admin
+                //admin
 
                 case Strings.PETICION_ENVIAR_ENCUESTA:
                     enviar.println(this.peticion);
@@ -397,10 +397,10 @@ public class Cliente {
                     Strings.listaNombresUsuarios = recibirLista(recibir.readLine());
                     break;
                 case Strings.PETICION_CERRAR_SESION:
-                    
+
                     enviar.println(this.peticion);
                     enviar.println(this.nombre);
-                    
+
                     break;
             }
             recibir.close();
@@ -695,7 +695,7 @@ public class Cliente {
 
         return null;
     }
-    
+
     public List<String> getLista() {
         return lista;
     }

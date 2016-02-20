@@ -86,6 +86,7 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
         this.jbAbrir = new JButton(Strings.BOTON_ABRIR);
         this.jbAbrir.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
+        this.gridBag.ipadx =50;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 2;
         this.add(jbAbrir, gridBag);
@@ -93,6 +94,7 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
         this.jbCancelar = new JButton(Strings.CANCELAR);
         this.jbCancelar.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
+         this.gridBag.ipadx =30;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 3;
         this.add(jbCancelar, gridBag);

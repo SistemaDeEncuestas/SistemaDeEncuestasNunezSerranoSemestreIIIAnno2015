@@ -22,6 +22,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
@@ -73,27 +74,36 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
         jpArriba = new JPanel();
         tituloArriba = BorderFactory.createTitledBorder(null, Strings.BORDE_DATOS, TitledBorder.CENTER, TitledBorder.CENTER);
         jpArriba.setBorder(tituloArriba);
-        jpArriba.setLayout(new BoxLayout(jpArriba, BoxLayout.Y_AXIS));
+        jpArriba.setLayout(new BorderLayout());
         this.add(jpArriba, BorderLayout.NORTH);
 
+        JPanel jpDatos = new JPanel();
+        jpDatos.setLayout(new BoxLayout(jpDatos, BoxLayout.Y_AXIS));
+        jpArriba.add(jpDatos, BorderLayout.NORTH);
+
+        JPanel jpBotones = new JPanel();
+        jpArriba.add(jpBotones, BorderLayout.WEST);
+
         jlNombre = new JLabel(this.encuestado.getNombre());
-        jpArriba.add(jlNombre);
+        jpDatos.add(jlNombre);
         jlNickname = new JLabel(this.encuestado.getNickname());
-        jpArriba.add(jlNickname);
+        jpDatos.add(jlNickname);
         jlCorreo = new JLabel(this.encuestado.getCorreoElectronico());
-        jpArriba.add(jlCorreo);
+        jpDatos.add(jlCorreo);
         jlLIsta = new JLabel("Encuestas (" + this.encuestado.getListaEncuestas().size() + ")");
-        jpArriba.add(jlLIsta);
+        jpDatos.add(jlLIsta);
+
         jbConfiguracion = new JButton();
         jbConfiguracion.setIcon(new ImageIcon(getClass().getResource("/images/settings.png")));
+        jbConfiguracion.setToolTipText(Strings.CAMBIAR_CONTRASENNA);
         jbConfiguracion.addActionListener(this);
-        jpArriba.add(jbConfiguracion);
-        
-         jbCerrarSesion = new JButton();
-        jbCerrarSesion.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
+        jpBotones.add(jbConfiguracion);
+
+        jbCerrarSesion = new JButton();
+        jbCerrarSesion.setIcon(new ImageIcon(getClass().getResource("/images/close2.png")));
+        jbCerrarSesion.setToolTipText(Strings.CERRAR_SESION);
         jbCerrarSesion.addActionListener(this);
-        jpArriba.add(jbCerrarSesion);
-        
+        jpBotones.add(jbCerrarSesion);
 
         jpIzquierda = new JPanel();
         jpIzquierda.setBackground(Color.blue);
@@ -114,7 +124,7 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
 
         jListEncuestasCompartidas = new JList();
         jListEncuestasCompartidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        jListEncuestasCompartidas.setBackground(new java.awt.Color(192, 192, 192));
+        jListEncuestasCompartidas.setBackground(new java.awt.Color(205, 205, 205));
         jListEncuestasCompartidas.setListData(llenaLista());
         grid.gridx = 0;
         grid.gridy = 1;
@@ -133,10 +143,6 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
         jpHistorial.setBorder(historial);
         jpIzquierda.add(jpHistorial);
 
-//        jpDerecha = new JPanel();
-//        jpDerecha.setBackground(Color.GRAY);
-//        this.add(jpDerecha, BorderLayout.CENTER);
-
     }
 
     public String[] llenaLista() {
@@ -154,85 +160,24 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbAbrir) {
-//            List<Pregunta> lista = new ArrayList<>();
-//           
-//            Pregunta p1 = new PreguntaRespuestaMultiple("Pregunta 1");
-//            p1.setTipo(Strings.TIPO_MULTIPLE);
-//            List<String> respuestap1 = new ArrayList<>();
-//            String r1p1 = "reps 1";
-//            String r1p2 = "reps 2";
-//            String r1p3 = "reps 3";
-//            String r1p4 = "reps 4";
-//            respuestap1.add(r1p1);
-//            respuestap1.add(r1p2);
-//            respuestap1.add(r1p3);
-//            respuestap1.add(r1p4);
-//            p1.setListaRespuestas(respuestap1);
+
+            Object objetoActual = jListEncuestasCompartidas.getSelectedValue();
+            if (objetoActual != null) {
+                String encuestaActual = objetoActual.toString();
+                Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this);
+            }else{
+                 JOptionPane.showMessageDialog(rootPane, "Por favor, escoja una encuesta de su bandeja de entrada",
+                        "Problema al abrir la encuesta", JOptionPane.INFORMATION_MESSAGE);
+            }
+
 //            
-//            Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
-//            p2.setTipo(Strings.TIPO_UNICA);
-//            List<String> respuestap2 = new ArrayList<>();
-//            String r2p1 = "reps a";
-//            String r2p2 = "reps b";
-//            String r2p3 = "reps c";
-//            String r2p4 = "reps d";
-//            respuestap2.add(r2p1);
-//            respuestap2.add(r2p2);
-//            respuestap2.add(r2p3);
-//            respuestap2.add(r2p4);
-//            p2.setListaRespuestas(respuestap2);
-//            
-//            
-//            Pregunta p3 = new PreguntaRespuestaMultiple("Pregunta 3");
-//            p3.setTipo(Strings.TIPO_MULTIPLE);
-//            List<String> respuestap3 = new ArrayList<>();
-//            String r3p1 = "reps 1";
-//            String r3p2 = "reps 2";
-//            String r3p3 = "reps 3";
-//            String r3p4 = "reps 4";
-//            respuestap3.add(r3p1);
-//            respuestap3.add(r3p2);
-//            respuestap3.add(r3p3);
-//            respuestap3.add(r3p4);
-//            p3.setListaRespuestas(respuestap3);
-//            
-//            Pregunta p4 = new PreguntaAbierta("Pregunta 4");
-//            p4.setTipo(Strings.TIPO_ABIERTA);
-//            
-//            Pregunta p5 = new PreguntaRespuestaUnica("Pregunta 5");
-//            p5.setTipo(Strings.TIPO_UNICA);
-//            List<String> respuestap5 = new ArrayList<>();
-//            String r5p1 = "reps a";
-//            String r5p2 = "reps b";
-//            String r5p3 = "reps c";
-//            String r5p4 = "reps d";
-//            respuestap5.add(r5p1);
-//            respuestap5.add(r5p2);
-//            respuestap5.add(r5p3);
-//            respuestap5.add(r5p4);
-//            p5.setListaRespuestas(respuestap5);
-//            
-//            
-//            lista.add(p1);
-//            lista.add(p2);
-//            lista.add(p3);
-//            lista.add(p4);
-//            lista.add(p5);
-//
-//            Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
-//                    "Esto es una prueba para probar el panel de llena encuesta", "encuesta1", lista);
-            String encuestaActual = jListEncuestasCompartidas.getSelectedValue().toString();
-            
-            Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this);
-//            
-            
-        } else if(e.getSource() == jbConfiguracion){
+        } else if (e.getSource() == jbConfiguracion) {
             JIFCambioContrasennaEncuestado jifCambio = new JIFCambioContrasennaEncuestado(this.encuestado);
             jifCambio.ocultarBarraTitulo();
             this.add(jifCambio, BorderLayout.CENTER);
-        }else if(e.getSource() == jbCerrarSesion){
-             Cliente cliente = new Cliente(Strings.PETICION_CERRAR_SESION, this.encuestado.getNickname());
-             this.dispose();
+        } else if (e.getSource() == jbCerrarSesion) {
+            Cliente cliente = new Cliente(Strings.PETICION_CERRAR_SESION, this.encuestado.getNickname());
+            this.dispose();
         }
 
     }
