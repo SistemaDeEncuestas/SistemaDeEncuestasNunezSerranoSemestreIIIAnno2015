@@ -6,7 +6,6 @@
 package gui;
 
 import domain.Administrador;
-import domain.Encuestado;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,7 +21,6 @@ import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -46,14 +44,20 @@ public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener 
     private JComboBox jComboEncuestas;
     private JButton jbEnviar;
     private List<String> listaSeleccionados;
-    private String nombreEncuesta;
     private GridBagConstraints gridBag;
     private List<String> encuestados;
     private Administrador administrador;
     private JComponent barra;
     private Dimension dimensionBarra;
-    private String[] seleccionados;
 
+    /**
+     * Este internal me permite establecer las conexiones con el servidor para
+     * poder enviar una encuesta a los usuarios seleccionados
+     *
+     * @param administrador
+     * @param encuestados lista con los nombres de los usuarios encuestados que
+     * existen en el sistema
+     */
     public JIFEnviarEncuesta(Administrador administrador, List<String> encuestados) {
 
         super();
@@ -72,22 +76,10 @@ public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener 
 
     }
 
-//    public JIFEnviarEncuesta() {
-//
-//        super();
-//        this.dimensionBarra = null;
-//        this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
-//        this.listaSeleccionados = new ArrayList<>();
-//
-//        this.setLayout(new GridBagLayout());
-//        this.gridBag = new GridBagConstraints();
-////        this.gridBag.gridwidth = 2;
-//        this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-//
-//        initComponents();
-//        this.setVisible(true);
-//
-//    }
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -215,20 +207,20 @@ public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener 
             this.listModel.addElement(userSeleccionado);
             this.listaSeleccionados.add(userSeleccionado);
             this.jComboUsuarios.removeItem(userSeleccionado);
-            
+
             if (!this.listModel.isEmpty()) {
                 this.jbEliminar.setEnabled(true);
             }
-            if (this.jComboUsuarios.getItemCount()== 0) {
+            if (this.jComboUsuarios.getItemCount() == 0) {
                 this.jbAgregar.setEnabled(true);
             }
 
         } else if (e.getSource() == jbEliminar) {
             this.listaSeleccionados.remove(this.jListaSeleccionados.getSelectedValue().toString());
-             this.jComboUsuarios.addItem(this.jListaSeleccionados.getSelectedValue());
+            this.jComboUsuarios.addItem(this.jListaSeleccionados.getSelectedValue());
             this.listModel.removeElement(this.jListaSeleccionados.getSelectedValue());
 
-             if (this.jComboUsuarios.getItemCount()!= 0) {
+            if (this.jComboUsuarios.getItemCount() != 0) {
                 this.jbAgregar.setEnabled(true);
             }
             if (this.listModel.isEmpty()) {
@@ -236,10 +228,10 @@ public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener 
             }
 
         } else if (e.getSource() == jbEnviar) {
-           
+            /*Establece la comunicacion con el servidor*/
             Cliente cliente = new Cliente(Strings.PETICION_ENVIAR_ENCUESTA, listaSeleccionados,
                     this.jComboEncuestas.getSelectedItem().toString());
-            
+
         }
 
     }

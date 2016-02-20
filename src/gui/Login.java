@@ -21,6 +21,9 @@ import security.Encriptar;
 import util.Strings;
 
 /**
+ * Dialogo que permite iniciar sesión de usuarios tanto administradores como
+ * encuestados
+ *
  * @author adriansb3105
  */
 public class Login extends JDialog implements ActionListener {
@@ -161,7 +164,7 @@ public class Login extends JDialog implements ActionListener {
 
                 String pass = Encriptar.password(this.jpfContraseniaEncuestado.getPassword(), Encriptar.SHA256);
                 Cliente cliente = new Cliente(this.escritorio, this, Strings.PETICION_LOGIN_USER, this.jtfNickEncuestado.getText(), pass);
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, Strings.ERRORCAMPOVACIO, Strings.ERROR, JOptionPane.ERROR_MESSAGE);
             }

@@ -8,7 +8,6 @@ package gui;
 import domain.Encuesta;
 import domain.Pregunta;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,6 +31,9 @@ import util.Exportar;
 import util.Strings;
 
 /**
+ * Clase que me establece la comunicacion con el servidor para poder abrir una
+ * encuesta seleccionada previamente, desde aquí se puede importar el documento
+ * a formato pdf.
  *
  * @author Daniel
  */
@@ -58,6 +60,11 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
 
     private int posicionEnGrid;
 
+    /**
+     *
+     * @param jifAdmin el internal donde se va a pegar esta clase
+     * @param encuesta la encuesta seleccionada previamente
+     */
     public JIFAbrirEncuesta(JInternalFrame jifAdmin, Encuesta encuesta) {
 
         super();
@@ -74,6 +81,10 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
 
     }
 
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -153,6 +164,9 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
         llenaContenido();
         this.jifAdmin.add(this, BorderLayout.CENTER);
     }
+    /*
+     Metodo que me permite llenar el panel con las preguntas y  respuestas de la encuesta seleccionada
+     */
 
     public void llenaContenido() {
         for (int i = 0; i < this.encuestaActual.getPreguntas().size(); i++) {
@@ -202,7 +216,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaActual.getListaRespuestas().size(); j++) {
 
                     JCheckBox check = new JCheckBox(preguntaActual.getListaRespuestas().get(j));
-                    check.setBackground(new java.awt.Color(224,224,224));
+                    check.setBackground(new java.awt.Color(224, 224, 224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;

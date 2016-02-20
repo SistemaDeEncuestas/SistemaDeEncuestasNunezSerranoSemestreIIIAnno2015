@@ -7,7 +7,6 @@ package gui;
 
 import domain.Administrador;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -24,7 +23,7 @@ import logic.Cliente;
 import util.Strings;
 
 /**
- *
+ *Clase que permite establecer conexión con el servidor para eliminar una encuesta
  * @author Daniel
  */
 public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener {
@@ -39,6 +38,11 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
     private List<String> listaEncuestas;
     private GridBagConstraints gridBag;
     private Administrador administrador;
+    
+    /**
+     * 
+     * @param admin el administrador que intenta eliminar su encuesta
+     */
     public JIFEliminaEncuesta(Administrador admin) {
         super();
         this.administrador = admin;
@@ -51,7 +55,11 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
         this.setVisible(true);
 
     }
-
+    
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();

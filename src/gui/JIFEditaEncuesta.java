@@ -36,6 +36,7 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Clase que me permite editar una encuesta creada anteriormente
  *
  * @author Daniel
  */
@@ -65,13 +66,17 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
     private List<Pregunta> listaPreguntas;
     private String titulo;
     private String descripcion;
-    private String nombreCreador;
     private String nombreArchivo;
     private Pregunta preguntaActual;
     private String tipoPregunta;
     private JInternalFrame jifPadre;
     private int cantidadRespuestas;
 
+    /**
+     *
+     * @param jifPadre el internal donde esta ventana se va a pegar
+     * @param encuesta la encuesta a editar
+     */
     public JIFEditaEncuesta(JInternalFrame jifPadre, Encuesta encuesta) {
 
         super();
@@ -99,6 +104,10 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
 
     }
 
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -212,6 +221,10 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
 
     }
 
+    /**
+     * Metodo que me permite cargar las preguntas y respuestas de la encuesta en
+     * el panel dinámico
+     */
     public void llenaContenido() {
         for (int i = 0; i < this.miEncuesta.getPreguntas().size(); i++) {
 
@@ -298,7 +311,9 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        /**
+         *Me permite ingresar una nueva pregunta al panel y agregarlo a la encuesta
+         */
         if (e.getSource() == jbPregunta) {
             this.cantidadRespuestas = 0;
             this.jbPregunta.setEnabled(false);
@@ -351,7 +366,11 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 }
 
             }
-
+            
+            /*
+            Me permite agregar respuestas a la encuesta
+            */
+           
         } else if (e.getSource() == jbRespuesta) {
 
             if (this.tipoPregunta.equals(Strings.TIPO_3)) {

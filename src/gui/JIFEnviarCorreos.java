@@ -30,6 +30,8 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Internal que me permite establecer la conexion con el servidor para poder
+ * enviar encuestas a correos electrónicos
  *
  * @author Daniel
  */
@@ -46,13 +48,17 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
     private JComboBox jComboEncuestas;
     private JButton jbEnviar;
     private List<String> listaSeleccionados;
-    private String nombreEncuesta;
     private GridBagConstraints gridBag;
     private Administrador administrador;
     private JComponent barra;
     private Dimension dimensionBarra;
-    private String[] seleccionados;
 
+    /**
+     * Internal que me permite establecer la conexion con el servidor para poder
+     * enviar encuestas a correos electrónicos
+     *
+     * @param administrador
+     */
     public JIFEnviarCorreos(Administrador administrador) {
 
         super();
@@ -69,7 +75,11 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.setVisible(true);
 
     }
-
+    
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -191,9 +201,9 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
                     if (!this.listModel.isEmpty()) {
                         this.jbEliminar.setEnabled(true);
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(rootPane, "inserte un correo electrónico válido",
-                        Strings.ERROR, JOptionPane.ERROR_MESSAGE);
+                            Strings.ERROR, JOptionPane.ERROR_MESSAGE);
                 }
 
             } else {
@@ -211,6 +221,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
             }
 
         } else if (e.getSource() == jbEnviar) {
+            /*llamo a cliente para realizar la conexion con el servidor y enviar los correos*/
             Cliente cliente = new Cliente(Strings.PETICION_ENVIAR_CORREO, this.listaSeleccionados,
                     this.jComboEncuestas.getSelectedItem().toString());
         }

@@ -1,19 +1,12 @@
 package gui;
 
-import domain.Encuesta;
 import domain.Encuestado;
-import domain.Pregunta;
-import domain.PreguntaAbierta;
-import domain.PreguntaRespuestaMultiple;
-import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -31,6 +24,7 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Interfaz para el control de las funciones básicas de un usuario encuestado
  *
  * @author Daniel
  */
@@ -56,6 +50,11 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     private JList jListEncuestasCompartidas;
     private JDesktopPane escritorio;
 
+    /**
+     *
+     * @param escritorio el componente donde será agregado el internal
+     * @param encuestado el encuestado actual que tiene su sesión iniciada
+     */
     public JIFEncuestado(JDesktopPane escritorio, Encuestado encuestado) {
 
         super("Bienvenido " + encuestado.getNickname(), true, false, true);
@@ -158,19 +157,19 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        /*Abrir una encuesta para llenar*/
         if (e.getSource() == jbAbrir) {
 
             Object objetoActual = jListEncuestasCompartidas.getSelectedValue();
             if (objetoActual != null) {
                 String encuestaActual = objetoActual.toString();
                 Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this, this.encuestado);
-            }else{
-                 JOptionPane.showMessageDialog(rootPane, "Por favor, escoja una encuesta de su bandeja de entrada",
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Por favor, escoja una encuesta de su bandeja de entrada",
                         "Problema al abrir la encuesta", JOptionPane.INFORMATION_MESSAGE);
             }
 
-//            
+            /*Cambiar la contraseña del usuario*/
         } else if (e.getSource() == jbConfiguracion) {
             JIFCambioContrasennaEncuestado jifCambio = new JIFCambioContrasennaEncuestado(this.encuestado);
             jifCambio.ocultarBarraTitulo();

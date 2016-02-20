@@ -32,6 +32,8 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Clase que me permite crear una nueva encuestay enviarsela al servidor para
+ * que se la agrege al administrador que la creó
  *
  * @author Daniel
  */
@@ -67,6 +69,11 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
     private String tipoPregunta;
     private Administrador administrador;
 
+    /**
+     *
+     * @param administrador el administrador a quien hay que asignarle la lista
+     * cuando es creada
+     */
     public JIFNuevaEncuesta(Administrador administrador) {
 
         super();
@@ -93,6 +100,10 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
 
     }
 
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -205,9 +216,11 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        /*
+         * agrega una nueva pregunta tanto al panel como a la lista de preguntas de la encuesta
+         */
         if (e.getSource() == jbPregunta) {
-           
+
             this.cantidadRespuestas = 0;
             this.jbPregunta.setEnabled(false);
 
@@ -260,7 +273,13 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                 }
 
             }
-
+            /*
+             *agrega una nueva respuesta al panel y la asigna a la lista de repuestas
+             de la pregunta generada anteriormente.
+             Dependiendo de el tipo de pregunta genera un JRadioButton para
+             * preguntas tipo seleccion unica, un JCheckBox para preguntas de respuesta multiple
+             y JTextField para preguntas abiertas.
+             */
         } else if (e.getSource() == jbRespuesta) {
 
             if (this.tipoPregunta.equals(Strings.TIPO_3)) {

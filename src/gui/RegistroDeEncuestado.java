@@ -21,6 +21,9 @@ import security.Encriptar;
 import util.Strings;
 
 /**
+ * Clase que me permite realizar la conexión con el servidor para registrar un
+ * nuevo usuario
+ *
  * @author adriansb3105
  */
 public class RegistroDeEncuestado extends JDialog implements ActionListener {
@@ -40,7 +43,8 @@ public class RegistroDeEncuestado extends JDialog implements ActionListener {
     private JDialog login;
     private GridBagConstraints grid;
     private JDesktopPane escritorio;
-
+    
+    
     public RegistroDeEncuestado(JDialog login, JDesktopPane escritorio) {
         super();
         this.escritorio = escritorio;
@@ -143,22 +147,22 @@ public class RegistroDeEncuestado extends JDialog implements ActionListener {
             String nombre = jtfNombre.getText().trim();
             String nickname = jtfNombreUsuario.getText().trim();
             String correo = jtfCorreo.getText().trim();
-            
+
             if (!nombre.isEmpty() && !nickname.isEmpty() && jpfContrasenia.getPassword().length != 0 && jpfContraseniaVerificar.getPassword().length != 0 && !correo.isEmpty()) {
 
                 String contrasenna = Encriptar.password(jpfContrasenia.getPassword(), Encriptar.SHA256);
                 String verifica = Encriptar.password(jpfContraseniaVerificar.getPassword(), Encriptar.SHA256);
-                
+
                 if (contrasenna.equals(verifica)) {
                     Encuestado encuestado = new Encuestado(nombre, nickname, contrasenna, correo);
-                    Cliente cliente = new Cliente(escritorio,Strings.PETICION_REGISTRAR_USER, encuestado);
+                    Cliente cliente = new Cliente(escritorio, Strings.PETICION_REGISTRAR_USER, encuestado);
                     this.dispose();
-                    
-                } else{
-                    JOptionPane.showMessageDialog(rootPane, "Las contraseñas no coinciden",Strings.ERROR ,JOptionPane.ERROR_MESSAGE);
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Las contraseñas no coinciden", Strings.ERROR, JOptionPane.ERROR_MESSAGE);
                 }
 
-            } else{
+            } else {
                 JOptionPane.showMessageDialog(rootPane, "No debe dejar espacios en blanco", Strings.ERROR, JOptionPane.ERROR_MESSAGE);
             }
 

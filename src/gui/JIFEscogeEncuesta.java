@@ -28,6 +28,9 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Internal que me permite escoger el nombre de una encuesta de la lista de
+ * encuestas que pertenecen al administrador y a partir de aqui establecer la
+ * conexión con el servidor para llegar a abrir o editar dicha encuesta
  *
  * @author Daniel
  */
@@ -45,6 +48,15 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
     private boolean flag;
     JInternalFrame jifAdmin;
 
+    /**
+     *
+     * @param jifAdmin el internal donde se va a crear esta clase
+     * @param listaEncuestas la lista de encuestas que el administrador en
+     * sesión ha creado
+     *
+     * @param flag una bandera que me permite saber su voy a editar una encuesta
+     * o si sólamente voy a abrirla después de escoger dicha encuesta
+     */
     public JIFEscogeEncuesta(JInternalFrame jifAdmin, List<String> listaEncuestas, boolean flag) {
         super();
         this.flag = flag;
@@ -58,7 +70,10 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
         this.setVisible(true);
 
     }
-
+     /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -86,7 +101,7 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
         this.jbAbrir = new JButton(Strings.BOTON_ABRIR);
         this.jbAbrir.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
-        this.gridBag.ipadx =50;
+        this.gridBag.ipadx = 50;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 2;
         this.add(jbAbrir, gridBag);
@@ -94,7 +109,7 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
         this.jbCancelar = new JButton(Strings.CANCELAR);
         this.jbCancelar.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
-         this.gridBag.ipadx =30;
+        this.gridBag.ipadx = 30;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 3;
         this.add(jbCancelar, gridBag);
@@ -114,50 +129,11 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
             this.dispose();
             updateUI();
         } else if (e.getSource() == jbAbrir) {
-            //TODO
-//
-//            List<Pregunta> lista = new ArrayList<>();
-//
-//            Pregunta p1 = new PreguntaRespuestaUnica("Pregunta 1");
-//            p1.setTipo(Strings.TIPO_UNICA);
-//            List<String> respuestap1 = new ArrayList<>();
-//            String r1p1 = "reps 1";
-//            String r1p2 = "reps 2";
-//            String r1p3 = "reps 3";
-//            String r1p4 = "reps 4";
-//            respuestap1.add(r1p1);
-//            respuestap1.add(r1p2);
-//            respuestap1.add(r1p3);
-//            respuestap1.add(r1p4);
-//            p1.setListaRespuestas(respuestap1);
-//
-//            Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
-//            p1.setTipo(Strings.TIPO_UNICA);
-//            List<String> respuestap2 = new ArrayList<>();
-//            String r2p1 = "reps 1";
-//            String r2p2 = "reps 2";
-//            String r2p3 = "reps 3";
-//            String r2p4 = "reps 4";
-//            respuestap2.add(r2p1);
-//            respuestap2.add(r2p2);
-//            respuestap2.add(r2p3);
-//            respuestap2.add(r2p4);
-//            p2.setListaRespuestas(respuestap2);
-//
-//            Pregunta p3 = new PreguntaAbierta("Pregunta 3");
-//            p3.setTipo(Strings.TIPO_ABIERTA);
-//            lista.add(p1);
-//            lista.add(p2);
-//            lista.add(p3);
-//
-//            Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
-//                    "Esto es una prueba para probar el panel de llenaencuesta", "encuesta1", lista);
-//            System.out.println(encuesta);
-            
+          
+
             String nombreEncuesta = jcEncuestas.getSelectedItem().toString();
             Cliente cliente = new Cliente(Strings.PETICION_GET_ENCUESTA, nombreEncuesta, this.jifAdmin, this.flag);
             this.dispose();
-           
 
         }
     }

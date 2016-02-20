@@ -1,6 +1,5 @@
 package gui;
 
-import domain.Administrador;
 import domain.Encuesta;
 import domain.Encuestado;
 import domain.Pregunta;
@@ -32,6 +31,9 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Clase que me permite responder una respuesta y crear la conexion con el
+ * servidor para que se agregue a las encuestas respondidas
+ *
  * @author adriansb3105
  * @author Daniel
  */
@@ -54,6 +56,12 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
     private int posicionEnGrid;
     private Usuario usuario;
 
+    /**
+     *
+     * @param encuesta la encuesta que será llenada
+     * @param usuario el usuario que la va a llenar (puede ser un administrador
+     * o un encuestado)
+     */
     public JIFResponderEncuesta(Encuesta encuesta, Usuario usuario) {
         super();
         this.usuario = usuario;
@@ -71,6 +79,10 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
         this.setVisible(true);
     }
 
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -142,6 +154,12 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
         llenaContenido();
     }
 
+    /**
+     * Metodo que me permite cargar las preguntas y respuestas de la encuesta en
+     * el panel dinámico, se crea una lista de componentes para poder recorrer
+     * todos los componentes en la encuesta y que sus respuestas puedan ser
+     * tomadas en cuenta cuando se intente enviar la encuesta para su análisis
+     */
     public void llenaContenido() {
         for (int i = 0; i < this.encuestaActual.getPreguntas().size(); i++) {
 

@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 import util.Strings;
 
 /**
+ *
  * @author adriansb3105
  */
 public class PantallaPrincipal extends JFrame implements ActionListener {
@@ -44,7 +45,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
         this.jmiInciarSesion = new JMenuItem(Strings.ITEM_INICIAR);
         this.jmiInciarSesion.addActionListener(this);
         this.jmArchivo.add(jmiInciarSesion);
-       
+
         this.login = new Login(this.escritorio);
         this.escritorio.setBounds(0, 10, this.getWidth(), this.getHeight());
         this.login.setLocationRelativeTo(null);
@@ -63,7 +64,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
             this.login.setLocationRelativeTo(null);
             this.login.setVisible(true);
 
-        } 
+        }
 
     }
 

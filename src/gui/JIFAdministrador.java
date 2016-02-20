@@ -26,6 +26,8 @@ import logic.Cliente;
 import util.Strings;
 
 /**
+ * Clase que se utliza como la interfaz para el administrador que haya iniciado
+ * sesion en el sistema desde aquí se realizan las funciones del administrador
  *
  * @author Daniel
  */
@@ -55,6 +57,11 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JDesktopPane escritorio;
     private JList jListEncuestas;
 
+    /**
+     *
+     * @param escritorio el JDesktopPane donde se va a pegar este internal
+     * @param administrador el administrador que inicia sesion en el sistema
+     */
     public JIFAdministrador(JDesktopPane escritorio, Administrador administrador) {
         super("Bienvenido " + administrador.getNickname(), true, false, true);
         this.setLayout(new BorderLayout());

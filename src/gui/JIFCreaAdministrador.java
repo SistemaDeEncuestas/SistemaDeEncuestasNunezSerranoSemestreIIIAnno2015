@@ -20,6 +20,7 @@ import security.Encriptar;
 import util.Strings;
 
 /**
+ * Me permite registrar un nuevo administrador al sistema
  *
  * @author Daniel
  */
@@ -58,6 +59,10 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
         this.setVisible(true);
     }
 
+    /**
+     * Metodo que me permite ocultar la barra del titulo del internal, para
+     * evitar que este se mueva
+     */
     public void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
@@ -160,10 +165,10 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
 
                 String contrasenna = Encriptar.password(jtContrasenna.getPassword(), Encriptar.SHA256);
                 String verificaContrasenna = Encriptar.password(jtVerificaContrasenna.getPassword(), Encriptar.SHA256);
-            
+
                 if (contrasenna.equals(verificaContrasenna)) {
                     Administrador administrador = new Administrador(nombre, nombreUsuario, contrasenna, correoElectronico);
-                   
+
                     Cliente cliente = new Cliente(Strings.PETICION_REGISTRA_ADMIN, administrador);
                 } else {
                     jlMensaje.setText(Strings.ERROR_CONTRASENNA_DIFERENTE);
