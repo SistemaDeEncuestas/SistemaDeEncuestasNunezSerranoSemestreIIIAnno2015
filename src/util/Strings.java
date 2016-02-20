@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Strings {
 
-    public final static String IP = "localhost";
+    public final static String IP = "10.155.7.226";
     public final static int PUERTO = 5700;
     public static List<String> listaNombresUsuarios;
     public static List<String> listaPreguntas = new ArrayList<>();
@@ -91,12 +91,15 @@ public class Strings {
     public final static String PETICION_CREAR_ENCUESTA = "crearEncuesta";
     public final static String PETICION_EDITA_ENCUESTA = "editarEncuesta";
     public final static String PETICION_GUARDA_EDICION = "guardarEdicion";
+     public final static String PETICION_ELIMINA_ENCUESTA = "eliminaEncuesta";
     public final static String PETICION_ENVIAR_ENCUESTA = "enviarEncuesta";
     public final static String PETICION_DEVOLVER_ENCUESTA = "devolverEncuesta";
     public final static String PETICION_ENVIAR_CORREO = "enviarCorreo";
     public final static String PETICION_CAMBIAR_CONTRASENNA_ADMIN = "cambiarContrasennaAdministrador";
     public final static String PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO = "cambiarContrasennaEncuestado";
     public final static String PETICION_NOMBRES_POR_ENCUESTA = "nombresPorEncuesta";
+    public final static String PETICION_GET_ENCUESTA = "abrirEncuesta";
+     public final static String PETICION_SOLICITA_ENCUESTA = "solicitaEncuesta";
     
     /* PanelEnviarCorreos*/
     public final static String LABEL_ENCUESTADOS = "Escoja a los usuarios que quiera enviarle la encuesta";

@@ -163,6 +163,7 @@ public class JIFCreaAdministrador extends JInternalFrame implements ActionListen
             
                 if (contrasenna.equals(verificaContrasenna)) {
                     Administrador administrador = new Administrador(nombre, nombreUsuario, contrasenna, correoElectronico);
+                   
                     Cliente cliente = new Cliente(Strings.PETICION_REGISTRA_ADMIN, administrador);
                 } else {
                     jlMensaje.setText(Strings.ERROR_CONTRASENNA_DIFERENTE);

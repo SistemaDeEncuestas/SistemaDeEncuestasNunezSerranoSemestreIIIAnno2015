@@ -1,14 +1,13 @@
 package gui;
 
+import domain.Administrador;
 import domain.Encuesta;
 import domain.Pregunta;
 import domain.PreguntaAbierta;
 import domain.PreguntaRespuestaMultiple;
 import domain.PreguntaRespuestaUnica;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -56,34 +55,32 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
     private Dimension dimensionBarra;
     private GridBagConstraints gridBagEstatico;
     private GridBagConstraints gridBagDinamico;
-
-    private int posicionY;
     private int largo;
-
     private Encuesta miEncuesta;
     private List<Pregunta> listaPreguntas;
-
+    private int cantidadRespuestas;
     private String titulo;
     private String descripcion;
     private String nombreCreador;
     private String nombreArchivo;
-    Pregunta preguntaActual;
+    private Pregunta preguntaActual;
     private String tipoPregunta;
+    private Administrador administrador;
 
-    public JIFNuevaEncuesta(String nombreCreador) {
+    public JIFNuevaEncuesta(Administrador administrador) {
 
         super();
+        this.administrador = administrador;
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
-
-        this.nombreCreador = nombreCreador;
+        this.nombreCreador = this.administrador.getNickname();
         this.listaPreguntas = new ArrayList<>();
         this.titulo = "";
         this.descripcion = "";
         this.nombreArchivo = "";
 
         this.posicionEnGrid = 0;
-        this.posicionY = 30;
+
         this.largo = 850;
         this.tipoPregunta = "";
         this.setLayout(new BorderLayout());
@@ -210,6 +207,9 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbPregunta) {
+           
+            this.cantidadRespuestas = 0;
+            this.jbPregunta.setEnabled(false);
 
             this.jbRespuesta.setEnabled(true);
             this.grupoRadio = new ButtonGroup();
@@ -243,7 +243,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
-                    this.gridBagDinamico.weightx = 0;
+                    this.gridBagDinamico.weightx = 3;
                     this.gridBagDinamico.ipadx = 0;
                     this.gridBagDinamico.ipady = 0;
                     this.gridBagDinamico.gridx = 0;
@@ -262,7 +262,6 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
             }
 
         } else if (e.getSource() == jbRespuesta) {
-//            List<String> listaRespuestas = new ArrayList<>();
 
             if (this.tipoPregunta.equals(Strings.TIPO_3)) {
                 this.jbRespuesta.setEnabled(false);
@@ -271,7 +270,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                 JScrollPane scrollTexto = new JScrollPane(textoRespuesta);
                 this.gridBagDinamico.fill = GridBagConstraints.NONE;
                 this.gridBagDinamico.anchor = GridBagConstraints.WEST;
-                this.gridBagDinamico.weighty = 3;
+                this.gridBagDinamico.weighty = 0;
                 this.gridBagDinamico.weightx = 3;
                 this.gridBagDinamico.ipady = 0;
                 this.gridBagDinamico.ipadx = 0;
@@ -286,7 +285,12 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
 
                 if (respuesta != null) {
 
-                    if (!respuesta.trim().equals("")) {
+                    if (!respuesta.trim().isEmpty()) {
+
+                        this.cantidadRespuestas++;
+                        if (cantidadRespuestas >= 2) {
+                            this.jbPregunta.setEnabled(true);
+                        }
 
                         this.preguntaActual.addRespuesta(respuesta);
                         if (this.tipoPregunta.equals(Strings.TIPO_1)) {
@@ -296,7 +300,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
-                            this.gridBagDinamico.weightx = 0;
+                            this.gridBagDinamico.weightx = 3;
                             this.gridBagDinamico.ipady = 0;
                             this.gridBagDinamico.ipadx = 0;
                             this.gridBagDinamico.gridx = 0;
@@ -312,7 +316,7 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
-                            this.gridBagDinamico.weightx = 0;
+                            this.gridBagDinamico.weightx = 3;
                             this.gridBagDinamico.ipady = 0;
                             this.gridBagDinamico.ipadx = 0;
                             this.gridBagDinamico.gridx = 0;
@@ -342,9 +346,8 @@ public class JIFNuevaEncuesta extends JInternalFrame implements ActionListener {
                 this.miEncuesta = new Encuesta(this.nombreCreador, tituloEncuesta,
                         descripcionEncuesta, this.nombreArchivo, this.listaPreguntas);
                 System.out.println(this.miEncuesta);
-                Cliente cliente = new Cliente(Strings.PETICION_CREAR_ENCUESTA, this.miEncuesta);
+                Cliente cliente = new Cliente(Strings.PETICION_CREAR_ENCUESTA, this.miEncuesta, this.administrador);
 
-                // llamar a cliente
             } else {
                 JOptionPane.showMessageDialog(rootPane, "No debe dejar espacios en blanco", Strings.ERROR, JOptionPane.ERROR_MESSAGE);
             }

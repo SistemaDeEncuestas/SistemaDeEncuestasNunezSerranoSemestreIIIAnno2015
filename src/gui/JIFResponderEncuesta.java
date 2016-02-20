@@ -25,6 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -260,11 +261,13 @@ public class JIFResponderEncuesta extends JInternalFrame implements ActionListen
 
                         listaRespuestas.add(texto.getText());
                         break;
-                }
+                } 
 
                 this.encuestaActual.getPreguntas().get(k).setListaRespuestas(listaRespuestas);
             }
             System.out.println(encuestaActual);
+            Cliente cliente = new Cliente(Strings.PETICION_DEVOLVER_ENCUESTA, this.encuestaActual);
+            
         }
     }
 

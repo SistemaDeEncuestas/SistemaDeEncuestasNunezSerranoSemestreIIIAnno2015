@@ -28,7 +28,7 @@ public class Exportar {
     public boolean exportarAPDF(Encuesta encuesta) {
 
         try {
-            File file = new File(encuesta.getNombreArchivo() + ".pdf");
+            File file = new File("src/files/" + encuesta.getNombreArchivo() + ".pdf");
             FileOutputStream fileout = new FileOutputStream(file);
 
             Document document = new Document();

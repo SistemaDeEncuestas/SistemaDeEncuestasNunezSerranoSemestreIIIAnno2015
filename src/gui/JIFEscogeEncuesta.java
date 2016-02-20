@@ -24,6 +24,7 @@ import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -112,57 +113,49 @@ public class JIFEscogeEncuesta extends JInternalFrame implements ActionListener 
             updateUI();
         } else if (e.getSource() == jbAbrir) {
             //TODO
-
-            List<Pregunta> lista = new ArrayList<>();
-
-            Pregunta p1 = new PreguntaRespuestaUnica("Pregunta 1");
-            p1.setTipo(Strings.TIPO_UNICA);
-            List<String> respuestap1 = new ArrayList<>();
-            String r1p1 = "reps 1";
-            String r1p2 = "reps 2";
-            String r1p3 = "reps 3";
-            String r1p4 = "reps 4";
-            respuestap1.add(r1p1);
-            respuestap1.add(r1p2);
-            respuestap1.add(r1p3);
-            respuestap1.add(r1p4);
-            p1.setListaRespuestas(respuestap1);
-
-            Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
-            p1.setTipo(Strings.TIPO_UNICA);
-            List<String> respuestap2 = new ArrayList<>();
-            String r2p1 = "reps 1";
-            String r2p2 = "reps 2";
-            String r2p3 = "reps 3";
-            String r2p4 = "reps 4";
-            respuestap2.add(r2p1);
-            respuestap2.add(r2p2);
-            respuestap2.add(r2p3);
-            respuestap2.add(r2p4);
-            p2.setListaRespuestas(respuestap2);
-
-            Pregunta p3 = new PreguntaAbierta("Pregunta 3");
-            p3.setTipo(Strings.TIPO_ABIERTA);
-            lista.add(p1);
-            lista.add(p2);
-            lista.add(p3);
-
-            Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
-                    "Esto es una prueba para probar el panel de llenaencuesta", "encuesta1", lista);
-            System.out.println(encuesta);
-            if (!this.flag) {
-                JIFAbrirEncuesta abrir = new JIFAbrirEncuesta(this.jifAdmin, encuesta);
-                abrir.ocultarBarraTitulo();
-                this.dispose();
-                this.jifAdmin.add(abrir, BorderLayout.CENTER);
-            } else {
-
-                JIFEditaEncuesta edita = new JIFEditaEncuesta(jifAdmin, encuesta);
-                edita.ocultarBarraTitulo();
-                this.dispose();
-                this.jifAdmin.add(edita, BorderLayout.CENTER);
-
-            }
+//
+//            List<Pregunta> lista = new ArrayList<>();
+//
+//            Pregunta p1 = new PreguntaRespuestaUnica("Pregunta 1");
+//            p1.setTipo(Strings.TIPO_UNICA);
+//            List<String> respuestap1 = new ArrayList<>();
+//            String r1p1 = "reps 1";
+//            String r1p2 = "reps 2";
+//            String r1p3 = "reps 3";
+//            String r1p4 = "reps 4";
+//            respuestap1.add(r1p1);
+//            respuestap1.add(r1p2);
+//            respuestap1.add(r1p3);
+//            respuestap1.add(r1p4);
+//            p1.setListaRespuestas(respuestap1);
+//
+//            Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
+//            p1.setTipo(Strings.TIPO_UNICA);
+//            List<String> respuestap2 = new ArrayList<>();
+//            String r2p1 = "reps 1";
+//            String r2p2 = "reps 2";
+//            String r2p3 = "reps 3";
+//            String r2p4 = "reps 4";
+//            respuestap2.add(r2p1);
+//            respuestap2.add(r2p2);
+//            respuestap2.add(r2p3);
+//            respuestap2.add(r2p4);
+//            p2.setListaRespuestas(respuestap2);
+//
+//            Pregunta p3 = new PreguntaAbierta("Pregunta 3");
+//            p3.setTipo(Strings.TIPO_ABIERTA);
+//            lista.add(p1);
+//            lista.add(p2);
+//            lista.add(p3);
+//
+//            Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
+//                    "Esto es una prueba para probar el panel de llenaencuesta", "encuesta1", lista);
+//            System.out.println(encuesta);
+            
+            String nombreEncuesta = jcEncuestas.getSelectedItem().toString();
+            Cliente cliente = new Cliente(Strings.PETICION_GET_ENCUESTA, nombreEncuesta, this.jifAdmin, this.flag);
+            this.dispose();
+           
 
         }
     }

@@ -5,6 +5,7 @@
  */
 package gui;
 
+import domain.Administrador;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -19,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -36,10 +38,11 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
     private Dimension dimensionBarra;
     private List<String> listaEncuestas;
     private GridBagConstraints gridBag;
-
-    public JIFEliminaEncuesta(List<String> listaEncuestas) {
+    private Administrador administrador;
+    public JIFEliminaEncuesta(Administrador admin) {
         super();
-        this.listaEncuestas = listaEncuestas;
+        this.administrador = admin;
+        this.listaEncuestas = this.administrador.getEncuestasCreadas();
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
         this.setLayout(new GridBagLayout());
@@ -82,6 +85,7 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
         this.jbEliminar = new JButton(Strings.BOTON_ELIMINAR);
         this.jbEliminar.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
+        this.gridBag.ipadx = 40;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 3;
         this.add(jbEliminar, gridBag);
@@ -89,6 +93,7 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
         this.jbCancelar = new JButton(Strings.CANCELAR);
         this.jbCancelar.addActionListener(this);
         this.gridBag.fill = GridBagConstraints.NONE;
+         this.gridBag.ipadx = 30;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 4;
         this.add(jbCancelar, gridBag);
@@ -107,6 +112,14 @@ public class JIFEliminaEncuesta extends JInternalFrame implements ActionListener
         if(e.getSource() == jbCancelar){
             this.dispose();
             updateUI();
+        }
+        if(e.getSource() == jbEliminar){
+            String nombreEncuesta = jcEncuestas.getSelectedItem().toString();
+            Cliente cliente = new Cliente(Strings.PETICION_ELIMINA_ENCUESTA, nombreEncuesta);
+            
+            this.administrador.eliminaEncuesta(nombreEncuesta);
+            this.jcEncuestas.removeItem(nombreEncuesta);
+            
         }
     }
 

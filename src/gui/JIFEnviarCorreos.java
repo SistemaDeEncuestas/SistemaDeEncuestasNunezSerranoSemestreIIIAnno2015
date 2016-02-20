@@ -6,8 +6,6 @@
 package gui;
 
 import domain.Administrador;
-import domain.Encuesta;
-import domain.Encuestado;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,15 +14,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -34,50 +36,33 @@ import util.Strings;
 public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
 
     private JLabel jlUsuarios;
-    private JComboBox jComboUsuarios;
+    private JTextField jtUsuarios;
     private JButton jbAgregar;
     private JList jListaSeleccionados;
+    private DefaultListModel listModel;
     private JButton jbEliminar;
     private JButton jbCancelar;
     private JLabel jlEncuesta;
     private JComboBox jComboEncuestas;
     private JButton jbEnviar;
-    private List<Encuestado> listaSeleccionados;
+    private List<String> listaSeleccionados;
     private String nombreEncuesta;
     private GridBagConstraints gridBag;
-    private Encuestado[] encuestados;
     private Administrador administrador;
     private JComponent barra;
     private Dimension dimensionBarra;
-//
-//    public PanelEnviarCorreos(Administrador administrador, Encuestado[] encuestados) {
-//
-//        super();
-//     this.dimensionBarra = null;
-//        this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
-//        this.listaSeleccionados = new ArrayList<>();
-//        this.encuestados = encuestados;
-//        this.administrador = administrador;
-//        this.setLayout(new GridBagLayout());
-//        this.gridBag = new GridBagConstraints();
-//        this.gridBag.gridwidth = 2;
-//        this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-//
-//        initComponents();
-//        this.setVisible(true);
-//
-//    }
+    private String[] seleccionados;
 
-    public JIFEnviarCorreos() {
+    public JIFEnviarCorreos(Administrador administrador) {
 
         super();
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
         this.listaSeleccionados = new ArrayList<>();
-
+        this.administrador = administrador;
         this.setLayout(new GridBagLayout());
         this.gridBag = new GridBagConstraints();
-//        this.gridBag.gridwidth = 2;
+        this.gridBag.gridwidth = 2;
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
 
         initComponents();
@@ -103,27 +88,30 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.gridBag.gridy = 0;
         this.add(this.jlUsuarios, gridBag);
 
-        this.jComboUsuarios = new JComboBox();
+        this.jtUsuarios = new JTextField();
         this.gridBag.fill = GridBagConstraints.CENTER;
         this.gridBag.weightx = 2;
         this.gridBag.ipadx = 120;
-        llenaComboBoxUsuarios();
+
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 1;
-        this.add(this.jComboUsuarios, gridBag);
+        this.add(this.jtUsuarios, gridBag);
 
         this.jbAgregar = new JButton(Strings.BOTON_ANNADIR);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.jbAgregar.addActionListener(this);
+        this.gridBag.weightx = 1;
         this.gridBag.ipadx = 0;
-        this.gridBag.gridx = 1;
+        this.gridBag.gridx = 2;
         this.gridBag.gridy = 1;
         this.add(this.jbAgregar, gridBag);
 
-        this.jListaSeleccionados = new JList();
+        this.listModel = new DefaultListModel();
+        this.jListaSeleccionados = new JList(listModel);
+        this.jListaSeleccionados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
-        this.gridBag.ipadx = 0;
         this.gridBag.weightx = 2;
+        this.gridBag.ipadx = 0;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 2;
         this.add(this.jListaSeleccionados, gridBag);
@@ -131,10 +119,14 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.jbEliminar = new JButton(Strings.BOTON_ELIMINAR);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
         this.jbEliminar.addActionListener(this);
+        this.gridBag.weightx = 1;
         this.gridBag.ipadx = 0;
-        this.gridBag.gridx = 1;
+        this.gridBag.gridx = 2;
         this.gridBag.gridy = 2;
         this.add(this.jbEliminar, gridBag);
+        if (this.listModel.isEmpty()) {
+            this.jbEliminar.setEnabled(false);
+        }
 
         this.jlEncuesta = new JLabel(Strings.LABEL_ENCUESTA, SwingConstants.CENTER);
         this.gridBag.fill = GridBagConstraints.HORIZONTAL;
@@ -145,8 +137,8 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
 
         this.jComboEncuestas = new JComboBox();
         this.gridBag.fill = GridBagConstraints.CENTER;
-        this.gridBag.ipadx = 120;
         llenaComboBoxEncuestas();
+        this.gridBag.ipadx = 120;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 4;
         this.add(this.jComboEncuestas, gridBag);
@@ -155,6 +147,7 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         this.gridBag.fill = GridBagConstraints.NONE;
         this.gridBag.anchor = GridBagConstraints.CENTER;
         this.jbEnviar.addActionListener(this);
+
         this.gridBag.ipadx = 45;
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 5;
@@ -171,11 +164,12 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
 
     }
 
-    private void llenaComboBoxUsuarios() {
-
-    }
-
     public void llenaComboBoxEncuestas() {
+
+        for (int i = 0; i < this.administrador.getEncuestasCreadas().size(); i++) {
+            this.jComboEncuestas.addItem(this.administrador.getEncuestasCreadas().get(i));
+
+        }
 
     }
 
@@ -185,6 +179,40 @@ public class JIFEnviarCorreos extends JInternalFrame implements ActionListener {
         if (e.getSource() == jbCancelar) {
             this.dispose();
             updateUI();
+        } else if (e.getSource() == jbAgregar) {
+
+            String userSeleccionado = this.jtUsuarios.getText();
+            if (!userSeleccionado.isEmpty()) {
+                if (userSeleccionado.contains("@")) {
+                    this.listModel.addElement(userSeleccionado);
+                    this.listaSeleccionados.add(userSeleccionado);
+                    this.jtUsuarios.setText("");
+
+                    if (!this.listModel.isEmpty()) {
+                        this.jbEliminar.setEnabled(true);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "inserte un correo electrónico válido",
+                        Strings.ERROR, JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No debe dejar el espacio en blanco",
+                        Strings.ERROR, JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else if (e.getSource() == jbEliminar) {
+
+            this.listModel.removeElement(this.jListaSeleccionados.getSelectedValue());
+            this.listaSeleccionados.remove(this.jListaSeleccionados.getSelectedValue().toString());
+
+            if (this.listModel.isEmpty()) {
+                this.jbEliminar.setEnabled(false);
+            }
+
+        } else if (e.getSource() == jbEnviar) {
+            Cliente cliente = new Cliente(Strings.PETICION_ENVIAR_CORREO, this.listaSeleccionados,
+                    this.jComboEncuestas.getSelectedItem().toString());
         }
 
     }

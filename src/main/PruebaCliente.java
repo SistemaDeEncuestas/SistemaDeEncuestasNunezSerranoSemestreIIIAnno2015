@@ -146,7 +146,7 @@ public class PruebaCliente extends javax.swing.JFrame {
                                                             rootAdmin.getChildText("nombre"),
                                                             rootAdmin.getChildText("contrasenna"),
                                                             rootAdmin.getChildText("correo"));
-            admin.setPrimeraVez(Boolean.getBoolean(rootAdmin.getChildText("primeraVez")));
+            admin.setPrimeraVez((rootAdmin.getChildText("primeraVez")));
 //            List<Encuesta> listaNombres = new ArrayList<>();
             List<String> listaEncuestas = new ArrayList<>();
             

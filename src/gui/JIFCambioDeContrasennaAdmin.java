@@ -9,15 +9,18 @@ import domain.Administrador;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import logic.Cliente;
 import security.Encriptar;
 import util.Strings;
 
@@ -25,7 +28,7 @@ import util.Strings;
  *
  * @author Daniel
  */
-public class JIFCambioDeContrasenna extends JInternalFrame implements ActionListener {
+public class JIFCambioDeContrasennaAdmin extends JInternalFrame implements ActionListener {
 
     private JLabel jlContrasenna;
     private JLabel jlVerificaContrasenna;
@@ -35,36 +38,37 @@ public class JIFCambioDeContrasenna extends JInternalFrame implements ActionList
     private JPasswordField jpfNuevaContrasenna;
     private JButton jbAceptar;
     private GridBagConstraints gridBag;
-    private JComponent barra;
-    private Dimension dimensionBarra;
+//    private JComponent barra;
+//    private Dimension dimensionBarra;
     private Administrador administrador;
+    private JDesktopPane escritorio;
 
-    public JIFCambioDeContrasenna(Administrador admin) {
-        super("Por favor, cambie su contraseña");
+    public JIFCambioDeContrasennaAdmin(JDesktopPane escritorio, Administrador admin) {
+        super("Por favor, cambie su contraseña",true, false);
+        this.escritorio = escritorio;
         this.administrador = admin;
-        this.setClosable(true);
-        this.setMaximizable(true);
-        this.setResizable(true);
-        this.dimensionBarra = null;
-        this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
+        
+//        this.dimensionBarra = null;
+//        this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
 
         this.setLayout(new GridBagLayout());
         this.gridBag = new GridBagConstraints();
         initComponents();
-        this.setVisible(true);
         this.setSize(400, 400);
+       
     }
 
-    public void ocultarBarraTitulo() {
-        barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
-        dimensionBarra = barra.getPreferredSize();
-        barra.setSize(0, 0);
-        barra.setPreferredSize(new Dimension(0, 0));
-        repaint();
-    }
+//    public void ocultarBarraTitulo() {
+//        barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
+//        dimensionBarra = barra.getPreferredSize();
+//        barra.setSize(0, 0);
+//        barra.setPreferredSize(new Dimension(0, 0));
+//        repaint();
+//    }
 
     private void initComponents() {
-        
+        this.gridBag.fill = GridBagConstraints.HORIZONTAL;
+        this.gridBag.insets = new Insets(20, 0, 0, 0);
         this.jlContrasenna = new JLabel(Strings.LOGINCONTRASENIA);
         this.gridBag.gridx = 0;
         this.gridBag.gridy = 0;
@@ -103,7 +107,8 @@ public class JIFCambioDeContrasenna extends JInternalFrame implements ActionList
         this.gridBag.gridy = 6;
         this.add(this.jbAceptar, gridBag);
         
-        
+        this.escritorio.add(this);
+          this.setVisible(true);
 
     }
 
@@ -118,8 +123,14 @@ public class JIFCambioDeContrasenna extends JInternalFrame implements ActionList
              if(contrasenna.equals(verificaContrasenna)){
                  if(contrasenna.equals(this.administrador.getContrasenna())){
                  String nuevaContrasenna = Encriptar.password(jpfNuevaContrasenna.getPassword(), Encriptar.SHA256);
-             
-                 // llamar a cliente
+                 this.administrador.setContrasenna(nuevaContrasenna);
+                 this.administrador.setPrimeraVez("false");
+
+                 Cliente cliente = new Cliente(this.escritorio,
+                         Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN, this.administrador);
+                 
+                 this.dispose();
+                 
                  }else{
                      JOptionPane.showMessageDialog(rootPane,Strings.ERROR_CONTRASENNA_INVALIDA,Strings.ERROR, 
                          JOptionPane.ERROR_MESSAGE);

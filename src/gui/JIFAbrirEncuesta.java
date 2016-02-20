@@ -48,7 +48,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
     private JLabel jlTitulo;
     private JTextArea jtaDescripcion;
     private JScrollPane scroll;
-    private JButton jbGuardar;
+    private JButton jbExportar;
     private JButton jbCancelar;
     private JPanel jpDinamico;
     private JScrollPane scrollDinamico;
@@ -105,17 +105,20 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
         this.gridBagEstatico.gridy = 0;
         jpEstatico.add(jlTitulo, gridBagEstatico);
 
-        jbGuardar = new JButton(Strings.GUARDAR);
+        jbExportar = new JButton();
+        jbExportar.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
+        jbExportar.setToolTipText(Strings.A_PDF);
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.gridwidth = 1;
         this.gridBagEstatico.ipadx = 30;
         this.gridBagEstatico.gridx = 3;
         this.gridBagEstatico.gridy = 0;
-        jbGuardar.addActionListener(this);
-        jpEstatico.add(jbGuardar, gridBagEstatico);
+        jbExportar.addActionListener(this);
+        jpEstatico.add(jbExportar, gridBagEstatico);
 
-        jbCancelar = new JButton(Strings.CANCELAR);
+        jbCancelar = new JButton();
+        jbCancelar.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
         this.gridBagEstatico.fill = GridBagConstraints.HORIZONTAL;
         this.gridBagEstatico.anchor = GridBagConstraints.WEST;
         this.gridBagEstatico.gridwidth = 1;
@@ -239,7 +242,7 @@ public class JIFAbrirEncuesta extends JInternalFrame implements ActionListener {
         if (e.getSource() == jbCancelar) {
             this.dispose();
             updateUI();
-        } else if (e.getSource() == jbGuardar) {
+        } else if (e.getSource() == jbExportar) {
             Exportar exportar = new Exportar();
             boolean exportado = exportar.exportarAPDF(this.encuestaActual);
             if (exportado) {

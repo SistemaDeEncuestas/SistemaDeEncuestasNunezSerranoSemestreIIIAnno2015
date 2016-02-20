@@ -16,14 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -43,6 +46,7 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     private JLabel jlLIsta;
     private JLabel jlBandeja;
     private JButton jbAbrir;
+    private JButton jbConfiguracion;
     private Border tituloArriba;
     private Border bandejaDeEntrada;
     private Border historial;
@@ -79,6 +83,11 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
         jpArriba.add(jlCorreo);
         jlLIsta = new JLabel("Encuestas (" + this.encuestado.getListaEncuestas().size() + ")");
         jpArriba.add(jlLIsta);
+        jbConfiguracion = new JButton();
+        jbConfiguracion.setIcon(new ImageIcon(getClass().getResource("/images/settings.png")));
+        jbConfiguracion.addActionListener(this);
+        jpArriba.add(jbConfiguracion);
+        
 
         jpIzquierda = new JPanel();
         jpIzquierda.setBackground(Color.blue);
@@ -98,6 +107,7 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
         jpEntrada.add(jlBandeja, grid);
 
         jListEncuestasCompartidas = new JList();
+        jListEncuestasCompartidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jListEncuestasCompartidas.setBackground(new java.awt.Color(192, 192, 192));
         jListEncuestasCompartidas.setListData(llenaLista());
         grid.gridx = 0;
@@ -138,77 +148,82 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbAbrir) {
-            List<Pregunta> lista = new ArrayList<>();
-           
-            Pregunta p1 = new PreguntaRespuestaMultiple("Pregunta 1");
-            p1.setTipo(Strings.TIPO_MULTIPLE);
-            List<String> respuestap1 = new ArrayList<>();
-            String r1p1 = "reps 1";
-            String r1p2 = "reps 2";
-            String r1p3 = "reps 3";
-            String r1p4 = "reps 4";
-            respuestap1.add(r1p1);
-            respuestap1.add(r1p2);
-            respuestap1.add(r1p3);
-            respuestap1.add(r1p4);
-            p1.setListaRespuestas(respuestap1);
+//            List<Pregunta> lista = new ArrayList<>();
+//           
+//            Pregunta p1 = new PreguntaRespuestaMultiple("Pregunta 1");
+//            p1.setTipo(Strings.TIPO_MULTIPLE);
+//            List<String> respuestap1 = new ArrayList<>();
+//            String r1p1 = "reps 1";
+//            String r1p2 = "reps 2";
+//            String r1p3 = "reps 3";
+//            String r1p4 = "reps 4";
+//            respuestap1.add(r1p1);
+//            respuestap1.add(r1p2);
+//            respuestap1.add(r1p3);
+//            respuestap1.add(r1p4);
+//            p1.setListaRespuestas(respuestap1);
+//            
+//            Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
+//            p2.setTipo(Strings.TIPO_UNICA);
+//            List<String> respuestap2 = new ArrayList<>();
+//            String r2p1 = "reps a";
+//            String r2p2 = "reps b";
+//            String r2p3 = "reps c";
+//            String r2p4 = "reps d";
+//            respuestap2.add(r2p1);
+//            respuestap2.add(r2p2);
+//            respuestap2.add(r2p3);
+//            respuestap2.add(r2p4);
+//            p2.setListaRespuestas(respuestap2);
+//            
+//            
+//            Pregunta p3 = new PreguntaRespuestaMultiple("Pregunta 3");
+//            p3.setTipo(Strings.TIPO_MULTIPLE);
+//            List<String> respuestap3 = new ArrayList<>();
+//            String r3p1 = "reps 1";
+//            String r3p2 = "reps 2";
+//            String r3p3 = "reps 3";
+//            String r3p4 = "reps 4";
+//            respuestap3.add(r3p1);
+//            respuestap3.add(r3p2);
+//            respuestap3.add(r3p3);
+//            respuestap3.add(r3p4);
+//            p3.setListaRespuestas(respuestap3);
+//            
+//            Pregunta p4 = new PreguntaAbierta("Pregunta 4");
+//            p4.setTipo(Strings.TIPO_ABIERTA);
+//            
+//            Pregunta p5 = new PreguntaRespuestaUnica("Pregunta 5");
+//            p5.setTipo(Strings.TIPO_UNICA);
+//            List<String> respuestap5 = new ArrayList<>();
+//            String r5p1 = "reps a";
+//            String r5p2 = "reps b";
+//            String r5p3 = "reps c";
+//            String r5p4 = "reps d";
+//            respuestap5.add(r5p1);
+//            respuestap5.add(r5p2);
+//            respuestap5.add(r5p3);
+//            respuestap5.add(r5p4);
+//            p5.setListaRespuestas(respuestap5);
+//            
+//            
+//            lista.add(p1);
+//            lista.add(p2);
+//            lista.add(p3);
+//            lista.add(p4);
+//            lista.add(p5);
+//
+//            Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
+//                    "Esto es una prueba para probar el panel de llena encuesta", "encuesta1", lista);
+            String encuestaActual = jListEncuestasCompartidas.getSelectedValue().toString();
             
-            Pregunta p2 = new PreguntaRespuestaUnica("Pregunta 2");
-            p2.setTipo(Strings.TIPO_UNICA);
-            List<String> respuestap2 = new ArrayList<>();
-            String r2p1 = "reps a";
-            String r2p2 = "reps b";
-            String r2p3 = "reps c";
-            String r2p4 = "reps d";
-            respuestap2.add(r2p1);
-            respuestap2.add(r2p2);
-            respuestap2.add(r2p3);
-            respuestap2.add(r2p4);
-            p2.setListaRespuestas(respuestap2);
+            Cliente cliente = new Cliente(Strings.PETICION_SOLICITA_ENCUESTA, encuestaActual, this);
+//            
             
-            
-            Pregunta p3 = new PreguntaRespuestaMultiple("Pregunta 3");
-            p3.setTipo(Strings.TIPO_MULTIPLE);
-            List<String> respuestap3 = new ArrayList<>();
-            String r3p1 = "reps 1";
-            String r3p2 = "reps 2";
-            String r3p3 = "reps 3";
-            String r3p4 = "reps 4";
-            respuestap3.add(r3p1);
-            respuestap3.add(r3p2);
-            respuestap3.add(r3p3);
-            respuestap3.add(r3p4);
-            p3.setListaRespuestas(respuestap3);
-            
-            Pregunta p4 = new PreguntaAbierta("Pregunta 4");
-            p4.setTipo(Strings.TIPO_ABIERTA);
-            
-            Pregunta p5 = new PreguntaRespuestaUnica("Pregunta 5");
-            p5.setTipo(Strings.TIPO_UNICA);
-            List<String> respuestap5 = new ArrayList<>();
-            String r5p1 = "reps a";
-            String r5p2 = "reps b";
-            String r5p3 = "reps c";
-            String r5p4 = "reps d";
-            respuestap5.add(r5p1);
-            respuestap5.add(r5p2);
-            respuestap5.add(r5p3);
-            respuestap5.add(r5p4);
-            p5.setListaRespuestas(respuestap5);
-            
-            
-            lista.add(p1);
-            lista.add(p2);
-            lista.add(p3);
-            lista.add(p4);
-            lista.add(p5);
-
-            Encuesta encuesta = new Encuesta("pba", "Prueba encuesta",
-                    "Esto es una prueba para probar el panel de llena encuesta", "encuesta1", lista);
-            JIFResponderEncuesta responde = new JIFResponderEncuesta(encuesta);
-            responde.ocultarBarraTitulo();
-            this.add(responde, BorderLayout.CENTER);
-            
+        } else if(e.getSource() == jbConfiguracion){
+            JIFCambioContrasennaEncuestado jifCambio = new JIFCambioContrasennaEncuestado(this.encuestado);
+            jifCambio.ocultarBarraTitulo();
+            this.add(jifCambio, BorderLayout.CENTER);
         }
 
     }

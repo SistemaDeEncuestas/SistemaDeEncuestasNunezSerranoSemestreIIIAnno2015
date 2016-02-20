@@ -70,6 +70,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
     private Pregunta preguntaActual;
     private String tipoPregunta;
     private JInternalFrame jifPadre;
+    private int cantidadRespuestas;
 
     public JIFEditaEncuesta(JInternalFrame jifPadre, Encuesta encuesta) {
 
@@ -222,7 +223,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
             this.gridBagDinamico.fill = GridBagConstraints.NONE;
             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
             this.gridBagDinamico.weighty = 0;
-            this.gridBagDinamico.weightx = 0;
+            this.gridBagDinamico.weightx = 3;
             this.gridBagDinamico.ipadx = 0;
             this.gridBagDinamico.ipady = 0;
             this.gridBagDinamico.gridx = 0;
@@ -243,7 +244,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
-                    this.gridBagDinamico.weightx = 0;
+                    this.gridBagDinamico.weightx = 3;
                     this.gridBagDinamico.ipady = 0;
                     this.gridBagDinamico.ipadx = 0;
                     this.gridBagDinamico.gridx = 0;
@@ -264,7 +265,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
-                    this.gridBagDinamico.weightx = 0;
+                    this.gridBagDinamico.weightx = 3;
                     this.gridBagDinamico.ipady = 0;
                     this.gridBagDinamico.ipadx = 0;
                     this.gridBagDinamico.gridx = 0;
@@ -283,7 +284,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 this.gridBagDinamico.fill = GridBagConstraints.NONE;
                 this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                 this.gridBagDinamico.weightx = 3;
-                this.gridBagDinamico.weighty = 2;
+                this.gridBagDinamico.weighty = 3;
                 this.gridBagDinamico.ipadx = 0;
                 this.gridBagDinamico.ipady = 0;
                 this.gridBagDinamico.gridx = 0;
@@ -299,7 +300,8 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbPregunta) {
-
+            this.cantidadRespuestas=0;
+             this.jbPregunta.setEnabled(false);
             this.jbRespuesta.setEnabled(true);
             this.grupoRadio = new ButtonGroup();
             String[] tiposPregunta = {Strings.TIPO_1, Strings.TIPO_2, Strings.TIPO_3};
@@ -332,7 +334,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
-                    this.gridBagDinamico.weightx = 0;
+                    this.gridBagDinamico.weightx = 3;
                     this.gridBagDinamico.ipadx = 0;
                     this.gridBagDinamico.ipady = 0;
                     this.gridBagDinamico.gridx = 0;
@@ -359,7 +361,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 JScrollPane scrollTexto = new JScrollPane(textoRespuesta);
                 this.gridBagDinamico.fill = GridBagConstraints.NONE;
                 this.gridBagDinamico.anchor = GridBagConstraints.WEST;
-                this.gridBagDinamico.weighty = 3;
+                this.gridBagDinamico.weighty = 0;
                 this.gridBagDinamico.weightx = 3;
                 this.gridBagDinamico.ipady = 0;
                 this.gridBagDinamico.ipadx = 0;
@@ -375,7 +377,12 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 if (respuesta != null) {
 
                     if (!respuesta.trim().equals("")) {
-
+                        
+                        this.cantidadRespuestas++;
+                        if(this.cantidadRespuestas>=2){
+                            this.jbPregunta.setEnabled(true);
+                        }
+                        
                         this.preguntaActual.addRespuesta(respuesta);
                         if (this.tipoPregunta.equals(Strings.TIPO_1)) {
 
@@ -384,7 +391,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
-                            this.gridBagDinamico.weightx = 0;
+                            this.gridBagDinamico.weightx = 3;
                             this.gridBagDinamico.ipady = 0;
                             this.gridBagDinamico.ipadx = 0;
                             this.gridBagDinamico.gridx = 0;
@@ -400,7 +407,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
-                            this.gridBagDinamico.weightx = 0;
+                            this.gridBagDinamico.weightx = 3;
                             this.gridBagDinamico.ipady = 0;
                             this.gridBagDinamico.ipadx = 0;
                             this.gridBagDinamico.gridx = 0;

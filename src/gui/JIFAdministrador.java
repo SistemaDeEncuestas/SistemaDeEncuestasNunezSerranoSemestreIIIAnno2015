@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -19,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import logic.Cliente;
 import util.Strings;
 
 /**
@@ -168,7 +170,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         } else if (e.getSource() == jbNuevo) {
 
-            JIFNuevaEncuesta jifNuevaEncuesta = new JIFNuevaEncuesta(this.administrador.getNickname());
+            JIFNuevaEncuesta jifNuevaEncuesta = new JIFNuevaEncuesta(this.administrador);
             jifNuevaEncuesta.ocultarBarraTitulo();
             this.add(jifNuevaEncuesta, BorderLayout.CENTER);
             updateUI();
@@ -182,13 +184,15 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         } else if (e.getSource() == jbEliminar) {
 
-            JIFEliminaEncuesta jifElimina = new JIFEliminaEncuesta(this.administrador.getEncuestasCreadas());
+            JIFEliminaEncuesta jifElimina = new JIFEliminaEncuesta(this.administrador);
             jifElimina.ocultarBarraTitulo();
             this.add(jifElimina, BorderLayout.CENTER);
             updateUI();
 
         } else if (e.getSource() == jbEnviar) {
-            JIFEnviarEncuesta enviarEncuesta = new JIFEnviarEncuesta();
+            Cliente cliente = new Cliente(Strings.PETICION_LISTAS_USUARIOS);
+            List<String> listaUsuarios = Strings.listaNombresUsuarios;
+            JIFEnviarEncuesta enviarEncuesta = new JIFEnviarEncuesta(this.administrador, listaUsuarios);
             enviarEncuesta.ocultarBarraTitulo();
             this.add(enviarEncuesta, BorderLayout.CENTER);
             updateUI();
@@ -202,8 +206,8 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
 
         } else if (e.getSource() == jbEnviarACorreo) {
 
-            // enviar la listade usuarios y mis encuestas como parametro
-            JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos();
+           
+            JIFEnviarCorreos enviarCorreos = new JIFEnviarCorreos(this.administrador);
             enviarCorreos.ocultarBarraTitulo();
             this.add(enviarCorreos, BorderLayout.CENTER);
             updateUI();
