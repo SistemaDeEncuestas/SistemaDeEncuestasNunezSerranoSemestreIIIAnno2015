@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -70,6 +71,16 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         this.setSize(850, 600);
         this.escritorio = escritorio;
         init();
+         jbEncuestas.setMnemonic(KeyEvent.VK_Q);
+          jbNuevo.setMnemonic(KeyEvent.VK_W);
+          jbEditar.setMnemonic(KeyEvent.VK_E);
+          jbEliminar.setMnemonic(KeyEvent.VK_R);
+          jbEnviar.setMnemonic(KeyEvent.VK_T);
+          jbEnviarACorreo.setMnemonic(KeyEvent.VK_Y);
+          jbNuevoAdmin.setMnemonic(KeyEvent.VK_U);
+          jbResponder.setMnemonic(KeyEvent.VK_I);
+          jbEstadisticas.setMnemonic(KeyEvent.VK_O);
+          jbCerrarSesion.setMnemonic(KeyEvent.VK_P);
         this.setVisible(true);
     }
 
