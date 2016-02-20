@@ -106,6 +106,7 @@ public class Strings {
     public final static String PETICION_GET_ENCUESTA = "abrirEncuesta";
     public final static String PETICION_SOLICITA_ENCUESTA = "solicitaEncuesta";
     public final static String PETICION_CERRAR_SESION = "cerrarSesion";
+    public final static String PETICION_PREGUNTAS_ESTADISTICA = "estadistica";
 
     /* PanelEnviarCorreos*/
     public final static String LABEL_ENCUESTADOS = "Escoja a los usuarios que quiera enviarle la encuesta";

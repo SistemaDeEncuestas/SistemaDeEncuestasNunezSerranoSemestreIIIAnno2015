@@ -61,6 +61,7 @@ public class Cliente {
     private JInternalFrame jInternal;
     private boolean flag;
     private Usuario usuario;
+    private String parte;
 
     /*Contructor para loguear a administradores y a encuestados*/
     public Cliente(JDesktopPane escritorio, JDialog contexto, String peticion, String nick, String contrasenna) {
@@ -164,7 +165,16 @@ public class Cliente {
         this.lista = listaEncuestados;
         this.start();
     }
-
+    
+    /*Constructor para pedir las respuestas para el analisis grafico*/
+    public Cliente(List lista, String nombreEncuesta, String parte, String peticion){
+        this.peticion = peticion;
+        this.nombre = nombreEncuesta;
+        this.lista = lista;
+        this.parte = parte;
+    }
+    
+    
     /**
      * Método que se encarga de realizar la comunicacion del cliente con el
      * servidor, está conformado por casos, que son todas las opciones de
@@ -294,7 +304,6 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
 
                 case Strings.PETICION_DEVOLVER_ENCUESTA:
@@ -308,9 +317,8 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "No se ha podido subir su encuesta", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
-//                    
+                    
                 case Strings.PETICION_CAMBIAR_CONTRASENNA_ADMIN:
                     enviar.println(this.peticion);
                     enviar.println(enviarAdministrador(this.administrador));
@@ -321,8 +329,8 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "No se ha podido cambiar la contraseña", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
+                    
                 case Strings.PETICION_CAMBIAR_CONTRASENNA_ENCUESTADO:
                     enviar.println(this.peticion);
                     enviar.println(enviarEncuestado(this.encuestado));
@@ -334,8 +342,8 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "No se ha podido cambiar la contraseña", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
+                    
                 case Strings.PETICION_GET_ENCUESTA:
                     enviar.println(this.peticion);
                     enviar.println(this.nombre);
@@ -350,9 +358,7 @@ public class Cliente {
                         JIFEditaEncuesta edita = new JIFEditaEncuesta(this.jInternal, encuestActual);
                         edita.ocultarBarraTitulo();
                         this.jInternal.add(edita, BorderLayout.CENTER);
-
                     }
-
                     break;
 
                 case Strings.PETICION_SOLICITA_ENCUESTA:
@@ -370,7 +376,6 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "No se ha encontrado la encuesta",
                                 Strings.ERROR, JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
 
                 case Strings.PETICION_ELIMINA_ENCUESTA:
@@ -398,18 +403,23 @@ public class Cliente {
                         JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-
                     break;
 
                 case Strings.PETICION_LISTAS_USUARIOS:
                     enviar.println(this.peticion);
                     Strings.listaNombresUsuarios = recibirLista(recibir.readLine());
                     break;
+                    
                 case Strings.PETICION_CERRAR_SESION:
-
                     enviar.println(this.peticion);
                     enviar.println(this.nombre);
-
+                    break;
+                    
+                case Strings.PETICION_PREGUNTAS_ESTADISTICA:
+                    enviar.println(this.peticion);
+                    enviar.println(this.nombre);
+                    enviar.println(this.parte);
+                    this.lista = recibirLista(recibir.readLine());
                     break;
             }
             recibir.close();
@@ -759,9 +769,7 @@ public class Cliente {
         return null;
     }
 
-    
     public List<String> getLista() {
         return lista;
     }
-
 }

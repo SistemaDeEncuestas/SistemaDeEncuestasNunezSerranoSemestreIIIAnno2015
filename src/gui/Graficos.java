@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.Color;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -14,16 +16,14 @@ import org.jfree.data.general.DefaultPieDataset;
 /**
  * @author adriansb3105
  */
-public class Graficos extends JFrame{
+public class Graficos extends JInternalFrame{
 
     private JPanel panel;
 
-    public Graficos() {
+    public Graficos(List listaObjetos) {
         super();
         
         this.setTitle("Graficos en java");
-        this.setSize(800, 600);
-        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         iniciar();
     }
