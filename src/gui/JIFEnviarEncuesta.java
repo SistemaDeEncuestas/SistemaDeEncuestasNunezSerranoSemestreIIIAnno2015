@@ -216,17 +216,18 @@ public class JIFEnviarEncuesta extends JInternalFrame implements ActionListener 
             }
 
         } else if (e.getSource() == jbEliminar) {
-            this.listaSeleccionados.remove(this.jListaSeleccionados.getSelectedValue().toString());
-            this.jComboUsuarios.addItem(this.jListaSeleccionados.getSelectedValue());
-            this.listModel.removeElement(this.jListaSeleccionados.getSelectedValue());
+            if (jListaSeleccionados.getSelectedValue() != null) {
+                this.listaSeleccionados.remove(this.jListaSeleccionados.getSelectedValue().toString());
+                this.jComboUsuarios.addItem(this.jListaSeleccionados.getSelectedValue());
+                this.listModel.removeElement(this.jListaSeleccionados.getSelectedValue());
 
-            if (this.jComboUsuarios.getItemCount() != 0) {
-                this.jbAgregar.setEnabled(true);
+                if (this.jComboUsuarios.getItemCount() != 0) {
+                    this.jbAgregar.setEnabled(true);
+                }
+                if (this.listModel.isEmpty()) {
+                    this.jbEliminar.setEnabled(false);
+                }
             }
-            if (this.listModel.isEmpty()) {
-                this.jbEliminar.setEnabled(false);
-            }
-
         } else if (e.getSource() == jbEnviar) {
             /*Establece la comunicacion con el servidor*/
             Cliente cliente = new Cliente(Strings.PETICION_ENVIAR_ENCUESTA, listaSeleccionados,
