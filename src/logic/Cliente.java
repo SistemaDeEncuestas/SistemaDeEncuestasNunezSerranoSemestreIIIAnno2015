@@ -71,66 +71,66 @@ public class Cliente {
         this.contrasenna = contrasenna;
         this.start();
     }
+    
     /*Contructor para registrar un administrador*/
-
     public Cliente(String peticion, Administrador administrador) {
         this.peticion = peticion;
         this.administrador = administrador;
         this.start();
     }
+    
     /*Contructor para cambiar la contraseña del encuestado*/
-
     public Cliente(String peticion, Encuestado encuestado) {
         this.peticion = peticion;
         this.encuestado = encuestado;
         this.start();
     }
+    
     /*Contructor para registrar encuestados*/
-
     public Cliente(JDesktopPane escritorio, String peticion, Encuestado encuestado) {
         this.escritorio = escritorio;
         this.peticion = peticion;
         this.encuestado = encuestado;
         this.start();
     }
+    
     /*Contructor para cambiar la contraseña de un administrador*/
-
     public Cliente(JDesktopPane escritorio, String peticion, Administrador admin) {
         this.escritorio = escritorio;
         this.peticion = peticion;
         this.administrador = admin;
         this.start();
     }
+    
     /*Contructor para recuperar una lista de los usuarios encuestados*/
-
     public Cliente(String peticion) {
         this.peticion = peticion;
         this.start();
     }
+    
     /*Contructor para editar encuestas y también para responderlas*/
-
     public Cliente(String peticion, Encuesta encuesta) {
         this.peticion = peticion;
         this.encuesta = encuesta;
         this.start();
     }
+    
     /*Contructor para crear una nueva encuesta*/
-
     public Cliente(String peticion, Encuesta encuesta, Administrador administrador) {
         this.administrador = administrador;
         this.peticion = peticion;
         this.encuesta = encuesta;
         this.start();
     }
+    
     /*Contructor para borrar una encuesta, tambien sirve para cerrar la sesion de un usuario*/
-
     public Cliente(String peticion, String nombre) {
         this.peticion = peticion;
         this.nombre = nombre;
         this.start();
     }
+    
     /*Contructor para solicitar una encuesta del servidor*/
-
     public Cliente(String peticion, String nombreEncuesta, JInternalFrame jInternal, Usuario user) {
         this.peticion = peticion;
         this.jInternal = jInternal;
@@ -138,9 +138,9 @@ public class Cliente {
         this.usuario = user;
         this.start();
     }
+    
     /*Contructor para solicitar una encuesta del servidor e
      inmediatamente me abre la ventana para editar o abrir dicha encuesta*/
-
     public Cliente(String peticion, String nombreEncuesta, JInternalFrame jifAdmin, boolean flag) {
         this.peticion = peticion;
         this.nombre = nombreEncuesta;
@@ -148,16 +148,16 @@ public class Cliente {
         this.flag = flag;
         this.start();
     }
+    
     /*Contructor para cargar una lista de preguntas*/
-
     public Cliente(String peticion, String nombreEncuesta, List<String> lista) {
         this.peticion = peticion;
         this.nombre = nombreEncuesta;
         this.lista = lista;
         this.start();
     }
+    
     /*Contructor para enviar un correo o una encuesta*/
-
     public Cliente(String peticion, List<String> listaEncuestados, String nombreEncuesta) {
         this.peticion = peticion;
         this.nombre = nombreEncuesta;
@@ -491,10 +491,11 @@ public class Cliente {
     }
 
     /**
-     * Metodo que me transforma un objeto tipo encuestado en un String en
+     * Metodo que me transforma un objeto tipo encuestado en un String con
+     * formato xml para enviar al server
      *
-     * @param encuestado
-     * @return
+     * @param encuestado el objeto a convertir
+     * @return el string a enviar
      */
     private String enviarEncuestado(Encuestado encuestado) {
 
@@ -531,6 +532,13 @@ public class Cliente {
         return userXML;
     }
 
+    /**
+     * Metodo que me transforma un objeto tipo administrador en un String con
+     * formato xml para enviar al server
+     *
+     * @param admin el objeto a convertir
+     * @return el string a enviar
+     */
     private String enviarAdministrador(Administrador admin) {
         Element elemAdmin = new Element("administrador");
         elemAdmin.setAttribute("nickname", admin.getNickname());
@@ -569,6 +577,13 @@ public class Cliente {
         return adminXML;
     }
 
+    /**
+     * Metodo que me transforma un objeto tipo encuesta en un String con formato
+     * xml para enviar al server
+     *
+     * @param encuesta el objeto a convertir
+     * @return el string a a enviar
+     */
     private String enviarEncuesta(Encuesta encuesta) {
         Element elemEncuesta = new Element("encuesta");
         Element elemCreador = new Element("creador");
@@ -619,6 +634,13 @@ public class Cliente {
 
     }
 
+    /**
+     * Método que a partir de un String con formato XML me obtiene un objeto
+     * tipo administrador.
+     *
+     * @param adminXML el String con formato XML.
+     * @return el objeto admnistrador que se genera.
+     */
     private Administrador recibirAdministrador(String adminXML) {
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
@@ -647,6 +669,13 @@ public class Cliente {
         return null;
     }
 
+    
+    /**
+     * Método que a partir de un String con formato XML me obtiene un objeto
+     * tipo encuestado.
+     * @param userXML el String con formato XML.
+     * @return el objeto encuestado que se genera.
+     */
     private Encuestado recibirEncuestado(String userXML) {
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
@@ -674,6 +703,13 @@ public class Cliente {
         return null;
     }
 
+    
+    /**
+     * Metodo que me transforma una lista en un String con formato
+     * xml para enviar al server
+     * @param lista la lista convertir
+     * @return el String a enviar
+     */
     private String enviarLista(List<String> lista) {
 
         Element elemNombres = new Element("nombres");
@@ -692,6 +728,11 @@ public class Cliente {
         return nombresXML;
     }
 
+    /**
+     *  Método que a partir de un String con formato XML me obtiene una lista
+     * @param listaString
+     * @return la lista que se genera del string
+     */
     private List<String> recibirLista(String listaString) {
 
         List<String> nombres = new ArrayList<>();
@@ -718,6 +759,7 @@ public class Cliente {
         return null;
     }
 
+    
     public List<String> getLista() {
         return lista;
     }
