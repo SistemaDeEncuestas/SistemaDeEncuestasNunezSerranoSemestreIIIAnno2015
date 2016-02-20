@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -41,11 +42,13 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
     private String tipoGrafico;
     private String parte;
     private List<String> listaPreguntas = new ArrayList<>();
+    private JDesktopPane escritorio;
     
-    public JIFEstadisticas(List<String> listaEncuestas) {
+    public JIFEstadisticas(JDesktopPane escritorio, List<String> listaEncuestas) {
         super();
         
         this.setLayout(new GridBagLayout());
+        this.escritorio = escritorio;
         this.lista = new ArrayList<>();
         this.listaEncuestas = listaEncuestas;
         this.dimensionBarra = null;
@@ -96,7 +99,7 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
         this.add(this.jlParte, this.gbc);
         
         this.jcbParte = new JComboBox();
-        String[] partes = {"Toda la encuesta"};
+        String[] partes = {"Seleccione una parte de la encuesta"};
         this.jcbParte.setModel(new DefaultComboBoxModel(partes));
         this.jcbParte.addActionListener(this);
         this.gbc.gridx = 0;
@@ -109,7 +112,7 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
         this.add(this.jlTipo, this.gbc);
         
         this.jcbTipo = new JComboBox();
-        String[] tipos = {"Barras","Pastel"};
+        String[] tipos = {"Pastel", "Barras"};
         this.jcbTipo.setModel(new DefaultComboBoxModel(tipos));
         this.jcbTipo.addActionListener(this);
         this.gbc.gridx = 0;
@@ -137,10 +140,14 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == this.jbGenerar) {
-            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta")) {
+            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta") && 
+                    !this.jcbParte.getSelectedItem().toString().equals("Seleccione una parte de la encuesta")) {
                 Cliente cliente = new Cliente(this.lista, this.jcbEncuesta.getSelectedItem().toString(), this.jcbParte.getSelectedItem().toString(), Strings.PETICION_PREGUNTAS_ESTADISTICA);
                 this.lista = cliente.getLista();
-                Graficos graficos = new Graficos(this.lista);
+                Graficos graficos = new Graficos(this.escritorio, this.lista, this.jcbTipo.getSelectedItem().toString());
+                graficos.ocultarBarraTitulo();
+                this.dispose();
+                updateUI();
             }
         }
         
@@ -150,25 +157,28 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
         }
         
         if (e.getSource() == this.jcbEncuesta) {
-            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta")) {
-                this.nombreEncuesta = this.jcbEncuesta.getSelectedItem().toString();
+//            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta")) {
+//                this.nombreEncuesta = this.jcbEncuesta.getSelectedItem().toString();
                 
-                System.out.println(this.nombreEncuesta);
-                Cliente cliente = new Cliente(Strings.PETICION_NOMBRES_POR_ENCUESTA, this.nombreEncuesta, this.listaPreguntas);
-                System.out.println(cliente.getLista());
-                this.listaPreguntas = cliente.getLista();
+//                System.out.println(this.nombreEncuesta);
+//                Cliente cliente = new Cliente(Strings.PETICION_NOMBRES_POR_ENCUESTA, this.nombreEncuesta, this.listaPreguntas);
+//                System.out.println(cliente.getLista());
+//                this.listaPreguntas = cliente.getLista();
                 
-                String[] partes = new String[this.listaPreguntas.size()];
-                for (int i = 0; i < this.listaPreguntas.size(); i++) {
-                    partes[i] = this.listaPreguntas.get(i);
-                }
-                this.jcbParte.setModel(new DefaultComboBoxModel(partes));
-            }
+//                String[] partes = new String[this.listaPreguntas.size()+1];
+//                partes[0] = "Seleccione una parte de la encuesta";
+//                for (int i = 0; i < this.listaPreguntas.size(); i++) {
+//                    partes[i+1] = this.listaPreguntas.get(i);
+//                }
+//                this.jcbParte.setModel(new DefaultComboBoxModel(partes));
+//            }
         }
         
         if (e.getSource() == this.jcbParte) {
+            if (!this.jcbParte.getSelectedItem().toString().equals("Seleccione una parte de la encuesta")) {
                 this.parte = this.jcbParte.getSelectedItem().toString();
                 System.out.println(parte);
+            }
         }
         
         if (e.getSource() == this.jcbTipo) {

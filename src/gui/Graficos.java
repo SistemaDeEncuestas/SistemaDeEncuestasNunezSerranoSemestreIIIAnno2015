@@ -1,8 +1,10 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
-import javax.swing.JFrame;
+import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
@@ -18,20 +20,37 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class Graficos extends JInternalFrame{
 
+    private JDesktopPane escritorio;
     private JPanel panel;
+    private JComponent barra;
+    private Dimension dimensionBarra;
 
-    public Graficos(List listaObjetos) {
+    public Graficos(JDesktopPane escritorio, List listaObjetos, String tipo) {
         super();
         
-        this.setTitle("Graficos en java");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        iniciar();
+        this.escritorio = escritorio;
+        this.panel = new JPanel();
+        
+        if (tipo.equals("Barras")) {
+            barras();
+        }else{
+            pastel();
+        }
+        
+        this.getContentPane().add(this.panel);
+        this.escritorio.add(this);
+        this.setVisible(true);
     }
     
-    private void iniciar(){
-        this.panel = new JPanel();
-        this.getContentPane().add(this.panel);
-        
+    public void ocultarBarraTitulo() {
+        barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
+        dimensionBarra = barra.getPreferredSize();
+        barra.setSize(0, 0);
+        barra.setPreferredSize(new Dimension(0, 0));
+        repaint();
+    }
+    
+    private void barras(){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         dataset.setValue(8, "Mujeres", "Lunes");
@@ -45,16 +64,7 @@ public class Graficos extends JInternalFrame{
         dataset.setValue(9, "Mujeres", "Viernes");
         dataset.setValue(2, "Hombres", "Viernes");
         
-        
-        DefaultPieDataset data = new DefaultPieDataset();
-        data.setValue("C", 40);
-        data.setValue("Java", 45);
-        data.setValue("Python", 15);
-        
-        
         JFreeChart chartBar = ChartFactory.createBarChart("Participacion por genero", "Genero", "Dias", dataset, PlotOrientation.VERTICAL, true, true, false);
-        JFreeChart chartPie = ChartFactory.createPieChart("Participacion por genero", data, true, true, false);
-        
         
         chartBar.setBackgroundPaint(Color.cyan);
         chartBar.getTitle().setPaint(Color.black);
@@ -62,9 +72,22 @@ public class Graficos extends JInternalFrame{
         CategoryPlot p = chartBar.getCategoryPlot();
         p.setRangeGridlinePaint(Color.red);
         
-        ChartPanel chartPanel = new ChartPanel(chartPie);
-//        ChartPanel chartPanel = new ChartPanel(chartBar);
-        this.panel.add(chartPanel);
+        ChartPanel chartPanel2 = new ChartPanel(chartBar);
+        this.panel.add(chartPanel2);
+    }
+    
+    private void pastel(){
+     
+        DefaultPieDataset data = new DefaultPieDataset();
+        data.setValue("C", 40);
+        data.setValue("Java", 45);
+        data.setValue("Python", 15);
+        
+        JFreeChart chartPie = ChartFactory.createPieChart("Participacion por genero", data, true, true, false);
+        
+        ChartPanel chartPanel1 = new ChartPanel(chartPie);
+        
+        this.panel.add(chartPanel1);
     }
     
 //    public static void main(String[] args){
