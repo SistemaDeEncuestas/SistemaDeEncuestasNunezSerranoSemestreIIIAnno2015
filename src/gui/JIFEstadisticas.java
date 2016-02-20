@@ -36,17 +36,18 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
     private JLabel jlTipo;
     private JComboBox jcbTipo;
     private List<String> listaEncuestas;
-    private String nickAdmin;
+//    private String nickAdmin;
     private String nombreEncuesta;
     private String tipoGrafico;
     private String parte;
+    private List<String> listaPreguntas = new ArrayList<>();
     
-    public JIFEstadisticas(List<String> listaEncuestas, String nickAdmin) {
+    public JIFEstadisticas(List<String> listaEncuestas) {
         super();
         
         this.setLayout(new GridBagLayout());
         this.listaEncuestas = listaEncuestas;
-        this.nickAdmin = nickAdmin;
+//        this.nickAdmin = nickAdmin;
         this.dimensionBarra = null;
         this.barra = ((BasicInternalFrameUI) getUI()).getNorthPane();
         this.setLayout(new GridBagLayout());
@@ -89,13 +90,14 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
         this.gbc.gridy = 1;
         this.add(this.jcbEncuesta, this.gbc);
         
-        this.jlParte = new JLabel("Seleccione la parte que desea graficar (solo preguntas de respuesta única)", SwingConstants.CENTER);
+        this.jlParte = new JLabel("Seleccione la parte de la encuesta que desea graficar (solo preguntas de respuesta única)", SwingConstants.CENTER);
         this.gbc.gridx = 0;
         this.gbc.gridy = 2;
         this.add(this.jlParte, this.gbc);
         
         this.jcbParte = new JComboBox();
-        this.jcbParte.setModel(new DefaultComboBoxModel(new String[1]));
+        String[] partes = {"Toda la encuesta"};
+        this.jcbParte.setModel(new DefaultComboBoxModel(partes));
         this.jcbParte.addActionListener(this);
         this.gbc.gridx = 0;
         this.gbc.gridy = 3;
@@ -107,7 +109,8 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
         this.add(this.jlTipo, this.gbc);
         
         this.jcbTipo = new JComboBox();
-        this.jcbTipo.setModel(new DefaultComboBoxModel(new String[1]));
+        String[] tipos = {"Barras","Pastel"};
+        this.jcbTipo.setModel(new DefaultComboBoxModel(tipos));
         this.jcbTipo.addActionListener(this);
         this.gbc.gridx = 0;
         this.gbc.gridy = 5;
@@ -134,11 +137,15 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == this.jbGenerar) {
-            System.out.println("generar");
+            
+            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta")) {
+                
+            }
         }
         
         if (e.getSource() == this.jbCancelar) {
-            System.out.println("cancelar");
+            this.dispose();
+            updateUI();
         }
         
         if (e.getSource() == this.jcbEncuesta) {
@@ -146,23 +153,22 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
                 this.nombreEncuesta = this.jcbEncuesta.getSelectedItem().toString();
                 
                 System.out.println(this.nombreEncuesta);
-                Cliente cliente = new Cliente(Strings.PETICION_NOMBRES_POR_ENCUESTA, this.nickAdmin, this.nombreEncuesta, Strings.listaPreguntas);
-                System.out.println(Strings.listaPreguntas);
+                Cliente cliente = new Cliente(Strings.PETICION_NOMBRES_POR_ENCUESTA, this.nombreEncuesta, this.listaPreguntas);
+                System.out.println(cliente.getLista());
+                this.listaPreguntas = cliente.getLista();
                 
-                String[] partes = new String[Strings.listaPreguntas.size()+1];
-                partes[0] = "Seleccione la parte";
-                for (int i = 0; i < Strings.listaPreguntas.size(); i++) {
-                    partes[i+1] = Strings.listaPreguntas.get(i);
+                String[] partes = new String[this.listaPreguntas.size()+1];
+                partes[0] = "Toda la encuesta";
+                for (int i = 0; i < this.listaPreguntas.size(); i++) {
+                    partes[i+1] = this.listaPreguntas.get(i);
                 }
                 this.jcbParte.setModel(new DefaultComboBoxModel(partes));
             }
         }
         
         if (e.getSource() == this.jcbParte) {
-            if (!this.jcbParte.getSelectedItem().toString().equals("Seleccione la parte")) {
                 this.parte = this.jcbParte.getSelectedItem().toString();
                 System.out.println(parte);
-            }
         }
         
         if (e.getSource() == this.jcbTipo) {

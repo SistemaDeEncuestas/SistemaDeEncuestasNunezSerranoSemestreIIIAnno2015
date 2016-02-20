@@ -695,5 +695,9 @@ public class Cliente {
 
         return null;
     }
+    
+    public List<String> getLista() {
+        return lista;
+    }
 
 }
