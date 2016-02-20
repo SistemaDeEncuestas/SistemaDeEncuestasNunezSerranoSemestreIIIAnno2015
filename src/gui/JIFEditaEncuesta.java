@@ -198,7 +198,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
         jpEstatico.add(jbRespuesta, gridBagEstatico);
 
         this.jpDinamico = new JPanel(new GridBagLayout());
-        this.jpDinamico.setBackground(new java.awt.Color(224,224,224));
+        this.jpDinamico.setBackground(new java.awt.Color(224, 224, 224));
         this.scrollDinamico = new JScrollPane(jpDinamico);
         this.scrollDinamico.setAutoscrolls(true);
         this.add(scrollDinamico, BorderLayout.CENTER);
@@ -218,7 +218,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
             Pregunta preguntaTemporal = this.miEncuesta.getPreguntas().get(i);
             this.listaPreguntas.add(preguntaTemporal);
             JLabel enunciado = new JLabel(preguntaTemporal.getEnunciado());
-            enunciado.setBackground(new java.awt.Color(224,224,224));
+            enunciado.setBackground(new java.awt.Color(224, 224, 224));
 
             this.gridBagDinamico.fill = GridBagConstraints.NONE;
             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
@@ -240,7 +240,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaTemporal.getListaRespuestas().size(); j++) {
 
                     JRadioButton radio = new JRadioButton(preguntaTemporal.getListaRespuestas().get(j));
-                    radio.setBackground(new java.awt.Color(224,224,224));
+                    radio.setBackground(new java.awt.Color(224, 224, 224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -261,7 +261,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 for (int j = 0; j < preguntaTemporal.getListaRespuestas().size(); j++) {
 
                     JCheckBox check = new JCheckBox(preguntaTemporal.getListaRespuestas().get(j));
-                    check.setBackground(new java.awt.Color(224,224,224));
+                    check.setBackground(new java.awt.Color(224, 224, 224));
                     this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -300,8 +300,8 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jbPregunta) {
-            this.cantidadRespuestas=0;
-             this.jbPregunta.setEnabled(false);
+            this.cantidadRespuestas = 0;
+            this.jbPregunta.setEnabled(false);
             this.jbRespuesta.setEnabled(true);
             this.grupoRadio = new ButtonGroup();
             String[] tiposPregunta = {Strings.TIPO_1, Strings.TIPO_2, Strings.TIPO_3};
@@ -330,7 +330,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                     this.listaPreguntas.add(preguntaActual);
 
                     JLabel jlPregunta = new JLabel(pregunta);
-                    jlPregunta.setBackground(new java.awt.Color(224,224,224));
+                    jlPregunta.setBackground(new java.awt.Color(224, 224, 224));
                     this.gridBagDinamico.fill = GridBagConstraints.NONE;
                     this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                     this.gridBagDinamico.weighty = 0;
@@ -377,17 +377,17 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 if (respuesta != null) {
 
                     if (!respuesta.trim().equals("")) {
-                        
+
                         this.cantidadRespuestas++;
-                        if(this.cantidadRespuestas>=2){
+                        if (this.cantidadRespuestas >= 2) {
                             this.jbPregunta.setEnabled(true);
                         }
-                        
+
                         this.preguntaActual.addRespuesta(respuesta);
                         if (this.tipoPregunta.equals(Strings.TIPO_1)) {
 
                             JRadioButton boton = new JRadioButton(respuesta);
-                            boton.setBackground(new java.awt.Color(224,224,224));
+                            boton.setBackground(new java.awt.Color(224, 224, 224));
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
@@ -403,7 +403,7 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                         } else if (this.tipoPregunta.equals(Strings.TIPO_2)) {
 
                             JCheckBox botonCheck = new JCheckBox(respuesta);
-                            botonCheck.setBackground(new java.awt.Color(224,224,224));
+                            botonCheck.setBackground(new java.awt.Color(224, 224, 224));
                             this.gridBagDinamico.fill = GridBagConstraints.HORIZONTAL;
                             this.gridBagDinamico.anchor = GridBagConstraints.NORTHWEST;
                             this.gridBagDinamico.weighty = 0;
@@ -437,9 +437,8 @@ public class JIFEditaEncuesta extends JInternalFrame implements ActionListener {
                 this.miEncuesta.setDescripcion(descripcionEncuesta);
                 this.miEncuesta.setPreguntas(listaPreguntas);
                 System.out.println(this.miEncuesta);
-//                Cliente cliente = new Cliente(Strings.PETICION_EDITA_ENCUESTA, this.miEncuesta);
+                Cliente cliente = new Cliente(Strings.PETICION_GUARDA_EDICION, this.miEncuesta);
 
-                // llamar a cliente
             } else {
                 JOptionPane.showMessageDialog(rootPane, "No debe dejar espacios en blanco",
                         Strings.ERROR, JOptionPane.ERROR_MESSAGE);

@@ -19,7 +19,6 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
     private JMenuBar jMenuBar;
     private JMenu jmArchivo;
     private JMenuItem jmiInciarSesion;
-    private JMenuItem jmiCerrarSesion;
     private JMenuItem jmiRegistrar;
 
     public PantallaPrincipal() {
@@ -45,9 +44,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
         this.jmiInciarSesion = new JMenuItem(Strings.ITEM_INICIAR);
         this.jmiInciarSesion.addActionListener(this);
         this.jmArchivo.add(jmiInciarSesion);
-        this.jmiCerrarSesion = new JMenuItem(Strings.ITEM_CERRAR);
-        this.jmiCerrarSesion.addActionListener(this);
-        this.jmArchivo.add(jmiCerrarSesion);
+       
         this.login = new Login(this.escritorio);
         this.escritorio.setBounds(0, 10, this.getWidth(), this.getHeight());
         this.login.setLocationRelativeTo(null);
@@ -66,9 +63,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener {
             this.login.setLocationRelativeTo(null);
             this.login.setVisible(true);
 
-        } else if (e.getSource() == jmiCerrarSesion) {
-            //TODO
-        }
+        } 
 
     }
 

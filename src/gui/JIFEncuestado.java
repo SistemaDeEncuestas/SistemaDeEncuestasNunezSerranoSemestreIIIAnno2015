@@ -47,6 +47,7 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
     private JLabel jlBandeja;
     private JButton jbAbrir;
     private JButton jbConfiguracion;
+    private JButton jbCerrarSesion;
     private Border tituloArriba;
     private Border bandejaDeEntrada;
     private Border historial;
@@ -56,7 +57,7 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
 
     public JIFEncuestado(JDesktopPane escritorio, Encuestado encuestado) {
 
-        super("Bienvenido " + encuestado.getNickname(), true, true, true);
+        super("Bienvenido " + encuestado.getNickname(), true, false, true);
         this.setLayout(new BorderLayout());
         this.escritorio = escritorio;
         this.encuestado = encuestado;
@@ -87,6 +88,11 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
         jbConfiguracion.setIcon(new ImageIcon(getClass().getResource("/images/settings.png")));
         jbConfiguracion.addActionListener(this);
         jpArriba.add(jbConfiguracion);
+        
+         jbCerrarSesion = new JButton();
+        jbCerrarSesion.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
+        jbCerrarSesion.addActionListener(this);
+        jpArriba.add(jbCerrarSesion);
         
 
         jpIzquierda = new JPanel();
@@ -224,6 +230,9 @@ public class JIFEncuestado extends JInternalFrame implements ActionListener {
             JIFCambioContrasennaEncuestado jifCambio = new JIFCambioContrasennaEncuestado(this.encuestado);
             jifCambio.ocultarBarraTitulo();
             this.add(jifCambio, BorderLayout.CENTER);
+        }else if(e.getSource() == jbCerrarSesion){
+             Cliente cliente = new Cliente(Strings.PETICION_CERRAR_SESION, this.encuestado.getNickname());
+             this.dispose();
         }
 
     }

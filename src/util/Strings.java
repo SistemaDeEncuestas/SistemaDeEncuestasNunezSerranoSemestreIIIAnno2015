@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Strings {
 
-    public final static String IP = "10.155.7.226";
+    public final static String IP = "192.168.43.182";
     public final static int PUERTO = 5700;
     public static List<String> listaNombresUsuarios;
     public static List<String> listaPreguntas = new ArrayList<>();
@@ -56,6 +56,7 @@ public class Strings {
     public final static String NUEVO_ADMIN = "Crear nueva cuenta de administrador";
     public final static String ESTADISTICAS = "Mostrar estadísticas";
     public final static String A_PDF = "Exportar a pdf";
+     public final static String CERRAR_SESION = "Cerrar Sesión";
 
     public final static String BORDE_DATOS = "Datos de usuario";
     public final static String BORDE_HISTORIAL = "Historial";
@@ -89,7 +90,6 @@ public class Strings {
     public final static String PETICION_REGISTRAR_USER = "registarUsuario";
     public final static String PETICION_GET_ENCUESTADOS = "getEncuestados";
     public final static String PETICION_CREAR_ENCUESTA = "crearEncuesta";
-    public final static String PETICION_EDITA_ENCUESTA = "editarEncuesta";
     public final static String PETICION_GUARDA_EDICION = "guardarEdicion";
      public final static String PETICION_ELIMINA_ENCUESTA = "eliminaEncuesta";
     public final static String PETICION_ENVIAR_ENCUESTA = "enviarEncuesta";
@@ -100,6 +100,7 @@ public class Strings {
     public final static String PETICION_NOMBRES_POR_ENCUESTA = "nombresPorEncuesta";
     public final static String PETICION_GET_ENCUESTA = "abrirEncuesta";
      public final static String PETICION_SOLICITA_ENCUESTA = "solicitaEncuesta";
+     public final static String PETICION_CERRAR_SESION= "cerrarSesion";
     
     /* PanelEnviarCorreos*/
     public final static String LABEL_ENCUESTADOS = "Escoja a los usuarios que quiera enviarle la encuesta";

@@ -53,7 +53,7 @@ public class Cliente {
     private Administrador administrador;
     private Encuestado encuestado;
     private Encuesta encuesta;
-    private String nombreEncuesta;
+    private String nombre;
     private List<String> lista;
     private JDialog contexto;
     private JDesktopPane escritorio;
@@ -117,20 +117,20 @@ public class Cliente {
 
     public Cliente(String peticion, String nombreEncuesta) {
         this.peticion = peticion;
-        this.nombreEncuesta = nombreEncuesta;
+        this.nombre = nombreEncuesta;
         this.start();
     }
-    
+
     public Cliente(String peticion, String nombreEncuesta, JInternalFrame jifEncuestado) {
         this.peticion = peticion;
         this.jInternal = jifEncuestado;
-        this.nombreEncuesta = nombreEncuesta;
+        this.nombre = nombreEncuesta;
         this.start();
     }
 
     public Cliente(String peticion, String nombreEncuesta, JInternalFrame jifAdmin, boolean flag) {
         this.peticion = peticion;
-        this.nombreEncuesta = nombreEncuesta;
+        this.nombre = nombreEncuesta;
         this.jInternal = jifAdmin;
         this.flag = flag;
         this.start();
@@ -138,7 +138,7 @@ public class Cliente {
 
     public Cliente(String peticion, String nombreEncuesta, List<String> lista) {
         this.peticion = peticion;
-        this.nombreEncuesta = nombreEncuesta;
+        this.nombre = nombreEncuesta;
         this.lista = lista;
         this.start();
     }
@@ -146,14 +146,14 @@ public class Cliente {
     public Cliente(String peticion, String nickName, String nombreEncuesta, List<String> lista) {
         this.peticion = peticion;
         this.nick = nickName;
-        this.nombreEncuesta = nombreEncuesta;
+        this.nombre = nombreEncuesta;
         this.lista = lista;
         this.start();
     }
 
     public Cliente(String peticion, List<String> listaEncuestados, String nombreEncuesta) {
         this.peticion = peticion;
-        this.nombreEncuesta = nombreEncuesta;
+        this.nombre = nombreEncuesta;
         this.lista = listaEncuestados;
         this.start();
     }
@@ -253,19 +253,28 @@ public class Cliente {
                 case Strings.PETICION_NOMBRES_POR_ENCUESTA:
                     enviar.println(this.peticion);
                     enviar.println(this.nick);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.nombre);
                     this.lista = recibirLista(recibir.readLine());
                     break;
 
-//                case Strings.PETICION_GUARDA_EDICION:
-//                    enviar.println(this.peticion);
-//                    enviar.println(this.encuesta);
-//                    
-//                    break;
-//                    //admin
+                case Strings.PETICION_GUARDA_EDICION:
+                    enviar.println(this.peticion);
+                    enviar.println(enviarEncuesta(this.encuesta));
+                    String respuestaEncuestaEditada = recibir.readLine();
+                    if (respuestaEncuestaEditada.equals("listo")) {
+                        JOptionPane.showMessageDialog(null, "Su encuesta se ha insertado con exito", "Listo", JOptionPane.INFORMATION_MESSAGE);
+//                        this.administrador.eliminaEncuesta(this.encuesta.getTitulo());
+//                        this.administrador.agregaEncuesta(this.encuesta.getTitulo());
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar la encuesta", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    break;
+                    //admin
+
                 case Strings.PETICION_ENVIAR_ENCUESTA:
                     enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.nombre);
                     enviar.println(enviarLista(this.lista));
                     if (recibir.readLine().equals("listo")) {
                         JOptionPane.showMessageDialog(null, "Hemos enviado las encuestas", "Hecho",
@@ -279,16 +288,16 @@ public class Cliente {
 //
 //                    
 //                    
-                    //encuestado
+                //encuestado
                 case Strings.PETICION_DEVOLVER_ENCUESTA:
                     enviar.println(this.peticion);
                     enviar.println(enviarEncuesta(this.encuesta));
-                    
-                    if(recibir.readLine().equals("listo")){
-                         JOptionPane.showMessageDialog(null, "Hemos recibido su respuesta", "Muchas gracias por su colaboración",
+
+                    if (recibir.readLine().equals("listo")) {
+                        JOptionPane.showMessageDialog(null, "Hemos recibido su respuesta", "Muchas gracias por su colaboración",
                                 JOptionPane.INFORMATION_MESSAGE);
-                    }else{
-                         JOptionPane.showMessageDialog(null, "No se ha podido subir su encuesta", "Error",
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se ha podido subir su encuesta", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -321,7 +330,7 @@ public class Cliente {
                     break;
                 case Strings.PETICION_GET_ENCUESTA:
                     enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.nombre);
                     Encuesta encuestActual = recibirEncuesta(recibir.readLine());
 
                     if (!this.flag) {
@@ -340,7 +349,7 @@ public class Cliente {
 
                 case Strings.PETICION_SOLICITA_ENCUESTA:
                     enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.nombre);
                     String stringEncuesta = recibir.readLine();
                     if (!stringEncuesta.equals("null")) {
                         Encuesta encuestaActual = recibirEncuesta(stringEncuesta);
@@ -357,7 +366,7 @@ public class Cliente {
 
                 case Strings.PETICION_ELIMINA_ENCUESTA:
                     enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.nombre);
 
                     String respuestaEliminaEncuesta = recibir.readLine();
                     if (respuestaEliminaEncuesta.equals("eliminado")) {
@@ -371,7 +380,7 @@ public class Cliente {
 
                 case Strings.PETICION_ENVIAR_CORREO:
                     enviar.println(this.peticion);
-                    enviar.println(this.nombreEncuesta);
+                    enviar.println(this.nombre);
                     enviar.println(enviarLista(this.lista));
                     if (recibir.readLine().equals("listo")) {
                         JOptionPane.showMessageDialog(null, "Hemos enviado las encuestas", "Hecho",
@@ -386,6 +395,12 @@ public class Cliente {
                 case Strings.PETICION_LISTAS_USUARIOS:
                     enviar.println(this.peticion);
                     Strings.listaNombresUsuarios = recibirLista(recibir.readLine());
+                    break;
+                case Strings.PETICION_CERRAR_SESION:
+                    
+                    enviar.println(this.peticion);
+                    enviar.println(this.nombre);
+                    
                     break;
             }
             recibir.close();

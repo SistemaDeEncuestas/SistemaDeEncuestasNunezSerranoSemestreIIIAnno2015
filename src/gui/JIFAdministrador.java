@@ -41,6 +41,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JButton jbEnviarACorreo;
     private JButton jbNuevoAdmin;
     private JButton jbEstadisticas;
+    private JButton jbCerrarSesion;
     private Border bordeDatos;
     private Border bandejaDeEntrada;
     private JLabel jlNombre;
@@ -52,7 +53,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
     private JList jListEncuestas;
 
     public JIFAdministrador(JDesktopPane escritorio, Administrador administrador) {
-        super("Bienvenido " + administrador.getNickname(), true, true, true);
+        super("Bienvenido " + administrador.getNickname(), true, false, true);
         this.setLayout(new BorderLayout());
         this.administrador = administrador;
         this.setBackground(Color.GRAY);
@@ -106,6 +107,11 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
         jbEstadisticas = new JButton();
         jbEstadisticas.setIcon(new ImageIcon(getClass().getResource("/images/graficos.png")));
         jbEstadisticas.setToolTipText(Strings.ESTADISTICAS);
+        jbEstadisticas.addActionListener(this);
+        jToolBar.add(jbEstadisticas);
+        jbCerrarSesion = new JButton();
+        jbCerrarSesion.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
+        jbCerrarSesion.setToolTipText(Strings.CERRAR_SESION);
         jbEstadisticas.addActionListener(this);
         jToolBar.add(jbEstadisticas);
 
@@ -217,6 +223,9 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             estadisticas.ocultarBarraTitulo();
             this.add(estadisticas, BorderLayout.CENTER);
             updateUI();
+        } else if(e.getSource() == jbCerrarSesion){
+           
+            this.dispose();
         }
     }
 
