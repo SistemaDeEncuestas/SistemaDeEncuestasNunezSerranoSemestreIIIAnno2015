@@ -157,21 +157,21 @@ public class JIFEstadisticas extends JInternalFrame implements ActionListener{
         }
         
         if (e.getSource() == this.jcbEncuesta) {
-//            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta")) {
-//                this.nombreEncuesta = this.jcbEncuesta.getSelectedItem().toString();
-                
-//                System.out.println(this.nombreEncuesta);
-//                Cliente cliente = new Cliente(Strings.PETICION_NOMBRES_POR_ENCUESTA, this.nombreEncuesta, this.listaPreguntas);
-//                System.out.println(cliente.getLista());
-//                this.listaPreguntas = cliente.getLista();
-                
-//                String[] partes = new String[this.listaPreguntas.size()+1];
-//                partes[0] = "Seleccione una parte de la encuesta";
-//                for (int i = 0; i < this.listaPreguntas.size(); i++) {
-//                    partes[i+1] = this.listaPreguntas.get(i);
-//                }
-//                this.jcbParte.setModel(new DefaultComboBoxModel(partes));
-//            }
+            if (!this.jcbEncuesta.getSelectedItem().toString().equals("Seleccione la encuesta")) {
+                this.nombreEncuesta = this.jcbEncuesta.getSelectedItem().toString();
+////////                
+//////////                System.out.println(this.nombreEncuesta);
+//////////                Cliente cliente = new Cliente(Strings.PETICION_NOMBRES_POR_ENCUESTA, this.nombreEncuesta, this.listaPreguntas);
+//////////                System.out.println(cliente.getLista());
+//////////                this.listaPreguntas = cliente.getLista();
+////////                
+//////////                String[] partes = new String[this.listaPreguntas.size()+1];
+//////////                partes[0] = "Seleccione una parte de la encuesta";
+//////////                for (int i = 0; i < this.listaPreguntas.size(); i++) {
+//////////                    partes[i+1] = this.listaPreguntas.get(i);
+//////////                }
+//////////                this.jcbParte.setModel(new DefaultComboBoxModel(partes));
+            }
         }
         
         if (e.getSource() == this.jcbParte) {
