@@ -256,7 +256,7 @@ public class JIFAdministrador extends JInternalFrame implements ActionListener {
             updateUI();
 
         } else if (e.getSource() == jbEstadisticas) {
-            JIFEstadisticas estadisticas = new JIFEstadisticas(this.escritorio, this.administrador.getEncuestasCreadas());
+            JIFEstadisticas estadisticas = new JIFEstadisticas(this, this.administrador.getEncuestasCreadas());
             estadisticas.ocultarBarraTitulo();
             this.add(estadisticas, BorderLayout.CENTER);
             updateUI();

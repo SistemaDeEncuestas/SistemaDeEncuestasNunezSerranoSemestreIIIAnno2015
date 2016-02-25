@@ -1,11 +1,16 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -18,31 +23,47 @@ import org.jfree.data.general.DefaultPieDataset;
 /**
  * @author adriansb3105
  */
-public class Graficos extends JInternalFrame{
+public class Graficos extends JInternalFrame implements ActionListener{
 
-    private JDesktopPane escritorio;
+    private JInternalFrame JIFAdministrador;
     private JPanel panel;
     private JComponent barra;
     private Dimension dimensionBarra;
-
-    public Graficos(JDesktopPane escritorio, List listaObjetos, String tipo) {
+    private String pregunta;
+    private JButton btnCerrar;
+    private JInternalFrame JIFEstadisticas;
+    
+    public Graficos(JInternalFrame JIFEstadisticas, JInternalFrame JIFAdministrador, List lista, String tipo, String pregunta) {
         super();
         
-        this.escritorio = escritorio;
-        this.panel = new JPanel();
-        
-        if (tipo.equals("Barras")) {
-            barras();
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "La pregunta seleccionada aún no contiene respuestas");
         }else{
-            pastel();
-        }
+            this.JIFEstadisticas = JIFEstadisticas;
+            this.JIFEstadisticas.dispose();
+            this.ocultarBarraTitulo();
+            this.pregunta = pregunta;
+            this.JIFAdministrador = JIFAdministrador;
+            this.panel = new JPanel();
+            this.panel.setLayout(new BorderLayout());
         
-        this.getContentPane().add(this.panel);
-        this.escritorio.add(this);
-        this.setVisible(true);
+            if (tipo.equals("Barras")) {
+                barras(lista);
+            }else{
+                pastel(lista);
+            }
+            
+            this.btnCerrar = new JButton("Cerrar");
+            this.btnCerrar.addActionListener(this);
+            this.panel.add(this.btnCerrar, BorderLayout.SOUTH);
+        
+            this.getContentPane().add(this.panel);
+            this.JIFAdministrador.add(this, BorderLayout.CENTER);
+            this.setVisible(true);
+        }
     }
     
-    public void ocultarBarraTitulo() {
+    private void ocultarBarraTitulo() {
         barra = ((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).getNorthPane();
         dimensionBarra = barra.getPreferredSize();
         barra.setSize(0, 0);
@@ -50,7 +71,7 @@ public class Graficos extends JInternalFrame{
         repaint();
     }
     
-    private void barras(){
+    private void barras(List lista){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         dataset.setValue(8, "Mujeres", "Lunes");
@@ -76,22 +97,40 @@ public class Graficos extends JInternalFrame{
         this.panel.add(chartPanel2);
     }
     
-    private void pastel(){
-     
+    private void pastel(List lista){
+        
+        int porcentaje = (100/lista.size());
+        
         DefaultPieDataset data = new DefaultPieDataset();
-        data.setValue("C", 40);
-        data.setValue("Java", 45);
-        data.setValue("Python", 15);
         
-        JFreeChart chartPie = ChartFactory.createPieChart("Participacion por genero", data, true, true, false);
+        for (int i = 0; i < lista.size();) {
+            Object respuesta = lista.get(i);
+            lista.remove(i);
+            int cont = 1;
+            
+            for (int j = 0; j < lista.size(); j++) {
+                if (lista.get(j).equals(respuesta)) {
+                    lista.remove(j);
+                    cont++;
+                }
+            }
+            
+            int cantidad = porcentaje*cont;
+            data.setValue(respuesta.toString(), cantidad);
+        }
         
-        ChartPanel chartPanel1 = new ChartPanel(chartPie);
+        JFreeChart chartPie = ChartFactory.createPieChart(this.pregunta, data, true, true, false);
         
-        this.panel.add(chartPanel1);
+        ChartPanel chartPanel = new ChartPanel(chartPie);
+        
+        this.panel.add(chartPanel, BorderLayout.CENTER);
     }
-    
-//    public static void main(String[] args){
-//        Graficos e = new Graficos();
-//        e.setVisible(true);
-//    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.btnCerrar) {
+            this.dispose();
+            updateUI();
+        }
+    }
 }

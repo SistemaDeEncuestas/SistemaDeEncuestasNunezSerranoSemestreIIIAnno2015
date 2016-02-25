@@ -150,19 +150,11 @@ public class Cliente {
         this.start();
     }
     
-    /*Contructor para cargar una lista de preguntas*/
-    public Cliente(String peticion, String nombreEncuesta, List<String> lista) {
-        this.peticion = peticion;
-        this.nombre = nombreEncuesta;
-        this.lista = lista;
-        this.start();
-    }
-    
     /*Contructor para enviar un correo o una encuesta*/
-    public Cliente(String peticion, List<String> listaEncuestados, String nombreEncuesta) {
+    public Cliente(String peticion, List<String> lista, String nombreEncuesta) {
         this.peticion = peticion;
+        this.lista = lista;
         this.nombre = nombreEncuesta;
-        this.lista = listaEncuestados;
         this.start();
     }
     
@@ -172,6 +164,7 @@ public class Cliente {
         this.nombre = nombreEncuesta;
         this.lista = lista;
         this.parte = parte;
+        this.start();
     }
     
     
@@ -197,7 +190,6 @@ public class Cliente {
                     String adminXML = recibir.readLine();
                     if (!adminXML.equals("null")) {
                         this.administrador = recibirAdministrador(adminXML);
-                        System.out.println(this.administrador.getPrimeraVez());
                         if (this.administrador.getPrimeraVez().equals("true")) {
                             JIFCambioDeContrasennaAdmin jifCambio = new JIFCambioDeContrasennaAdmin(this.escritorio, this.administrador);
                             this.contexto.dispose();
@@ -220,10 +212,7 @@ public class Cliente {
                     if (!userXML.equals("null")) {
                         this.encuestado = recibirEncuestado(userXML);
                         JIFEncuestado jjifEncuestado = new JIFEncuestado(this.escritorio, this.encuestado);
-
                         this.contexto.dispose();
-                        System.out.println(this.encuestado);
-
                     } else {
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -274,7 +263,6 @@ public class Cliente {
 
                 case Strings.PETICION_NOMBRES_POR_ENCUESTA:
                     enviar.println(this.peticion);
-                    enviar.println(this.nick);
                     enviar.println(this.nombre);
                     this.lista = recibirLista(recibir.readLine());
                     break;
@@ -419,6 +407,7 @@ public class Cliente {
                     enviar.println(this.peticion);
                     enviar.println(this.nombre);
                     enviar.println(this.parte);
+                    this.lista = new ArrayList<>();
                     this.lista = recibirLista(recibir.readLine());
                     break;
             }
