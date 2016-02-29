@@ -3,7 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -72,22 +71,26 @@ public class Graficos extends JInternalFrame implements ActionListener{
     }
     
     private void barras(List lista){
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset data = new DefaultCategoryDataset();
         
-        dataset.setValue(8, "Mujeres", "Lunes");
-        dataset.setValue(7, "Hombres", "Lunes");
-        dataset.setValue(9, "Mujeres", "Martes");
-        dataset.setValue(4, "Hombres", "Martes");
-        dataset.setValue(7, "Mujeres", "Miercoles");
-        dataset.setValue(4, "Hombres", "Miercoles");
-        dataset.setValue(3, "Mujeres", "Jueves");
-        dataset.setValue(5, "Hombres", "Jueves");
-        dataset.setValue(9, "Mujeres", "Viernes");
-        dataset.setValue(2, "Hombres", "Viernes");
+        for (int i = 0; i < lista.size();) {
+            Object respuesta = lista.get(i);
+            lista.remove(i);
+            int cont = 1;
+            
+            for (int j = 0; j < lista.size(); j++) {
+                if (lista.get(j).equals(respuesta)) {
+                    lista.remove(j);
+                    cont++;
+                }
+            }
+            
+            data.setValue(cont, respuesta.toString(), respuesta.toString());
+        }
         
-        JFreeChart chartBar = ChartFactory.createBarChart("Participacion por genero", "Genero", "Dias", dataset, PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart chartBar = ChartFactory.createBarChart(this.pregunta, "Pregunta", "Cantidad de preguntas", data, PlotOrientation.VERTICAL, true, true, false);
         
-        chartBar.setBackgroundPaint(Color.cyan);
+        chartBar.setBackgroundPaint(Color.white);
         chartBar.getTitle().setPaint(Color.black);
         
         CategoryPlot p = chartBar.getCategoryPlot();
